@@ -1,0 +1,72 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "loading": "Loading…",
+    "error": "An error occurred",
+    "back": "Back",
+    "logout": "Logout"
+  },
+  "nav": {
+    "timeline": "Timeline",
+    "newRecord": "New record",
+    "pressure": "Blood pressure"
+  },
+  "auth": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loginError": "Invalid credentials. Please try again.",
+    "emailPlaceholder": "email@example.com",
+    "passwordPlaceholder": "••••••••"
+  },
+  "timeline": {
+    "title": "Health diary",
+    "empty": "No records found",
+    "filterByCategory": "Filter by category",
+    "filterByTag": "Filter by tag",
+    "allCategories": "All categories",
+    "attachments": "Attachments"
+  },
+  "record": {
+    "title": "Title",
+    "date": "Date",
+    "category": "Category",
+    "tags": "Tags",
+    "description": "Description",
+    "files": "Attachments",
+    "titlePlaceholder": "E.g. Cardiology visit",
+    "descriptionPlaceholder": "Notes, results, observations…",
+    "tagsPlaceholder": "E.g. cardiology, ecg (comma-separated)",
+    "newRecord": "New record",
+    "savedSuccess": "Record saved",
+    "deleteConfirm": "Delete this record?",
+    "deletedSuccess": "Record deleted"
+  },
+  "category": {
+    "visita": "Medical visit",
+    "esame": "Exam",
+    "referto": "Report",
+    "altro": "Other"
+  },
+  "pressure": {
+    "title": "Blood pressure",
+    "systolic": "Systolic",
+    "diastolic": "Diastolic",
+    "pulse": "Heart rate",
+    "measuredAt": "Date and time",
+    "notes": "Notes",
+    "add": "Record measurement",
+    "empty": "No measurements recorded",
+    "savedSuccess": "Measurement saved",
+    "systolicLabel": "Systolic (mmHg)",
+    "diastolicLabel": "Diastolic (mmHg)",
+    "pulseLabel": "Heart rate (bpm)",
+    "notesPlaceholder": "Optional notes…"
+  },
+  "language": {
+    "it": "Italiano",
+    "en": "English"
+  }
+}

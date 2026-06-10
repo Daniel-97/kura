@@ -1,0 +1,72 @@
+{
+  "common": {
+    "save": "Salva",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "loading": "Caricamento…",
+    "error": "Si è verificato un errore",
+    "back": "Indietro",
+    "logout": "Esci"
+  },
+  "nav": {
+    "timeline": "Diario",
+    "newRecord": "Nuovo referto",
+    "pressure": "Pressione"
+  },
+  "auth": {
+    "login": "Accedi",
+    "email": "Email",
+    "password": "Password",
+    "loginError": "Credenziali non valide. Riprova.",
+    "emailPlaceholder": "email@esempio.it",
+    "passwordPlaceholder": "••••••••"
+  },
+  "timeline": {
+    "title": "Diario sanitario",
+    "empty": "Nessun referto trovato",
+    "filterByCategory": "Filtra per categoria",
+    "filterByTag": "Filtra per tag",
+    "allCategories": "Tutte le categorie",
+    "attachments": "Allegati"
+  },
+  "record": {
+    "title": "Titolo",
+    "date": "Data",
+    "category": "Categoria",
+    "tags": "Tag",
+    "description": "Descrizione",
+    "files": "File allegati",
+    "titlePlaceholder": "Es. Visita cardiologica",
+    "descriptionPlaceholder": "Note, risultati, osservazioni…",
+    "tagsPlaceholder": "Es. cardiologia, ecg (separati da virgola)",
+    "newRecord": "Nuovo referto",
+    "savedSuccess": "Referto salvato",
+    "deleteConfirm": "Eliminare questo referto?",
+    "deletedSuccess": "Referto eliminato"
+  },
+  "category": {
+    "visita": "Visita",
+    "esame": "Esame",
+    "referto": "Referto",
+    "altro": "Altro"
+  },
+  "pressure": {
+    "title": "Pressione arteriosa",
+    "systolic": "Sistolica",
+    "diastolic": "Diastolica",
+    "pulse": "Battiti",
+    "measuredAt": "Data e ora",
+    "notes": "Note",
+    "add": "Registra misurazione",
+    "empty": "Nessuna misurazione registrata",
+    "savedSuccess": "Misurazione salvata",
+    "systolicLabel": "Sistolica (mmHg)",
+    "diastolicLabel": "Diastolica (mmHg)",
+    "pulseLabel": "Battiti (bpm)",
+    "notesPlaceholder": "Note opzionali…"
+  },
+  "language": {
+    "it": "Italiano",
+    "en": "English"
+  }
+}

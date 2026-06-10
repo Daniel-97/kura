@@ -1,0 +1,150 @@
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Card, CardContent } from '@/components/ui/card'
+import { useBloodPressure, useCreateBloodPressure } from '@/hooks/useBloodPressure'
+import { useAuth } from '@/hooks/useAuth'
+
+function localDatetimeNow(): string {
+  const d = new Date()
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+export default function Pressione() {
+  const { t, i18n } = useTranslation()
+  const { userId } = useAuth()
+  const { data, isLoading } = useBloodPressure()
+  const create = useCreateBloodPressure()
+
+  const [systolic, setSystolic] = useState('')
+  const [diastolic, setDiastolic] = useState('')
+  const [pulse, setPulse] = useState('')
+  const [measuredAt, setMeasuredAt] = useState(localDatetimeNow)
+  const [notes, setNotes] = useState('')
+
+  const reset = () => {
+    setSystolic(''); setDiastolic(''); setPulse('')
+    setMeasuredAt(localDatetimeNow()); setNotes('')
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!userId) return
+    create.mutate(
+      {
+        systolic: Number(systolic),
+        diastolic: Number(diastolic),
+        pulse: pulse ? Number(pulse) : undefined,
+        measured_at: measuredAt,
+        notes,
+        user: userId,
+      },
+      {
+        onSuccess: () => { toast.success(t('pressure.savedSuccess')); reset() },
+        onError:   () => toast.error(t('common.error')),
+      },
+    )
+  }
+
+  const measurements = data?.items ?? []
+  const dtFmt = new Intl.DateTimeFormat(i18n.language, {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit',
+  })
+
+  return (
+    <div className="mx-auto max-w-lg space-y-6">
+      <h1 className="text-2xl font-bold">{t('pressure.title')}</h1>
+
+      <Card>
+        <CardContent className="pt-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="systolic">{t('pressure.systolicLabel')}</Label>
+                <Input
+                  id="systolic" type="number" inputMode="numeric"
+                  min={50} max={260}
+                  value={systolic} onChange={(e) => setSystolic(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="diastolic">{t('pressure.diastolicLabel')}</Label>
+                <Input
+                  id="diastolic" type="number" inputMode="numeric"
+                  min={30} max={200}
+                  value={diastolic} onChange={(e) => setDiastolic(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="pulse">{t('pressure.pulseLabel')}</Label>
+              <Input
+                id="pulse" type="number" inputMode="numeric"
+                min={20} max={300}
+                value={pulse} onChange={(e) => setPulse(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="measuredAt">{t('pressure.measuredAt')}</Label>
+              <Input
+                id="measuredAt" type="datetime-local"
+                value={measuredAt} onChange={(e) => setMeasuredAt(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="notes">{t('pressure.notes')}</Label>
+              <Textarea
+                id="notes" rows={2}
+                value={notes} onChange={(e) => setNotes(e.target.value)}
+                placeholder={t('pressure.notesPlaceholder')}
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={create.isPending}>
+              {create.isPending ? t('common.loading') : t('pressure.add')}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      <div className="space-y-3">
+        {isLoading ? (
+          <p className="text-muted-foreground">{t('common.loading')}</p>
+        ) : measurements.length === 0 ? (
+          <p className="text-muted-foreground">{t('pressure.empty')}</p>
+        ) : (
+          measurements.map((m) => (
+            <Card key={m.id}>
+              <CardContent className="flex items-center justify-between py-3">
+                <div>
+                  <span className="text-lg font-semibold">
+                    {m.systolic}/{m.diastolic}
+                  </span>
+                  {m.pulse != null && (
+                    <span className="ml-2 text-sm text-muted-foreground">
+                      {m.pulse} bpm
+                    </span>
+                  )}
+                  {m.notes && (
+                    <p className="text-sm text-muted-foreground">{m.notes}</p>
+                  )}
+                </div>
+                <span className="shrink-0 text-sm text-muted-foreground">
+                  {dtFmt.format(new Date(m.measured_at))}
+                </span>
+              </CardContent>
+            </Card>
+          ))
+        )}
+      </div>
+    </div>
+  )
+}

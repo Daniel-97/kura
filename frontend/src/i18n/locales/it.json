@@ -29,7 +29,8 @@
     "filterByCategory": "Filtra per categoria",
     "filterByTag": "Filtra per tag",
     "allCategories": "Tutte le categorie",
-    "attachments": "Allegati"
+    "attachments": "Allegati",
+    "today": "Oggi"
   },
   "record": {
     "title": "Titolo",

@@ -29,7 +29,8 @@
     "filterByCategory": "Filter by category",
     "filterByTag": "Filter by tag",
     "allCategories": "All categories",
-    "attachments": "Attachments"
+    "attachments": "Attachments",
+    "today": "Today"
   },
   "record": {
     "title": "Title",

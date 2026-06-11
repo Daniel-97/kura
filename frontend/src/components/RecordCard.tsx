@@ -5,9 +5,12 @@ import { Badge } from '@/components/ui/badge'
 import { pb } from '@/lib/pb'
 import type { HealthRecord } from '@/lib/types'
 
-interface Props { record: HealthRecord }
+interface Props {
+  record: HealthRecord
+  className?: string
+}
 
-export default function RecordCard({ record }: Props) {
+export default function RecordCard({ record, className }: Props) {
   const { t, i18n } = useTranslation()
   const tags = record.tags
     ? record.tags.split(',').map((s) => s.trim()).filter(Boolean)
@@ -17,7 +20,7 @@ export default function RecordCard({ record }: Props) {
   }).format(new Date(record.date))
 
   return (
-    <Card>
+    <Card className={className}>
       <CardContent className="py-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1 space-y-1">

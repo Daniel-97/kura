@@ -40,7 +40,7 @@ export default function Pressione() {
         systolic: Number(systolic),
         diastolic: Number(diastolic),
         pulse: pulse ? Number(pulse) : undefined,
-        measured_at: measuredAt,
+        measured_at: new Date(measuredAt).toISOString(),
         notes,
         user: userId,
       },

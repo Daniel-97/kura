@@ -28,6 +28,13 @@ const CATEGORY_DOT_OUTLINE: Record<RecordCategory | string, string> = {
   altro:   'ring-slate-400',
 }
 
+const CATEGORY_BORDER: Record<RecordCategory | string, string> = {
+  visita:  'border-l-indigo-500',
+  esame:   'border-l-sky-500',
+  referto: 'border-l-emerald-500',
+  altro:   'border-l-slate-400',
+}
+
 function groupByYearMonth(records: HealthRecord[]): [string, HealthRecord[]][] {
   const map = new Map<string, HealthRecord[]>()
   for (const r of records) {
@@ -114,7 +121,11 @@ export default function Timeline() {
                 </div>
                 <RecordCard
                   record={r}
-                  className={future ? 'border-dashed border-border/50 bg-muted/20' : undefined}
+                  className={cn(
+                    'border-l-4',
+                    CATEGORY_BORDER[r.category] ?? CATEGORY_BORDER.altro,
+                    future && 'border-dashed border-border/50 bg-muted/20 [border-left-style:solid]',
+                  )}
                 />
               </div>
             )

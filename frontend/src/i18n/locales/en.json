@@ -43,9 +43,15 @@
     "descriptionPlaceholder": "Notes, results, observations…",
     "tagsPlaceholder": "E.g. cardiology, ecg (comma-separated)",
     "newRecord": "New record",
+    "editRecord": "Edit record",
+    "edit": "Edit",
     "savedSuccess": "Record saved",
+    "updatedSuccess": "Record updated",
     "deleteConfirm": "Delete this record?",
-    "deletedSuccess": "Record deleted"
+    "deleteConfirmMessage": "This action cannot be undone.",
+    "deletedSuccess": "Record deleted",
+    "existingFiles": "Existing attachments",
+    "addMoreFiles": "Add more files"
   },
   "category": {
     "visita": "Medical visit",

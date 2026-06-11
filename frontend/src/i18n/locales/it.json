@@ -43,9 +43,15 @@
     "descriptionPlaceholder": "Note, risultati, osservazioni…",
     "tagsPlaceholder": "Es. cardiologia, ecg (separati da virgola)",
     "newRecord": "Nuovo referto",
+    "editRecord": "Modifica referto",
+    "edit": "Modifica",
     "savedSuccess": "Referto salvato",
+    "updatedSuccess": "Referto aggiornato",
     "deleteConfirm": "Eliminare questo referto?",
-    "deletedSuccess": "Referto eliminato"
+    "deleteConfirmMessage": "L'operazione non è reversibile.",
+    "deletedSuccess": "Referto eliminato",
+    "existingFiles": "File già allegati",
+    "addMoreFiles": "Aggiungi altri file"
   },
   "category": {
     "visita": "Visita",

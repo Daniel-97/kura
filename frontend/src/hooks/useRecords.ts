@@ -42,3 +42,23 @@ export function useDeleteRecord() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ['records'] }),
   })
 }
+
+export function useFetchRecord(id: string) {
+  return useQuery({
+    queryKey: ['records', id],
+    queryFn: () => pb.collection('records').getOne<HealthRecord>(id),
+    enabled: !!id && pb.authStore.isValid,
+  })
+}
+
+export function useUpdateRecord() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: FormData }) =>
+      pb.collection('records').update<HealthRecord>(id, data),
+    onSuccess: (record) => {
+      qc.invalidateQueries({ queryKey: ['records'] })
+      qc.setQueryData(['records', record.id], record)
+    },
+  })
+}

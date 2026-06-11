@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FileText } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
@@ -12,6 +13,7 @@ interface Props {
 
 export default function RecordCard({ record, className }: Props) {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
   const tags = record.tags
     ? record.tags.split(',').map((s) => s.trim()).filter(Boolean)
     : []
@@ -20,7 +22,10 @@ export default function RecordCard({ record, className }: Props) {
   }).format(new Date(record.date))
 
   return (
-    <Card className={className}>
+    <Card
+      className={`cursor-pointer transition-shadow hover:shadow-md ${className ?? ''}`}
+      onClick={() => navigate(`/record/${record.id}`)}
+    >
       <CardContent className="py-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1 space-y-1">
@@ -52,6 +57,7 @@ export default function RecordCard({ record, className }: Props) {
                   rel="noopener noreferrer"
                   aria-label={t('timeline.attachments')}
                   className="text-primary hover:text-primary/80"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <FileText className="h-4 w-4" />
                 </a>

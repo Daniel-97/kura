@@ -10,6 +10,7 @@ import AppDrawer from '@/components/AppDrawer'
 import Login from '@/pages/Login'
 import Timeline from '@/pages/Timeline'
 import RecordForm from '@/pages/RecordForm'
+import RecordDetail from '@/pages/RecordDetail'
 import Pressione from '@/pages/Pressione'
 
 function AuthGuard({ children }: { children: React.ReactNode }) {
@@ -59,6 +60,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<AuthGuard><Timeline /></AuthGuard>} />
           <Route path="/nuovo" element={<AuthGuard><RecordForm /></AuthGuard>} />
+          <Route path="/record/:id" element={<AuthGuard><RecordDetail /></AuthGuard>} />
+          <Route path="/record/:id/edit" element={<AuthGuard><RecordForm /></AuthGuard>} />
           <Route path="/pressione" element={<AuthGuard><Pressione /></AuthGuard>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Toaster } from '@/components/ui/sonner'
 import { useAuth } from '@/hooks/useAuth'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import ThemeToggle from '@/components/ThemeToggle'
 import AppDrawer from '@/components/AppDrawer'
 import Login from '@/pages/Login'
 import Timeline from '@/pages/Timeline'
@@ -44,7 +45,10 @@ export default function App() {
                 </button>
                 <span className="text-lg font-semibold">Kura</span>
               </div>
-              <LanguageSwitcher />
+              <div className="flex items-center gap-1">
+                <LanguageSwitcher />
+                <ThemeToggle />
+              </div>
             </div>
           </header>
           <AppDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />

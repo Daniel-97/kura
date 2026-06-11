@@ -1,18 +1,21 @@
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
+  const { t } = useTranslation()
+  const isDark = resolvedTheme === 'dark'
 
   return (
     <Button
       variant="ghost"
       size="icon"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      aria-label={theme === 'dark' ? 'Passa al tema chiaro' : 'Passa al tema scuro'}
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      aria-label={isDark ? t('theme.switchToLight') : t('theme.switchToDark')}
     >
-      {theme === 'dark' ? (
+      {isDark ? (
         <Sun className="h-4 w-4" />
       ) : (
         <Moon className="h-4 w-4" />

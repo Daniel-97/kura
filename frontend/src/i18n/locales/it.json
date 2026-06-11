@@ -70,5 +70,9 @@
   "language": {
     "it": "Italiano",
     "en": "English"
+  },
+  "theme": {
+    "switchToLight": "Passa al tema chiaro",
+    "switchToDark": "Passa al tema scuro"
   }
 }

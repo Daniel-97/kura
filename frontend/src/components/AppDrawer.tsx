@@ -13,8 +13,8 @@ export default function AppDrawer({ open, onClose }: AppDrawerProps) {
   const { logout } = useAuth()
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    document.body.classList.toggle('overflow-hidden', open)
+    return () => { document.body.classList.remove('overflow-hidden') }
   }, [open])
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export default function AppDrawer({ open, onClose }: AppDrawerProps) {
     <>
       {/* Backdrop */}
       <div
+        aria-hidden="true"
         className={`fixed inset-0 z-40 bg-black/50 transition-opacity duration-200 ${
           open ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
@@ -43,6 +44,9 @@ export default function AppDrawer({ open, onClose }: AppDrawerProps) {
 
       {/* Drawer panel */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={!open}
         className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-background border-r transition-transform duration-200 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}

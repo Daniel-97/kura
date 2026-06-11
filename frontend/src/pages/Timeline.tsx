@@ -7,11 +7,19 @@ import {
   Select, SelectContent, SelectItem,
   SelectTrigger, SelectValue,
 } from '@/components/ui/select'
+import { cn } from '@/lib/utils'
 import { useRecords } from '@/hooks/useRecords'
 import RecordCard from '@/components/RecordCard'
 import TagFilter from '@/components/TagFilter'
 import { CATEGORIES } from '@/lib/types'
-import type { HealthRecord } from '@/lib/types'
+import type { HealthRecord, RecordCategory } from '@/lib/types'
+
+const CATEGORY_DOT: Record<RecordCategory | string, string> = {
+  visita:  'bg-indigo-500 ring-indigo-500',
+  esame:   'bg-sky-500 ring-sky-500',
+  referto: 'bg-emerald-500 ring-emerald-500',
+  altro:   'bg-slate-400 ring-slate-400',
+}
 
 function groupByYearMonth(records: HealthRecord[]): [string, HealthRecord[]][] {
   const map = new Map<string, HealthRecord[]>()
@@ -67,20 +75,53 @@ export default function Timeline() {
       ) : records.length === 0 ? (
         <p className="text-muted-foreground">{t('timeline.empty')}</p>
       ) : (
-        grouped.map(([key, items]) => {
-          const [year, month] = key.split('-').map(Number)
-          const label = new Intl.DateTimeFormat(i18n.language, {
-            year: 'numeric', month: 'long',
-          }).format(new Date(year, month - 1))
-          return (
-            <div key={key} className="space-y-3">
-              <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                {label}
-              </h2>
-              {items.map((r) => <RecordCard key={r.id} record={r} />)}
-            </div>
-          )
-        })
+        <div className="relative">
+          {/* vertical line centered on the dot column */}
+          <div className="absolute left-[64px] top-0 bottom-0 w-0.5 bg-border" aria-hidden="true" />
+
+          {grouped.map(([key, items]) => {
+            const [year, month] = key.split('-').map(Number)
+            const monthLabel = new Intl.DateTimeFormat(i18n.language, {
+              month: 'long',
+            }).format(new Date(year, month - 1))
+
+            return (
+              <div key={key} className="mb-8">
+                {/* year watermark */}
+                <p className="text-5xl font-black tracking-tighter opacity-[0.07] text-foreground leading-none select-none">
+                  {year}
+                </p>
+                {/* month label */}
+                <p className="pl-[88px] text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-1 mb-3">
+                  {monthLabel}
+                </p>
+
+                {items.map((r) => {
+                  const day = String(new Date(r.date).getDate()).padStart(2, '0')
+                  return (
+                    <div key={r.id} className="grid grid-cols-[40px_24px_1fr] items-start gap-x-3 mb-3">
+                      {/* day number */}
+                      <span className="text-right text-[11px] font-bold text-muted-foreground pt-3 leading-none">
+                        {day}
+                      </span>
+                      {/* dot centered on vertical line */}
+                      <div className="flex justify-center pt-2.5">
+                        <div
+                          className={cn(
+                            'w-3 h-3 rounded-full border-2 border-background ring-2 relative z-10',
+                            CATEGORY_DOT[r.category] ?? CATEGORY_DOT.altro,
+                          )}
+                        />
+                      </div>
+                      {/* record card — component unchanged */}
+                      <RecordCard record={r} />
+                    </div>
+                  )
+                })}
+              </div>
+            )
+          })}
+        </div>
       )}
     </div>
   )

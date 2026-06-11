@@ -11,7 +11,9 @@
   "nav": {
     "timeline": "Diario",
     "newRecord": "Nuovo referto",
-    "pressure": "Pressione"
+    "pressure": "Pressione",
+    "sections": "Sezioni",
+    "openMenu": "Apri menu"
   },
   "auth": {
     "login": "Accedi",

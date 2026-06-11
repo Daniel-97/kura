@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Menu } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -22,6 +22,10 @@ export default function App() {
   const { isAuthenticated } = useAuth()
   const [drawerOpen, setDrawerOpen] = useState(false)
 
+  useEffect(() => {
+    if (!isAuthenticated) setDrawerOpen(false)
+  }, [isAuthenticated])
+
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
       {isAuthenticated && (
@@ -33,6 +37,8 @@ export default function App() {
                   onClick={() => setDrawerOpen(true)}
                   className="rounded p-1.5 hover:bg-accent transition-colors"
                   aria-label={t('nav.openMenu')}
+                  aria-expanded={drawerOpen}
+                  aria-controls="app-drawer"
                 >
                   <Menu className="h-5 w-5" />
                 </button>

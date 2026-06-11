@@ -44,6 +44,7 @@ export default function AppDrawer({ open, onClose }: AppDrawerProps) {
 
       {/* Drawer panel */}
       <div
+        id="app-drawer"
         role="dialog"
         aria-modal="true"
         aria-hidden={!open}

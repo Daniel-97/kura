@@ -47,7 +47,9 @@ function groupByYearMonth(records: HealthRecord[]): [string, HealthRecord[]][] {
 }
 
 function isFuture(dateStr: string, today: Date): boolean {
-  return new Date(dateStr) >= today
+  const d = new Date(dateStr)
+  d.setHours(0, 0, 0, 0)
+  return d > today
 }
 
 export default function Timeline() {

@@ -48,12 +48,12 @@ export default function Timeline() {
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <Select value={category} onValueChange={setCategory}>
+        <Select value={category || 'all'} onValueChange={(v) => setCategory(v === 'all' ? '' : v)}>
           <SelectTrigger className="w-48">
             <SelectValue placeholder={t('timeline.allCategories')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">{t('timeline.allCategories')}</SelectItem>
+            <SelectItem value="all">{t('timeline.allCategories')}</SelectItem>
             {CATEGORIES.map((c) => (
               <SelectItem key={c} value={c}>{t(`category.${c}`)}</SelectItem>
             ))}

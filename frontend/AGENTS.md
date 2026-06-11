@@ -13,7 +13,7 @@ Guida allo stack e alle convenzioni del frontend di Kura per agenti AI e svilupp
 | Componenti UI | Radix UI (via shadcn/ui) |
 | Routing | React Router v6 (HashRouter) |
 | State / fetch | TanStack Query v5 |
-| Backend client | PocketBase JS SDK (`pocketbase`) |
+| Backend client | PocketBase JS SDK (`pocketbase` ^0.21.5) |
 | i18n | i18next + react-i18next + browser language detector |
 | Tema | next-themes (light / dark, persistito in localStorage) |
 | Icone | lucide-react |
@@ -99,7 +99,7 @@ Usa `HashRouter` — le route hanno prefisso `#/` nell'URL. Passare i path senza
 Il backend è PocketBase v0.27.1. Espone due collezioni:
 
 - **records** — referti sanitari (titolo, data, categoria, tag, allegati, utente)
-- **blood_pressure** — misurazioni pressione (sistolica, diastolica, polso, data, note, utente)
+- **blood_pressure** — misurazioni pressione (systolic, diastolic, pulse, measured_at, notes, user)
 
 Tutte le regole di accesso richiedono autenticazione e limitano i dati all'utente autenticato.
 La dashboard admin è su `http://localhost:8090/_/`.

@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent } from '@/components/ui/card'
 import { useBloodPressure, useCreateBloodPressure } from '@/hooks/useBloodPressure'
 import { useAuth } from '@/hooks/useAuth'
+import { BloodPressureChart } from '@/components/BloodPressureChart'
 
 function localDatetimeNow(): string {
   const d = new Date()
@@ -60,6 +61,8 @@ export default function Pressione() {
   return (
     <div className="mx-auto max-w-lg space-y-6">
       <h1 className="text-2xl font-bold">{t('pressure.title')}</h1>
+
+      <BloodPressureChart measurements={measurements} />
 
       <Card>
         <CardContent className="pt-6">

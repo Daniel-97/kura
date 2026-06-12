@@ -2,6 +2,7 @@
 set -euo pipefail
 
 PB_URL="${PB_URL:-http://localhost:8090}"
+COMPOSE_SERVICE="${COMPOSE_SERVICE:-kura}"
 declare -i PB_TIMEOUT="${PB_TIMEOUT:-60}"
 
 readonly RED='\033[0;31m'
@@ -71,20 +72,14 @@ collect_credentials() {
 }
 
 create_admin() {
-  local raw http_code body payload
-  payload=$(PB_EMAIL="${ADMIN_EMAIL}" PB_PASS="${ADMIN_PASS}" python3 -c \
-    "import json,os; d={'email':os.environ['PB_EMAIL'],'password':os.environ['PB_PASS'],'passwordConfirm':os.environ['PB_PASS']}; print(json.dumps(d))")
-  raw=$(curl -s -w "\n%{http_code}" -X POST "${PB_URL}/api/collections/_superusers/records" \
-    -H "Content-Type: application/json" \
-    -d "$payload")
-  http_code=$(echo "$raw" | tail -n 1)
-  body=$(echo "$raw" | sed '$d')
-
-  case "$http_code" in
-    200) ok "Admin created" ;;
-    400) err "Admin already configured — run manually if needed."; unset ADMIN_PASS ADMIN_PASS2; exit 1 ;;
-    *)   err "Unexpected error creating admin (HTTP ${http_code}): ${body}"; unset ADMIN_PASS ADMIN_PASS2; exit 1 ;;
-  esac
+  local output
+  if ! output=$(docker compose exec -T "$COMPOSE_SERVICE" \
+      /pb/pocketbase superuser upsert "$ADMIN_EMAIL" "$ADMIN_PASS" 2>&1); then
+    err "Failed to create admin: ${output}"
+    unset ADMIN_PASS ADMIN_PASS2
+    exit 1
+  fi
+  ok "Admin created"
 }
 
 auth_admin() {

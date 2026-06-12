@@ -78,3 +78,21 @@ create_admin() {
     *)   err "Unexpected error creating admin (HTTP ${http_code}): ${body}"; unset ADMIN_PASS ADMIN_PASS2; exit 1 ;;
   esac
 }
+
+auth_admin() {
+  local raw http_code body
+  raw=$(curl -s -w "\n%{http_code}" -X POST "${PB_URL}/api/collections/_superusers/auth-with-password" \
+    -H "Content-Type: application/json" \
+    -d "{\"identity\":\"${ADMIN_EMAIL}\",\"password\":\"${ADMIN_PASS}\"}")
+  http_code=$(echo "$raw" | tail -n 1)
+  body=$(echo "$raw" | sed '$d')
+
+  if [[ "$http_code" != "200" ]]; then
+    err "Admin authentication failed (HTTP ${http_code}): ${body}"
+    unset ADMIN_PASS ADMIN_PASS2
+    exit 1
+  fi
+
+  ADMIN_TOKEN=$(echo "$body" | grep -oP '"token":"\K[^"]+')
+  unset ADMIN_PASS ADMIN_PASS2
+}

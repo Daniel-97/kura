@@ -4,7 +4,7 @@ WORKDIR /build
 COPY frontend/package*.json ./frontend/
 RUN cd frontend && npm ci
 COPY frontend/ ./frontend/
-ARG VITE_ALLOW_REGISTRATION=false
+ARG VITE_ALLOW_REGISTRATION=true
 ENV VITE_ALLOW_REGISTRATION=$VITE_ALLOW_REGISTRATION
 RUN cd frontend && npm run build
 # Output lands in /build/pb_public (vite outDir = ../pb_public)

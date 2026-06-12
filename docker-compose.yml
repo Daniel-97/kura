@@ -3,7 +3,7 @@ services:
     build:
       context: .
       args:
-        VITE_ALLOW_REGISTRATION: ${ALLOW_REGISTRATION:-false}
+        VITE_ALLOW_REGISTRATION: ${ALLOW_REGISTRATION:-true}
     image: kura:latest
     ports:
       - "8090:8090"
@@ -11,7 +11,7 @@ services:
       - ./pb_data:/pb/pb_data
     restart: unless-stopped
     environment:
-      ALLOW_REGISTRATION: ${ALLOW_REGISTRATION:-false}
+      ALLOW_REGISTRATION: ${ALLOW_REGISTRATION:-true}
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider",
              "http://localhost:8090/api/health"]

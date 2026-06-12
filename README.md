@@ -70,7 +70,7 @@ Variabili d'ambiente opzionali:
 
 | Variabile         | Default                  | Descrizione                              |
 |-------------------|--------------------------|------------------------------------------|
-| `ALLOW_REGISTRATION` | `false` | Imposta a `true` per permettere l'auto-registrazione di nuovi utenti. Controlla sia l'UI che l'API di PocketBase. Richiede `docker compose build` dopo il cambio. |
+| `ALLOW_REGISTRATION` | `true` | Imposta a `false` per disabilitare la registrazione di nuovi utenti. Controlla sia l'UI che l'API di PocketBase. Richiede `docker compose build` dopo il cambio. |
 | `PB_URL`          | `http://localhost:8090`  | URL di PocketBase (es. host remoto)      |
 | `PB_TIMEOUT`      | `60`                     | Secondi di attesa per l'health check     |
 | `COMPOSE_SERVICE` | `kura`                   | Nome del service in `docker-compose.yml` |

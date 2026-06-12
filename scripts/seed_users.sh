@@ -63,3 +63,18 @@ collect_credentials() {
     break
   done
 }
+
+create_admin() {
+  local raw http_code body
+  raw=$(curl -s -w "\n%{http_code}" -X POST "${PB_URL}/api/collections/_superusers/records" \
+    -H "Content-Type: application/json" \
+    -d "{\"email\":\"${ADMIN_EMAIL}\",\"password\":\"${ADMIN_PASS}\",\"passwordConfirm\":\"${ADMIN_PASS}\"}")
+  http_code=$(echo "$raw" | tail -n 1)
+  body=$(echo "$raw" | sed '$d')
+
+  case "$http_code" in
+    200) ok "Admin created" ;;
+    400) err "Admin already configured — run manually if needed."; unset ADMIN_PASS ADMIN_PASS2; exit 1 ;;
+    *)   err "Unexpected error creating admin (HTTP ${http_code}): ${body}"; unset ADMIN_PASS ADMIN_PASS2; exit 1 ;;
+  esac
+}

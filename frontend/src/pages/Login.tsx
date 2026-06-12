@@ -70,7 +70,7 @@ export default function Login() {
               <p className="text-center text-sm text-muted-foreground">
                 {t('auth.noAccount')}{' '}
                 <Link
-                  to="/registrazione"
+                  to="/register"
                   className="underline underline-offset-4 hover:text-primary"
                 >
                   {t('auth.registerLink')}

@@ -141,7 +141,7 @@ export default function Timeline() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t('timeline.title')}</h1>
         <Button asChild size="sm">
-          <Link to="/nuovo">
+          <Link to="/new">
             <Plus className="mr-1 h-4 w-4" />
             {t('record.newRecord')}
           </Link>

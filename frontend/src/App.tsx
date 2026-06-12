@@ -59,12 +59,12 @@ export default function App() {
       <main className="mx-auto max-w-2xl px-4 py-6">
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/registrazione" element={<Register />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/" element={<AuthGuard><Timeline /></AuthGuard>} />
-          <Route path="/nuovo" element={<AuthGuard><RecordForm /></AuthGuard>} />
+          <Route path="/new" element={<AuthGuard><RecordForm /></AuthGuard>} />
           <Route path="/record/:id" element={<AuthGuard><RecordDetail /></AuthGuard>} />
           <Route path="/record/:id/edit" element={<AuthGuard><RecordForm /></AuthGuard>} />
-          <Route path="/pressione" element={<AuthGuard><Pressione /></AuthGuard>} />
+          <Route path="/blood-pressure" element={<AuthGuard><Pressione /></AuthGuard>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

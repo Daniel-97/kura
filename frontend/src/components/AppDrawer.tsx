@@ -69,7 +69,7 @@ export default function AppDrawer({ open, onClose }: AppDrawerProps) {
             <span>📋</span>
             {t('nav.timeline')}
           </NavLink>
-          <NavLink to="/pressione" className={navClass} onClick={onClose}>
+          <NavLink to="/blood-pressure" className={navClass} onClick={onClose}>
             <span>❤️</span>
             {t('nav.pressure')}
           </NavLink>

@@ -114,3 +114,18 @@ create_user() {
     *)   err "Unexpected error creating user (HTTP ${http_code}): ${body}"; exit 1 ;;
   esac
 }
+
+main() {
+  trap 'unset ADMIN_PASS ADMIN_PASS2 USER_PASS USER_PASS2 ADMIN_TOKEN' EXIT
+
+  collect_credentials
+  wait_for_pb
+  create_admin
+  auth_admin
+  create_user
+
+  echo ""
+  echo "Setup complete."
+}
+
+main

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -66,6 +66,17 @@ export default function Login() {
             <Button type="submit" className="w-full" disabled={pending}>
               {pending ? t('common.loading') : t('auth.login')}
             </Button>
+            {import.meta.env.VITE_ALLOW_REGISTRATION === 'true' && (
+              <p className="text-center text-sm text-muted-foreground">
+                {t('auth.noAccount')}{' '}
+                <Link
+                  to="/registrazione"
+                  className="underline underline-offset-4 hover:text-primary"
+                >
+                  {t('auth.registerLink')}
+                </Link>
+              </p>
+            )}
           </form>
         </CardContent>
       </Card>

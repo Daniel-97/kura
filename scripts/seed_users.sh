@@ -29,3 +29,37 @@ wait_for_pb() {
   echo ""
   ok "PocketBase is up"
 }
+
+collect_credentials() {
+  echo ""
+  echo "=== Kura — initial user setup ==="
+  echo ""
+
+  while true; do
+    read -rp "[Admin] Email: " ADMIN_EMAIL
+    read -rsp "[Admin] Password: " ADMIN_PASS; echo
+    read -rsp "[Admin] Confirm password: " ADMIN_PASS2; echo
+    if [[ "$ADMIN_PASS" != "$ADMIN_PASS2" ]]; then
+      err "Passwords do not match. Try again."; continue
+    fi
+    if (( ${#ADMIN_PASS} < 8 )); then
+      err "Password must be at least 8 characters. Try again."; continue
+    fi
+    break
+  done
+
+  echo ""
+
+  while true; do
+    read -rp "[User]  Email: " USER_EMAIL
+    read -rsp "[User]  Password: " USER_PASS; echo
+    read -rsp "[User]  Confirm password: " USER_PASS2; echo
+    if [[ "$USER_PASS" != "$USER_PASS2" ]]; then
+      err "Passwords do not match. Try again."; continue
+    fi
+    if (( ${#USER_PASS} < 8 )); then
+      err "Password must be at least 8 characters. Try again."; continue
+    fi
+    break
+  done
+}

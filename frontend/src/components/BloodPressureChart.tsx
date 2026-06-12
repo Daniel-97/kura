@@ -111,7 +111,7 @@ export function BloodPressureChart({ measurements }: BloodPressureChartProps) {
               <Bar yAxisId="left" stackId="bp" dataKey="diastolic" fill="transparent" />
               <Bar
                 yAxisId="left" stackId="bp" dataKey="range"
-                fill="var(--chart-1)" radius={2}
+                fill="var(--chart-1)" radius={[2, 2, 0, 0]}
               />
               <Line
                 yAxisId="right"

@@ -86,7 +86,10 @@
     "systolicLabel": "Systolic (mmHg)",
     "diastolicLabel": "Diastolic (mmHg)",
     "pulseLabel": "Heart rate (bpm)",
-    "notesPlaceholder": "Optional notes…"
+    "notesPlaceholder": "Optional notes…",
+    "chart": {
+      "empty": "No measurements in the selected period"
+    }
   },
   "language": {
     "it": "Italiano",

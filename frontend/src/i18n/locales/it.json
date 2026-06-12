@@ -86,7 +86,10 @@
     "systolicLabel": "Sistolica (mmHg)",
     "diastolicLabel": "Diastolica (mmHg)",
     "pulseLabel": "Battiti (bpm)",
-    "notesPlaceholder": "Note opzionali…"
+    "notesPlaceholder": "Note opzionali…",
+    "chart": {
+      "empty": "Nessuna misurazione nel periodo selezionato"
+    }
   },
   "language": {
     "it": "Italiano",

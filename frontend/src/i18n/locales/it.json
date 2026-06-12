@@ -33,7 +33,9 @@
     "success": "Account creato. Benvenuto!",
     "disabled": "La registrazione non è disponibile.",
     "haveAccount": "Hai già un account?",
-    "loginLink": "Accedi"
+    "loginLink": "Accedi",
+    "passwordMismatch": "Le password non corrispondono.",
+    "successLoginManually": "Account creato! Accedi per continuare."
   },
   "timeline": {
     "title": "Diario sanitario",

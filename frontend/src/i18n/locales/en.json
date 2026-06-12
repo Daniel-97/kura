@@ -33,7 +33,9 @@
     "success": "Account created. Welcome!",
     "disabled": "Registration is not available.",
     "haveAccount": "Already have an account?",
-    "loginLink": "Log in"
+    "loginLink": "Log in",
+    "passwordMismatch": "Passwords do not match.",
+    "successLoginManually": "Account created! Please log in to continue."
   },
   "timeline": {
     "title": "Health diary",

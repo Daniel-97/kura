@@ -37,6 +37,9 @@ collect_credentials() {
 
   while true; do
     read -rp "[Admin] Email: " ADMIN_EMAIL
+    if [[ -z "$ADMIN_EMAIL" ]]; then
+      err "Email cannot be empty. Try again."; continue
+    fi
     read -rsp "[Admin] Password: " ADMIN_PASS; echo
     read -rsp "[Admin] Confirm password: " ADMIN_PASS2; echo
     if [[ "$ADMIN_PASS" != "$ADMIN_PASS2" ]]; then
@@ -52,6 +55,9 @@ collect_credentials() {
 
   while true; do
     read -rp "[User]  Email: " USER_EMAIL
+    if [[ -z "$USER_EMAIL" ]]; then
+      err "Email cannot be empty. Try again."; continue
+    fi
     read -rsp "[User]  Password: " USER_PASS; echo
     read -rsp "[User]  Confirm password: " USER_PASS2; echo
     if [[ "$USER_PASS" != "$USER_PASS2" ]]; then
@@ -65,10 +71,12 @@ collect_credentials() {
 }
 
 create_admin() {
-  local raw http_code body
+  local raw http_code body payload
+  payload=$(PB_EMAIL="${ADMIN_EMAIL}" PB_PASS="${ADMIN_PASS}" python3 -c \
+    "import json,os; d={'email':os.environ['PB_EMAIL'],'password':os.environ['PB_PASS'],'passwordConfirm':os.environ['PB_PASS']}; print(json.dumps(d))")
   raw=$(curl -s -w "\n%{http_code}" -X POST "${PB_URL}/api/collections/_superusers/records" \
     -H "Content-Type: application/json" \
-    -d "{\"email\":\"${ADMIN_EMAIL}\",\"password\":\"${ADMIN_PASS}\",\"passwordConfirm\":\"${ADMIN_PASS}\"}")
+    -d "$payload")
   http_code=$(echo "$raw" | tail -n 1)
   body=$(echo "$raw" | sed '$d')
 
@@ -80,10 +88,12 @@ create_admin() {
 }
 
 auth_admin() {
-  local raw http_code body
+  local raw http_code body payload
+  payload=$(PB_EMAIL="${ADMIN_EMAIL}" PB_PASS="${ADMIN_PASS}" python3 -c \
+    "import json,os; d={'identity':os.environ['PB_EMAIL'],'password':os.environ['PB_PASS']}; print(json.dumps(d))")
   raw=$(curl -s -w "\n%{http_code}" -X POST "${PB_URL}/api/collections/_superusers/auth-with-password" \
     -H "Content-Type: application/json" \
-    -d "{\"identity\":\"${ADMIN_EMAIL}\",\"password\":\"${ADMIN_PASS}\"}")
+    -d "$payload")
   http_code=$(echo "$raw" | tail -n 1)
   body=$(echo "$raw" | sed '$d')
 
@@ -93,16 +103,19 @@ auth_admin() {
     exit 1
   fi
 
-  ADMIN_TOKEN=$(echo "$body" | grep -oP '"token":"\K[^"]+')
+  ADMIN_TOKEN=$(echo "$body" | python3 -c "import json,sys; print(json.load(sys.stdin)['token'])" 2>/dev/null || true)
+  [[ -n "$ADMIN_TOKEN" ]] || { err "Failed to extract token from admin auth response."; exit 1; }
   unset ADMIN_PASS ADMIN_PASS2
 }
 
 create_user() {
-  local raw http_code body
+  local raw http_code body payload
+  payload=$(PB_EMAIL="${USER_EMAIL}" PB_PASS="${USER_PASS}" python3 -c \
+    "import json,os; d={'email':os.environ['PB_EMAIL'],'password':os.environ['PB_PASS'],'passwordConfirm':os.environ['PB_PASS']}; print(json.dumps(d))")
   raw=$(curl -s -w "\n%{http_code}" -X POST "${PB_URL}/api/collections/users/records" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer ${ADMIN_TOKEN}" \
-    -d "{\"email\":\"${USER_EMAIL}\",\"password\":\"${USER_PASS}\",\"passwordConfirm\":\"${USER_PASS}\"}")
+    -d "$payload")
   http_code=$(echo "$raw" | tail -n 1)
   body=$(echo "$raw" | sed '$d')
 

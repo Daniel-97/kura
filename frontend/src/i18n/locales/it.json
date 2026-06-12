@@ -21,7 +21,19 @@
     "password": "Password",
     "loginError": "Credenziali non valide. Riprova.",
     "emailPlaceholder": "email@esempio.it",
-    "passwordPlaceholder": "••••••••"
+    "passwordPlaceholder": "••••••••",
+    "noAccount": "Non hai un account?",
+    "registerLink": "Registrati"
+  },
+  "register": {
+    "title": "Registrati",
+    "passwordConfirm": "Conferma password",
+    "passwordConfirmPlaceholder": "••••••••",
+    "submit": "Crea account",
+    "success": "Account creato. Benvenuto!",
+    "disabled": "La registrazione non è disponibile.",
+    "haveAccount": "Hai già un account?",
+    "loginLink": "Accedi"
   },
   "timeline": {
     "title": "Diario sanitario",

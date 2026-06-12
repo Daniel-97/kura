@@ -21,7 +21,19 @@
     "password": "Password",
     "loginError": "Invalid credentials. Please try again.",
     "emailPlaceholder": "email@example.com",
-    "passwordPlaceholder": "••••••••"
+    "passwordPlaceholder": "••••••••",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Sign up"
+  },
+  "register": {
+    "title": "Create account",
+    "passwordConfirm": "Confirm password",
+    "passwordConfirmPlaceholder": "••••••••",
+    "submit": "Create account",
+    "success": "Account created. Welcome!",
+    "disabled": "Registration is not available.",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Log in"
   },
   "timeline": {
     "title": "Health diary",

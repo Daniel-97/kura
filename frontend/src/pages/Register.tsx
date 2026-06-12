@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Navigate, Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
@@ -21,14 +21,11 @@ export default function Register() {
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [pending, setPending] = useState(false)
 
-  useEffect(() => {
-    if (!ALLOW_REGISTRATION) {
-      toast.error(t('register.disabled'))
-    }
-  }, [t])
-
   if (isAuthenticated) return <Navigate to="/" replace />
-  if (!ALLOW_REGISTRATION) return <Navigate to="/login" replace />
+  if (!ALLOW_REGISTRATION) {
+    toast.error(t('register.disabled'))
+    return <Navigate to="/login" replace />
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

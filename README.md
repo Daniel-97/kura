@@ -58,10 +58,23 @@ docker compose up -d
 
 ## Primo avvio: crea l'admin e l'utente
 
-1. Apri http://localhost:8090/_/ (dashboard admin di PocketBase)
-2. Crea il tuo account admin
-3. Vai su **Collections → users** e aggiungi il tuo utente con email e password
-4. Accedi all'app su http://localhost:5173 (dev) o http://localhost:8090 (produzione)
+Dopo il primo `docker compose up -d`, esegui lo script di setup:
+
+```bash
+./scripts/seed_users.sh
+```
+
+Lo script chiede interattivamente email e password per l'account admin (superuser PocketBase) e per il tuo utente personale, poi li crea automaticamente. Va eseguito una sola volta su un'istanza fresh.
+
+Variabili d'ambiente opzionali:
+
+| Variabile         | Default                  | Descrizione                              |
+|-------------------|--------------------------|------------------------------------------|
+| `PB_URL`          | `http://localhost:8090`  | URL di PocketBase (es. host remoto)      |
+| `PB_TIMEOUT`      | `60`                     | Secondi di attesa per l'health check     |
+| `COMPOSE_SERVICE` | `kura`                   | Nome del service in `docker-compose.yml` |
+
+Al termine accedi all'app su **http://localhost:8090**.
 
 ## Backup
 

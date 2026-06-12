@@ -96,3 +96,21 @@ auth_admin() {
   ADMIN_TOKEN=$(echo "$body" | grep -oP '"token":"\K[^"]+')
   unset ADMIN_PASS ADMIN_PASS2
 }
+
+create_user() {
+  local raw http_code body
+  raw=$(curl -s -w "\n%{http_code}" -X POST "${PB_URL}/api/collections/users/records" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer ${ADMIN_TOKEN}" \
+    -d "{\"email\":\"${USER_EMAIL}\",\"password\":\"${USER_PASS}\",\"passwordConfirm\":\"${USER_PASS}\"}")
+  http_code=$(echo "$raw" | tail -n 1)
+  body=$(echo "$raw" | sed '$d')
+
+  unset ADMIN_TOKEN USER_PASS USER_PASS2
+
+  case "$http_code" in
+    200) ok "Personal user created" ;;
+    400) err "User already exists — run manually if needed."; exit 1 ;;
+    *)   err "Unexpected error creating user (HTTP ${http_code}): ${body}"; exit 1 ;;
+  esac
+}

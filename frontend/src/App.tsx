@@ -8,6 +8,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 import ThemeToggle from '@/components/ThemeToggle'
 import AppDrawer from '@/components/AppDrawer'
 import Login from '@/pages/Login'
+import Register from '@/pages/Register'
 import Timeline from '@/pages/Timeline'
 import RecordForm from '@/pages/RecordForm'
 import RecordDetail from '@/pages/RecordDetail'
@@ -58,6 +59,7 @@ export default function App() {
       <main className="mx-auto max-w-2xl px-4 py-6">
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/registrazione" element={<Register />} />
           <Route path="/" element={<AuthGuard><Timeline /></AuthGuard>} />
           <Route path="/nuovo" element={<AuthGuard><RecordForm /></AuthGuard>} />
           <Route path="/record/:id" element={<AuthGuard><RecordDetail /></AuthGuard>} />

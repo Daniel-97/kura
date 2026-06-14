@@ -31,6 +31,8 @@ cd frontend && npm run dev
 
 Apri http://localhost:5173. Il dev server fa proxy delle richieste `/api` e `/_` verso PocketBase (porta 8090).
 
+L'admin UI di PocketBase è raggiungibile su http://localhost:8090/_/.
+
 ## Build e deploy manuale (senza Docker)
 
 ```bash
@@ -76,6 +78,8 @@ Variabili d'ambiente opzionali:
 | `COMPOSE_SERVICE` | `kura`                   | Nome del service in `docker-compose.yml` |
 
 Al termine accedi all'app su **http://localhost:8090**.
+
+Admin panel: **http://localhost:8090/_/**
 
 ## Backup
 

@@ -100,5 +100,25 @@
   "theme": {
     "switchToLight": "Switch to light theme",
     "switchToDark": "Switch to dark theme"
+  },
+  "reminders": {
+    "title": "Reminders",
+    "add": "New reminder",
+    "kindOffset": "Before event",
+    "kindCustom": "Custom date",
+    "value": "Amount",
+    "unit": "Unit",
+    "minutes": "Minutes",
+    "hours": "Hours",
+    "days": "Days",
+    "preview": "Scheduled for",
+    "customDateTime": "Custom date and time",
+    "message": "Custom message",
+    "messagePlaceholder": "Optional note for the email…",
+    "noReminders": "No reminders",
+    "savedSuccess": "Reminder saved",
+    "deletedSuccess": "Reminder deleted",
+    "pending": "Pending",
+    "sent": "Sent"
   }
 }

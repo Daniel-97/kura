@@ -16,6 +16,7 @@ import {
 import { cn } from '@/lib/utils'
 import { pb } from '@/lib/pb'
 import { useDeleteRecord } from '@/hooks/useRecords'
+import ReminderList from '@/components/ReminderList'
 import type { HealthRecord } from '@/lib/types'
 
 const IMAGE_EXTS = new Set(['png', 'jpg', 'jpeg', 'webp', 'gif', 'avif'])
@@ -49,6 +50,7 @@ export default function RecordCard({ record, className }: Props) {
 
   const dateLabel = new Intl.DateTimeFormat(i18n.language, {
     day: '2-digit', month: 'long', year: 'numeric',
+    hour: '2-digit', minute: '2-digit',
   }).format(new Date(record.date))
 
   const handleDelete = () => {
@@ -98,6 +100,7 @@ export default function RecordCard({ record, className }: Props) {
                   ))}
                 </div>
               )}
+              <ReminderList recordId={record.id} recordDate={record.date} />
             </div>
 
             <div className="flex shrink-0 flex-col items-end gap-2">

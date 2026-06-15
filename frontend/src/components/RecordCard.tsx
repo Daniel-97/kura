@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
@@ -13,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
+import { cn } from '@/lib/utils'
 import { pb } from '@/lib/pb'
 import { useDeleteRecord } from '@/hooks/useRecords'
 import type { HealthRecord } from '@/lib/types'
@@ -27,9 +28,20 @@ interface Props {
 export default function RecordCard({ record, className }: Props) {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [ripples, setRipples] = useState<Array<{ x: number; y: number; key: number }>>([])
   const [showConfirm, setShowConfirm] = useState(false)
 
   const deleteRecord = useDeleteRecord()
+
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = cardRef.current?.getBoundingClientRect()
+    if (!rect) return
+    setRipples((prev) => [
+      ...prev,
+      { x: e.clientX - rect.left, y: e.clientY - rect.top, key: Date.now() + Math.random() },
+    ])
+  }
 
   const tags = record.tags
     ? record.tags.split(',').map((s) => s.trim()).filter(Boolean)
@@ -51,9 +63,23 @@ export default function RecordCard({ record, className }: Props) {
 
   return (
     <>
-      <Card className={className}>
+      <Card
+        ref={cardRef}
+        onClick={handleCardClick}
+        className={cn('relative overflow-hidden cursor-pointer', className)}
+      >
         <CardContent className="py-4">
           <div className="flex items-start justify-between gap-3">
+          {ripples.map((r) => (
+            <span
+              key={r.key}
+              onAnimationEnd={() =>
+                setRipples((prev) => prev.filter((p) => p.key !== r.key))
+              }
+              className="pointer-events-none absolute h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/20 animate-ripple"
+              style={{ left: r.x, top: r.y }}
+            />
+          ))}
             <div className="min-w-0 flex-1 space-y-1">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-medium">{record.title}</span>
@@ -115,6 +141,7 @@ export default function RecordCard({ record, className }: Props) {
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
+                        title={filename}
                         onClick={(e) => e.stopPropagation()}
                       >
                         {isImage ? (

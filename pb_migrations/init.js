@@ -1,9 +1,19 @@
 /// <reference path="../pb_data/types.d.ts" />
 migrate((app) => {
-  const usersCol = app.findCollectionByNameOrId("users")
+  // Helper: only create if collection doesn't exist (idempotent init).
+  const createIfMissing = (factory) => {
+    try {
+      app.save(factory())
+    } catch (e) {
+      if (!String(e).match(/must be unique|already exists/i)) throw e
+    }
+  }
 
-  // ── records ──────────────────────────────────────────────────────────────
-  const records = new Collection({
+  const usersCol = app.findCollectionByNameOrId("users")
+  const recordsCol = app.findCollectionByNameOrId("records")
+
+  // ── records ────────────────────────────────────────────────────────
+  createIfMissing(() => new Collection({
     name: "records",
     type: "base",
     fields: [
@@ -15,7 +25,6 @@ migrate((app) => {
         maxSelect: 1,
         values: ["visita", "esame", "referto", "altro"],
       },
-      // Comma-separated free-form tags; filter with `tags ~ "value"` (LIKE)
       { type: "text",     name: "tags" },
       {
         type: "file",     name: "file",
@@ -40,11 +49,10 @@ migrate((app) => {
     createRule: '@request.auth.id != "" && @request.body.user = @request.auth.id',
     updateRule: '@request.auth.id != "" && user = @request.auth.id',
     deleteRule: '@request.auth.id != "" && user = @request.auth.id',
-  })
-  app.save(records)
+  }))
 
-  // ── blood_pressure ────────────────────────────────────────────────────────
-  const bp = new Collection({
+  // ── blood_pressure ─────────────────────────────────────────────────
+  createIfMissing(() => new Collection({
     name: "blood_pressure",
     type: "base",
     fields: [
@@ -65,10 +73,44 @@ migrate((app) => {
     createRule: '@request.auth.id != "" && @request.body.user = @request.auth.id',
     updateRule: '@request.auth.id != "" && user = @request.auth.id',
     deleteRule: '@request.auth.id != "" && user = @request.auth.id',
-  })
-  app.save(bp)
+  }))
+
+  // ── reminders ──────────────────────────────────────────────────────
+  createIfMissing(() => new Collection({
+    name: "reminders",
+    type: "base",
+    fields: [
+      {
+        type: "relation", name: "record", required: true,
+        collectionId: recordsCol.id, maxSelect: 1,
+        cascadeDelete: true,
+      },
+      {
+        type: "relation", name: "user", required: true,
+        collectionId: usersCol.id, maxSelect: 1,
+        cascadeDelete: true,
+      },
+      { type: "date", name: "fire_at", required: true },
+      { type: "date", name: "sent_at" },
+      { type: "text", name: "message" },
+    ],
+    listRule:   '@request.auth.id != "" && user = @request.auth.id',
+    viewRule:   '@request.auth.id != "" && user = @request.auth.id',
+    createRule: '@request.auth.id != "" && @request.body.user = @request.auth.id',
+    updateRule: '@request.auth.id != "" && user = @request.auth.id',
+    deleteRule: '@request.auth.id != "" && user = @request.auth.id',
+  }))
+
+  // ── Disable user registration (default off; ALLOW_REGISTRATION env overrides at boot) ──
+  usersCol.createRule = null
+  app.save(usersCol)
 }, (app) => {
-  for (const name of ["records", "blood_pressure"]) {
+  for (const name of ["reminders", "records", "blood_pressure"]) {
     try { app.delete(app.findCollectionByNameOrId(name)) } catch (_) {}
   }
+  try {
+    const users = app.findCollectionByNameOrId("users")
+    users.createRule = ""
+    app.save(users)
+  } catch (_) {}
 })

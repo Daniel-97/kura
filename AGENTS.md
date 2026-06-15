@@ -3,7 +3,7 @@
 ## Stack Overview
 
 - **Backend**: PocketBase single binary (Go + SQLite). No custom server code. API and auth are entirely managed by PocketBase.
-  - Schema defined in `pb_migrations/` (JS files, run automatically on `./pocketbase serve`)
+  - Schema defined in `pb_migrations/` (single idempotent `init.js`)
   - Data stored in `pb_data/` — **never commit, never read this directory**
   - File storage handled by PocketBase (files served from `pb_data/storage/`)
 - **Frontend**: React 18 + TypeScript strict, built with Vite. Source in `frontend/src/`. Build output → `pb_public/` (git-ignored).
@@ -24,13 +24,16 @@ Admin dashboard: http://localhost:8090/_/
 
 ## Schema Changes
 
-Schema lives **exclusively** in `pb_migrations/`. Never modify collections via the admin dashboard without a matching migration file — unversioned changes are lost on redeployment.
+**Do not create new migration files.** The schema is defined once in `pb_migrations/init.js` (idempotent). The codebase is small enough that recreating `pb_data/` from scratch is the supported path for any schema change.
 
-Workflow for any schema change:
-1. Write a new migration in `pb_migrations/` (e.g., `3_add_field.js`)
-2. Test: restart `./pocketbase serve` and verify migration runs without error
-3. Update `frontend/src/lib/types.ts` to match the new schema
-4. Every change to `types.ts` is a change to the public contract — update the hook return types accordingly
+If a schema change is needed:
+1. Edit `pb_migrations/init.js` to reflect the new desired state (use `createIfMissing` / try-catch for idempotency)
+2. Test on a wiped `pb_data/`: `./pocketbase serve` should create the schema from scratch without errors
+3. For existing deployments, the user must wipe `pb_data/` (no live migrations are supported)
+4. Update `frontend/src/lib/types.ts` to match the new schema
+5. Every change to `types.ts` is a change to the public contract — update the hook return types accordingly
+
+The admin dashboard can be used freely for ad-hoc inspection but is **not** a schema source of truth.
 
 ## Code Conventions
 

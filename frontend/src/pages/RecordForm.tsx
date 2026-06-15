@@ -15,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useCreateRecord, useUpdateRecord, useFetchRecord } from '@/hooks/useRecords'
 import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/lib/types'
+import { toLocalInputValue, fromLocalInputValue } from '@/lib/utils'
 
 export default function RecordForm() {
   const { t } = useTranslation()
@@ -28,7 +29,7 @@ export default function RecordForm() {
   const { data: existingRecord, isLoading: isLoadingRecord } = useFetchRecord(id ?? '')
 
   const [title, setTitle] = useState('')
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [date, setDate] = useState(toLocalInputValue(new Date().toISOString()))
   const [category, setCategory] = useState('')
   const [tags, setTags] = useState('')
   const [description, setDescription] = useState('')
@@ -42,7 +43,7 @@ export default function RecordForm() {
   useEffect(() => {
     if (existingRecord) {
       setTitle(existingRecord.title)
-      setDate(existingRecord.date.slice(0, 10))
+      setDate(toLocalInputValue(existingRecord.date))
       setCategory(existingRecord.category)
       setTags(existingRecord.tags ?? '')
       setDescription(existingRecord.description ?? '')
@@ -65,19 +66,19 @@ export default function RecordForm() {
 
     const fd = new FormData()
     fd.append('title', title)
-    fd.append('date', date)
+    fd.append('date', fromLocalInputValue(date))
     fd.append('category', category)
     fd.append('tags', tags)
     fd.append('description', description)
 
     if (isEditMode) {
       filesToRemove.forEach((filename) => fd.append('file-', filename))
-      newFiles.forEach((f) => fd.append('file', f))
+      newFiles.forEach((f) => fd.append('file+', f))
 
       updateRecord.mutate({ id: id!, data: fd }, {
         onSuccess: () => {
           toast.success(t('record.updatedSuccess'))
-          navigate(`/record/${id}`)
+          navigate('/')
         },
         onError: () => toast.error(t('common.error')),
       })
@@ -127,7 +128,7 @@ export default function RecordForm() {
               <Label htmlFor="date">{t('record.date')}</Label>
               <Input
                 id="date"
-                type="date"
+                type="datetime-local"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
@@ -220,7 +221,7 @@ export default function RecordForm() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => isEditMode ? navigate(`/record/${id}`) : navigate(-1)}
+                onClick={() => navigate(-1)}
               >
                 {t('common.cancel')}
               </Button>

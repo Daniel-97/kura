@@ -54,6 +54,21 @@ collect_credentials() {
 
   echo ""
 
+  CREATE_USER=
+  while true; do
+    read -rp "Create a personal user for Kura? (y/n): " yn
+    case "$yn" in
+      [Yy]*) CREATE_USER=1; break ;;
+      [Nn]*) CREATE_USER=0; break ;;
+      *) err "Please answer y or n." ;;
+    esac
+  done
+
+  if [[ "$CREATE_USER" -eq 0 ]]; then
+    info "Skipping personal user creation."
+    return
+  fi
+
   while true; do
     read -rp "[User]  Email: " USER_EMAIL
     if [[ -z "$USER_EMAIL" ]]; then
@@ -130,7 +145,9 @@ main() {
   wait_for_pb
   create_admin
   auth_admin
-  create_user
+  if [[ "$CREATE_USER" -eq 1 ]]; then
+    create_user
+  fi
 
   echo ""
   echo "Setup complete."

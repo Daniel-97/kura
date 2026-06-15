@@ -59,7 +59,7 @@ export default function Pressione() {
   })
 
   return (
-    <div className="mx-auto max-w-lg space-y-6">
+    <div className="space-y-6">
       <h1 className="text-2xl font-bold">{t('pressure.title')}</h1>
 
       <BloodPressureChart measurements={measurements} />

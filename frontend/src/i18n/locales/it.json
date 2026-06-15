@@ -23,7 +23,8 @@
     "emailPlaceholder": "email@esempio.it",
     "passwordPlaceholder": "••••••••",
     "noAccount": "Non hai un account?",
-    "registerLink": "Registrati"
+    "registerLink": "Registrati",
+    "adminLink": "Pannello di amministrazione"
   },
   "register": {
     "title": "Registrati",
@@ -65,7 +66,8 @@
     "deleteConfirmMessage": "L'operazione non è reversibile.",
     "deletedSuccess": "Referto eliminato",
     "existingFiles": "File già allegati",
-    "addMoreFiles": "Aggiungi altri file"
+    "addMoreFiles": "Aggiungi altri file",
+    "openMenu": "Apri menu azioni"
   },
   "category": {
     "visita": "Visita",
@@ -98,5 +100,26 @@
   "theme": {
     "switchToLight": "Passa al tema chiaro",
     "switchToDark": "Passa al tema scuro"
+  },
+  "reminders": {
+    "title": "Promemoria",
+    "add": "Nuovo promemoria",
+    "kindOffset": "Prima dell'evento",
+    "kindCustom": "Data e ora",
+    "value": "Quantità",
+    "unit": "Unità",
+    "minutes": "Minuti",
+    "hours": "Ore",
+    "days": "Giorni",
+    "preview": "Invio previsto",
+    "customDateTime": "Data e ora personalizzata",
+    "message": "Messaggio personalizzato",
+    "messagePlaceholder": "Nota opzionale per l'email…",
+    "noReminders": "Nessun promemoria",
+    "addButton": "Aggiungi promemoria",
+    "savedSuccess": "Promemoria salvato",
+    "deletedSuccess": "Promemoria eliminato",
+    "pending": "In attesa",
+    "sent": "Inviato"
   }
 }

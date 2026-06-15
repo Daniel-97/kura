@@ -23,7 +23,8 @@
     "emailPlaceholder": "email@example.com",
     "passwordPlaceholder": "••••••••",
     "noAccount": "Don't have an account?",
-    "registerLink": "Sign up"
+    "registerLink": "Sign up",
+    "adminLink": "Admin panel"
   },
   "register": {
     "title": "Create account",
@@ -65,7 +66,8 @@
     "deleteConfirmMessage": "This action cannot be undone.",
     "deletedSuccess": "Record deleted",
     "existingFiles": "Existing attachments",
-    "addMoreFiles": "Add more files"
+    "addMoreFiles": "Add more files",
+    "openMenu": "Open actions menu"
   },
   "category": {
     "visita": "Medical visit",
@@ -98,5 +100,26 @@
   "theme": {
     "switchToLight": "Switch to light theme",
     "switchToDark": "Switch to dark theme"
+  },
+  "reminders": {
+    "title": "Reminders",
+    "add": "New reminder",
+    "kindOffset": "Before event",
+    "kindCustom": "Custom date",
+    "value": "Amount",
+    "unit": "Unit",
+    "minutes": "Minutes",
+    "hours": "Hours",
+    "days": "Days",
+    "preview": "Scheduled for",
+    "customDateTime": "Custom date and time",
+    "message": "Custom message",
+    "messagePlaceholder": "Optional note for the email…",
+    "noReminders": "No reminders",
+    "addButton": "Add reminder",
+    "savedSuccess": "Reminder saved",
+    "deletedSuccess": "Reminder deleted",
+    "pending": "Pending",
+    "sent": "Sent"
   }
 }

@@ -76,6 +76,13 @@ Variabili d'ambiente opzionali:
 | `PB_URL`          | `http://localhost:8090`  | URL di PocketBase (es. host remoto)      |
 | `PB_TIMEOUT`      | `60`                     | Secondi di attesa per l'health check     |
 | `COMPOSE_SERVICE` | `kura`                   | Nome del service in `docker-compose.yml` |
+| `SMTP_HOST`       | —                        | Host SMTP per invio promemoria email     |
+| `SMTP_PORT`       | `587`                    | Porta SMTP                               |
+| `SMTP_USERNAME`   | —                        | Utente SMTP                              |
+| `SMTP_PASSWORD`   | —                        | Password SMTP                            |
+| `SMTP_FROM`       | —                        | Indirizzo mittente (es. `noreply@kura.tld`) |
+| `SMTP_FROM_NAME`  | `Kura`                   | Nome mittente                            |
+| `APP_URL`         | `http://localhost:8090`  | URL pubblico dell'app                    |
 
 Al termine accedi all'app su **http://localhost:8090**.
 

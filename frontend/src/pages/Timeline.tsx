@@ -46,10 +46,8 @@ function groupByYearMonth(records: HealthRecord[]): [string, HealthRecord[]][] {
   return [...map.entries()].sort(([a], [b]) => b.localeCompare(a))
 }
 
-function isFuture(dateStr: string, today: Date): boolean {
-  const d = new Date(dateStr)
-  d.setHours(0, 0, 0, 0)
-  return d > today
+function isFuture(dateStr: string, now: Date): boolean {
+  return new Date(dateStr) > now
 }
 
 export default function Timeline() {
@@ -66,7 +64,6 @@ export default function Timeline() {
   // Split each group into future and past records; a group can appear in both
   // when it straddles today (e.g. current month has past and future records).
   const today = new Date()
-  today.setHours(0, 0, 0, 0)
   const futureGroups: [string, HealthRecord[]][] = []
   const pastGroups: [string, HealthRecord[]][] = []
   for (const [key, items] of grouped) {

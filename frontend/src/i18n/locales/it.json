@@ -23,7 +23,8 @@
     "emailPlaceholder": "email@esempio.it",
     "passwordPlaceholder": "••••••••",
     "noAccount": "Non hai un account?",
-    "registerLink": "Registrati"
+    "registerLink": "Registrati",
+    "adminLink": "Pannello di amministrazione"
   },
   "register": {
     "title": "Registrati",

@@ -77,6 +77,14 @@ export default function Login() {
                 </Link>
               </p>
             )}
+            <div className="pt-2 text-center">
+              <a
+                href="/_/"
+                className="text-xs text-muted-foreground underline underline-offset-4 hover:text-primary"
+              >
+                {t('auth.adminLink')}
+              </a>
+            </div>
           </form>
         </CardContent>
       </Card>

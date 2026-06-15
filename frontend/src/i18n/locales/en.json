@@ -23,7 +23,8 @@
     "emailPlaceholder": "email@example.com",
     "passwordPlaceholder": "••••••••",
     "noAccount": "Don't have an account?",
-    "registerLink": "Sign up"
+    "registerLink": "Sign up",
+    "adminLink": "Admin panel"
   },
   "register": {
     "title": "Create account",

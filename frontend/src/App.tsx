@@ -12,7 +12,6 @@ import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import Timeline from '@/pages/Timeline'
 import RecordForm from '@/pages/RecordForm'
-import RecordDetail from '@/pages/RecordDetail'
 import Pressione from '@/pages/Pressione'
 
 function AuthGuard({ children }: { children: React.ReactNode }) {
@@ -79,7 +78,6 @@ export default function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<AuthGuard><Timeline /></AuthGuard>} />
             <Route path="/new" element={<AuthGuard><RecordForm /></AuthGuard>} />
-            <Route path="/record/:id" element={<AuthGuard><RecordDetail /></AuthGuard>} />
             <Route path="/record/:id/edit" element={<AuthGuard><RecordForm /></AuthGuard>} />
             <Route path="/blood-pressure" element={<AuthGuard><Pressione /></AuthGuard>} />
             <Route path="*" element={<Navigate to="/" replace />} />

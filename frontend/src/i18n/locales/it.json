@@ -66,7 +66,8 @@
     "deleteConfirmMessage": "L'operazione non è reversibile.",
     "deletedSuccess": "Referto eliminato",
     "existingFiles": "File già allegati",
-    "addMoreFiles": "Aggiungi altri file"
+    "addMoreFiles": "Aggiungi altri file",
+    "openMenu": "Apri menu azioni"
   },
   "category": {
     "visita": "Visita",

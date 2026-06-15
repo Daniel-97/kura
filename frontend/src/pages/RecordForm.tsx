@@ -77,7 +77,7 @@ export default function RecordForm() {
       updateRecord.mutate({ id: id!, data: fd }, {
         onSuccess: () => {
           toast.success(t('record.updatedSuccess'))
-          navigate(`/record/${id}`)
+          navigate('/')
         },
         onError: () => toast.error(t('common.error')),
       })
@@ -220,7 +220,7 @@ export default function RecordForm() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => isEditMode ? navigate(`/record/${id}`) : navigate(-1)}
+                onClick={() => navigate(-1)}
               >
                 {t('common.cancel')}
               </Button>

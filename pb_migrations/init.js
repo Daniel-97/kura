@@ -10,7 +10,6 @@ migrate((app) => {
   }
 
   const usersCol = app.findCollectionByNameOrId("users")
-  const recordsCol = app.findCollectionByNameOrId("records")
 
   // ── records ────────────────────────────────────────────────────────
   createIfMissing(() => new Collection({
@@ -76,7 +75,9 @@ migrate((app) => {
   }))
 
   // ── reminders ──────────────────────────────────────────────────────
-  createIfMissing(() => new Collection({
+  createIfMissing(() => {
+    const recordsCol = app.findCollectionByNameOrId("records")
+    return new Collection({
     name: "reminders",
     type: "base",
     fields: [
@@ -99,7 +100,8 @@ migrate((app) => {
     createRule: '@request.auth.id != "" && @request.body.user = @request.auth.id',
     updateRule: '@request.auth.id != "" && user = @request.auth.id',
     deleteRule: '@request.auth.id != "" && user = @request.auth.id',
-  }))
+    })
+  })
 
   // ── Disable user registration (default off; ALLOW_REGISTRATION env overrides at boot) ──
   usersCol.createRule = null

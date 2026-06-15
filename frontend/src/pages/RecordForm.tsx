@@ -72,7 +72,7 @@ export default function RecordForm() {
 
     if (isEditMode) {
       filesToRemove.forEach((filename) => fd.append('file-', filename))
-      newFiles.forEach((f) => fd.append('file', f))
+      newFiles.forEach((f) => fd.append('file+', f))
 
       updateRecord.mutate({ id: id!, data: fd }, {
         onSuccess: () => {

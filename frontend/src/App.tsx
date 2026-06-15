@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/useAuth'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import ThemeToggle from '@/components/ThemeToggle'
 import AppDrawer from '@/components/AppDrawer'
+import SidebarContent from '@/components/SidebarContent'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import Timeline from '@/pages/Timeline'
@@ -33,7 +34,8 @@ export default function App() {
     <div className="min-h-screen bg-background font-sans antialiased">
       {isAuthenticated && (
         <>
-          <header className="sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          {/* Mobile header */}
+          <header className="sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:hidden">
             <div className="mx-auto flex h-14 max-w-2xl items-center justify-between px-4">
               <div className="flex items-center gap-3">
                 <button
@@ -53,20 +55,36 @@ export default function App() {
               </div>
             </div>
           </header>
+
+          {/* Mobile drawer */}
           <AppDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+
+          {/* Desktop sidebar */}
+          <aside className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 lg:border-r lg:bg-background">
+            <SidebarContent />
+          </aside>
+
+          {/* Desktop top bar */}
+          <div className="hidden lg:flex lg:fixed lg:top-0 lg:left-64 lg:right-0 lg:h-14 lg:items-center lg:justify-end lg:border-b lg:bg-background/95 lg:px-6 lg:gap-1 lg:z-30">
+            <LanguageSwitcher />
+            <ThemeToggle />
+          </div>
         </>
       )}
-      <main className="mx-auto max-w-2xl px-4 py-6">
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<AuthGuard><Timeline /></AuthGuard>} />
-          <Route path="/new" element={<AuthGuard><RecordForm /></AuthGuard>} />
-          <Route path="/record/:id" element={<AuthGuard><RecordDetail /></AuthGuard>} />
-          <Route path="/record/:id/edit" element={<AuthGuard><RecordForm /></AuthGuard>} />
-          <Route path="/blood-pressure" element={<AuthGuard><Pressione /></AuthGuard>} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+
+      <main className={`px-4 py-6 ${isAuthenticated ? 'lg:pl-64 lg:pt-20' : 'mx-auto max-w-sm'}`}>
+        <div className={isAuthenticated ? 'mx-auto max-w-5xl' : ''}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<AuthGuard><Timeline /></AuthGuard>} />
+            <Route path="/new" element={<AuthGuard><RecordForm /></AuthGuard>} />
+            <Route path="/record/:id" element={<AuthGuard><RecordDetail /></AuthGuard>} />
+            <Route path="/record/:id/edit" element={<AuthGuard><RecordForm /></AuthGuard>} />
+            <Route path="/blood-pressure" element={<AuthGuard><Pressione /></AuthGuard>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
       </main>
       <Toaster />
     </div>

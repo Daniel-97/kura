@@ -131,44 +131,44 @@ export default function RecordCard({ record, className }: Props) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-
-              {record.file && record.file.length > 0 && (
-                <div className="flex flex-wrap justify-end gap-2">
-                  {record.file.map((filename) => {
-                    const ext = filename.split('.').pop()?.toLowerCase()
-                    const isImage = ext ? IMAGE_EXTS.has(ext) : false
-                    const url = pb.files.getUrl(record, filename)
-                    return (
-                      <a
-                        key={filename}
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title={filename}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {isImage ? (
-                          <img
-                            src={url}
-                            alt={filename}
-                            className="h-20 w-20 rounded border object-cover"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div className="flex h-20 w-20 flex-col items-center justify-center gap-1 rounded border bg-muted">
-                            <FileText className="h-6 w-6 text-muted-foreground" />
-                            <span className="text-[10px] font-bold uppercase text-muted-foreground">
-                              {ext ?? '?'}
-                            </span>
-                          </div>
-                        )}
-                      </a>
-                    )
-                  })}
-                </div>
-              )}
             </div>
           </div>
+
+          {record.file && record.file.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {record.file.map((filename) => {
+                const ext = filename.split('.').pop()?.toLowerCase()
+                const isImage = ext ? IMAGE_EXTS.has(ext) : false
+                const url = pb.files.getUrl(record, filename)
+                return (
+                  <a
+                    key={filename}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={filename}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {isImage ? (
+                      <img
+                        src={url}
+                        alt={filename}
+                        className="h-20 w-20 rounded border object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="flex h-20 w-20 flex-col items-center justify-center gap-1 rounded border bg-muted">
+                        <FileText className="h-6 w-6 text-muted-foreground" />
+                        <span className="text-[10px] font-bold uppercase text-muted-foreground">
+                          {ext ?? '?'}
+                        </span>
+                      </div>
+                    )}
+                  </a>
+                )
+              })}
+            </div>
+          )}
         </CardContent>
       </Card>
 

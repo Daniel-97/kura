@@ -80,12 +80,13 @@ export default function ReminderList({ recordId, recordDate }: Props) {
 
       <ReminderDialog recordId={recordId} recordDate={recordDate}>
         <Button
-          variant="ghost"
-          size="icon"
-          className="mt-1 h-5 w-5"
-          aria-label={t('reminders.add')}
+          variant="outline"
+          size="sm"
+          className="mt-2 gap-1.5"
+          onClick={(e) => e.stopPropagation()}
         >
-          <Plus className="h-3 w-3" />
+          <Plus className="h-3.5 w-3.5" />
+          {t('reminders.addButton')}
         </Button>
       </ReminderDialog>
     </div>

@@ -116,6 +116,7 @@
     "message": "Messaggio personalizzato",
     "messagePlaceholder": "Nota opzionale per l'email…",
     "noReminders": "Nessun promemoria",
+    "addButton": "Aggiungi promemoria",
     "savedSuccess": "Promemoria salvato",
     "deletedSuccess": "Promemoria eliminato",
     "pending": "In attesa",

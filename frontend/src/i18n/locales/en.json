@@ -116,6 +116,7 @@
     "message": "Custom message",
     "messagePlaceholder": "Optional note for the email…",
     "noReminders": "No reminders",
+    "addButton": "Add reminder",
     "savedSuccess": "Reminder saved",
     "deletedSuccess": "Reminder deleted",
     "pending": "Pending",

@@ -47,6 +47,7 @@ The admin dashboard can be used freely for ad-hoc inspection but is **not** a sc
 | Minimize npm dependencies; document reasoning for any new addition | Keeps the bundle small and auditable |
 | Variable names, translation keys, and code comments in English | UI strings only in locale JSON files |
 | `pb.autoCancellation(false)` is set in `lib/pb.ts` | Prevents react-query from triggering abort errors on rapid re-renders |
+| Repeated UI styles live in `frontend/src/index.css` under `@layer components` (built with `@apply`). Pages and components reference these classes instead of repeating the same Tailwind chains. | Single source of truth for layout patterns; keeps page markup readable. |
 
 ## PocketBase Version
 

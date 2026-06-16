@@ -57,14 +57,14 @@ export default function Register() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center">
-      <Card className="w-full max-w-sm">
+    <div className="page-shell-centered">
+      <Card className="auth-card">
         <CardHeader>
-          <CardTitle className="text-center text-2xl">{t('register.title')}</CardTitle>
+          <CardTitle className="auth-title">{t('register.title')}</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
+          <form onSubmit={handleSubmit} className="form">
+            <div className="form-field">
               <Label htmlFor="email">{t('auth.email')}</Label>
               <Input
                 id="email"
@@ -76,7 +76,7 @@ export default function Register() {
                 required
               />
             </div>
-            <div className="space-y-2">
+            <div className="form-field">
               <Label htmlFor="password">{t('auth.password')}</Label>
               <Input
                 id="password"
@@ -88,7 +88,7 @@ export default function Register() {
                 required
               />
             </div>
-            <div className="space-y-2">
+            <div className="form-field">
               <Label htmlFor="passwordConfirm">{t('register.passwordConfirm')}</Label>
               <Input
                 id="passwordConfirm"
@@ -100,7 +100,7 @@ export default function Register() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full" disabled={pending}>
+            <Button type="submit" className="btn-block" disabled={pending}>
               {pending ? t('common.loading') : t('register.submit')}
             </Button>
             <p className="text-center text-sm text-muted-foreground">

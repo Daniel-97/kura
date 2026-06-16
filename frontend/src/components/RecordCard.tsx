@@ -16,6 +16,7 @@ import {
 import { cn } from '@/lib/utils'
 import { pb } from '@/lib/pb'
 import { useDeleteRecord } from '@/hooks/useRecords'
+import { useCategories } from '@/hooks/useCategories'
 import ReminderList from '@/components/ReminderList'
 import type { HealthRecord } from '@/lib/types'
 
@@ -34,6 +35,8 @@ export default function RecordCard({ record, className }: Props) {
   const [showConfirm, setShowConfirm] = useState(false)
 
   const deleteRecord = useDeleteRecord()
+  const { data: categories = [] } = useCategories()
+  const category = categories.find((c) => c.id === record.category)
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = cardRef.current?.getBoundingClientRect()
@@ -85,7 +88,9 @@ export default function RecordCard({ record, className }: Props) {
             <div className="min-w-0 flex-1 space-y-1">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-medium">{record.title}</span>
-                <Badge variant="secondary">{t(`category.${record.category}`)}</Badge>
+                <Badge variant="secondary">
+                  {category?.name ?? t('common.uncategorized')}
+                </Badge>
               </div>
               <p className="text-sm text-muted-foreground">{dateLabel}</p>
               {record.description && (

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
@@ -9,31 +9,11 @@ import {
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { useRecords } from '@/hooks/useRecords'
+import { useCategories } from '@/hooks/useCategories'
+import { getCategoryStyles } from '@/lib/category-styles'
 import RecordCard from '@/components/RecordCard'
 import TagFilter from '@/components/TagFilter'
-import { CATEGORIES } from '@/lib/types'
-import type { HealthRecord, RecordCategory } from '@/lib/types'
-
-const CATEGORY_DOT: Record<RecordCategory | string, string> = {
-  visita:  'bg-indigo-500 ring-indigo-500',
-  esame:   'bg-sky-500 ring-sky-500',
-  referto: 'bg-emerald-500 ring-emerald-500',
-  altro:   'bg-slate-400 ring-slate-400',
-}
-
-const CATEGORY_DOT_OUTLINE: Record<RecordCategory | string, string> = {
-  visita:  'ring-indigo-500',
-  esame:   'ring-sky-500',
-  referto: 'ring-emerald-500',
-  altro:   'ring-slate-400',
-}
-
-const CATEGORY_BORDER: Record<RecordCategory | string, string> = {
-  visita:  'border-l-indigo-500',
-  esame:   'border-l-sky-500',
-  referto: 'border-l-emerald-500',
-  altro:   'border-l-slate-400',
-}
+import type { HealthRecord } from '@/lib/types'
 
 function groupByYearMonth(records: HealthRecord[]): [string, HealthRecord[]][] {
   const map = new Map<string, HealthRecord[]>()
@@ -54,8 +34,13 @@ export default function Timeline() {
   const { t, i18n } = useTranslation()
   const [category, setCategory] = useState('')
   const [tag, setTag] = useState('')
+  const { data: categoriesData = [] } = useCategories()
+  const categoryById = useMemo(
+    () => new Map(categoriesData.map((c) => [c.id, c])),
+    [categoriesData],
+  )
   const { data, isLoading } = useRecords({
-    category: category || undefined,
+    category: category === '__null' ? '' : (category || undefined),
     tag: tag || undefined,
   })
   const records = data?.items ?? []
@@ -102,6 +87,8 @@ export default function Timeline() {
 
           {items.map((r) => {
             const day = String(new Date(r.date).getDate()).padStart(2, '0')
+            const cat = r.category ? categoryById.get(r.category) : undefined
+            const styles = getCategoryStyles(cat?.color ?? null)
             return (
               <div key={r.id} className="grid grid-cols-[40px_24px_1fr] items-start gap-x-3 mb-3">
                 <span className={cn(
@@ -113,16 +100,14 @@ export default function Timeline() {
                 <div className="flex justify-center pt-2.5">
                   <div className={cn(
                     'w-3 h-3 rounded-full border-2 border-background ring-2 relative z-10',
-                    future
-                      ? cn('bg-background', CATEGORY_DOT_OUTLINE[r.category] ?? CATEGORY_DOT_OUTLINE.altro)
-                      : (CATEGORY_DOT[r.category] ?? CATEGORY_DOT.altro),
+                    future ? cn('bg-background', styles.outline) : styles.dot,
                   )} />
                 </div>
                 <RecordCard
                   record={r}
                   className={cn(
                     'border-l-4',
-                    CATEGORY_BORDER[r.category] ?? CATEGORY_BORDER.altro,
+                    styles.border,
                     future && 'border-dashed border-border/50 bg-muted/20 [border-left-style:solid]',
                   )}
                 />
@@ -152,8 +137,9 @@ export default function Timeline() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">{t('timeline.allCategories')}</SelectItem>
-            {CATEGORIES.map((c) => (
-              <SelectItem key={c} value={c}>{t(`category.${c}`)}</SelectItem>
+            <SelectItem value="__null">{t('common.uncategorized')}</SelectItem>
+            {categoriesData.map((c) => (
+              <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
             ))}
           </SelectContent>
         </Select>

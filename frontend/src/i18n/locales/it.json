@@ -6,14 +6,16 @@
     "loading": "Caricamento…",
     "error": "Si è verificato un errore",
     "back": "Indietro",
-    "logout": "Esci"
+    "logout": "Esci",
+    "uncategorized": "Senza categoria"
   },
   "nav": {
     "timeline": "Diario",
     "newRecord": "Nuovo referto",
     "pressure": "Pressione",
     "sections": "Sezioni",
-    "openMenu": "Apri menu"
+    "openMenu": "Apri menu",
+    "categories": "Categorie"
   },
   "auth": {
     "login": "Accedi",
@@ -69,11 +71,22 @@
     "addMoreFiles": "Aggiungi altri file",
     "openMenu": "Apri menu azioni"
   },
-  "category": {
-    "visita": "Visita",
-    "esame": "Esame",
-    "referto": "Referto",
-    "altro": "Altro"
+  "categories": {
+    "title": "Categorie",
+    "empty": "Nessuna categoria. Aggiungine una per iniziare.",
+    "namePlaceholder": "Es. Cardiologia",
+    "add": "Aggiungi",
+    "addedSuccess": "Categoria creata",
+    "deletedSuccess": "Categoria eliminata",
+    "duplicateName": "Esiste già una categoria con questo nome",
+    "deleteConfirm": "Eliminare \"{name}\"?",
+    "deleteConfirmMessage": "I {count} record associati resteranno senza categoria.",
+    "deleteConfirmMessage_one": "Il record associato resterà senza categoria.",
+    "deleteConfirmMessage_other": "I {count} record associati resteranno senza categoria.",
+    "usageCount": "{count} record",
+    "usageCount_one": "{count} record",
+    "usageCount_other": "{count} record",
+    "noCategoryAvailable": "Crea prima una categoria"
   },
   "pressure": {
     "title": "Pressione arteriosa",

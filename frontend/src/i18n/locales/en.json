@@ -6,14 +6,16 @@
     "loading": "Loading…",
     "error": "An error occurred",
     "back": "Back",
-    "logout": "Logout"
+    "logout": "Logout",
+    "uncategorized": "Uncategorized"
   },
   "nav": {
     "timeline": "Timeline",
     "newRecord": "New record",
     "pressure": "Blood pressure",
     "sections": "Sections",
-    "openMenu": "Open menu"
+    "openMenu": "Open menu",
+    "categories": "Categories"
   },
   "auth": {
     "login": "Login",
@@ -66,14 +68,25 @@
     "deleteConfirmMessage": "This action cannot be undone.",
     "deletedSuccess": "Record deleted",
     "existingFiles": "Existing attachments",
-    "addMoreFiles": "Add more files",
+    "addMoreFiles": "Add more attachments",
     "openMenu": "Open actions menu"
   },
-  "category": {
-    "visita": "Medical visit",
-    "esame": "Exam",
-    "referto": "Report",
-    "altro": "Other"
+  "categories": {
+    "title": "Categories",
+    "empty": "No categories yet. Add one to get started.",
+    "namePlaceholder": "E.g. Cardiology",
+    "add": "Add",
+    "addedSuccess": "Category created",
+    "deletedSuccess": "Category deleted",
+    "duplicateName": "A category with this name already exists",
+    "deleteConfirm": "Delete \"{name}\"?",
+    "deleteConfirmMessage": "The {count} associated records will be left without a category.",
+    "deleteConfirmMessage_one": "The associated record will be left without a category.",
+    "deleteConfirmMessage_other": "The {count} associated records will be left without a category.",
+    "usageCount": "{count} records",
+    "usageCount_one": "{count} record",
+    "usageCount_other": "{count} records",
+    "noCategoryAvailable": "Create a category first"
   },
   "pressure": {
     "title": "Blood pressure",

@@ -11,6 +11,26 @@ migrate((app) => {
 
   const usersCol = app.findCollectionByNameOrId("users")
 
+  // ── categories ────────────────────────────────────────────────────
+  createIfMissing(() => new Collection({
+    name: "categories",
+    type: "base",
+    fields: [
+      { type: "text",     name: "name",  required: true, max: 50 },
+      { type: "text",     name: "color", required: true, max: 20 },
+      {
+        type: "relation", name: "user",  required: true,
+        collectionId: usersCol.id, maxSelect: 1,
+        cascadeDelete: true,
+      },
+    ],
+    listRule:   '@request.auth.id != "" && user = @request.auth.id',
+    viewRule:   '@request.auth.id != "" && user = @request.auth.id',
+    createRule: '@request.auth.id != "" && @request.body.user = @request.auth.id',
+    updateRule: '@request.auth.id != "" && user = @request.auth.id',
+    deleteRule: '@request.auth.id != "" && user = @request.auth.id',
+  }))
+
   // ── records ────────────────────────────────────────────────────────
   createIfMissing(() => new Collection({
     name: "records",
@@ -20,9 +40,10 @@ migrate((app) => {
       { type: "date",     name: "date",         required: true },
       { type: "text",     name: "description" },
       {
-        type: "select",   name: "category",    required: true,
+        type: "relation", name: "category",   required: false,
+        collectionId: "categories",
         maxSelect: 1,
-        values: ["visita", "esame", "referto", "altro"],
+        cascadeDelete: false,
       },
       { type: "text",     name: "tags" },
       {
@@ -107,7 +128,7 @@ migrate((app) => {
   usersCol.createRule = null
   app.save(usersCol)
 }, (app) => {
-  for (const name of ["reminders", "records", "blood_pressure"]) {
+  for (const name of ["reminders", "records", "categories", "blood_pressure"]) {
     try { app.delete(app.findCollectionByNameOrId(name)) } catch (_) {}
   }
   try {

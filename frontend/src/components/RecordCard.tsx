@@ -100,8 +100,6 @@ export default function RecordCard({ record, className }: Props) {
                   ))}
                 </div>
               )}
-              <div className="my-3 border-t" />
-              <ReminderList recordId={record.id} recordDate={record.date} />
             </div>
 
             <div className="flex shrink-0 flex-col items-end gap-2">
@@ -134,6 +132,9 @@ export default function RecordCard({ record, className }: Props) {
               </DropdownMenu>
             </div>
           </div>
+
+          <div className="my-3 border-t" />
+          <ReminderList recordId={record.id} recordDate={record.date} />
 
           {record.file && record.file.length > 0 && (
             <>

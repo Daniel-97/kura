@@ -136,7 +136,7 @@ export default function Timeline() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{t('timeline.title')}</h1>
+        <h1 className="page-header">{t('timeline.title')}</h1>
         <Button asChild size="sm">
           <Link to="/new">
             <Plus className="mr-1 h-4 w-4" />
@@ -161,9 +161,9 @@ export default function Timeline() {
       </div>
 
       {isLoading ? (
-        <p className="text-muted-foreground">{t('common.loading')}</p>
+        <p className="muted-empty">{t('common.loading')}</p>
       ) : records.length === 0 ? (
-        <p className="text-muted-foreground">{t('timeline.empty')}</p>
+        <p className="muted-empty">{t('timeline.empty')}</p>
       ) : (
         <>
           {futureGroups.length > 0 && (

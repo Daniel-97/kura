@@ -66,7 +66,7 @@ export default function ReminderList({ recordId, recordDate }: Props) {
                 <button
                   type="button"
                   onClick={() => handleDelete(rem.id)}
-                  className="ml-auto shrink-0 text-muted-foreground/40 hover:text-destructive"
+                  className="ml-auto icon-btn-destructive"
                   aria-label={t('common.delete')}
                   disabled={deleteReminder.isPending}
                 >

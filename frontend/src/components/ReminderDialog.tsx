@@ -105,7 +105,7 @@ export default function ReminderDialog({ recordId, recordDate, children }: Props
 
           <TabsContent value="offset" className="space-y-4 pt-4">
             <div className="flex gap-2">
-              <div className="flex-1 space-y-2">
+              <div className="flex-1 form-field">
                 <Label>{t('reminders.value')}</Label>
                 <Input
                   type="number"
@@ -114,7 +114,7 @@ export default function ReminderDialog({ recordId, recordDate, children }: Props
                   onChange={(e) => setOffsetQty(e.target.value)}
                 />
               </div>
-              <div className="flex-1 space-y-2">
+              <div className="flex-1 form-field">
                 <Label>{t('reminders.unit')}</Label>
                 <Select value={offsetUnitVal} onValueChange={(v) => setOffsetUnitVal(v as 'minutes' | 'hours' | 'days')}>
                   <SelectTrigger>
@@ -136,7 +136,7 @@ export default function ReminderDialog({ recordId, recordDate, children }: Props
           </TabsContent>
 
           <TabsContent value="custom" className="space-y-4 pt-4">
-            <div className="space-y-2">
+            <div className="form-field">
               <Label>{t('reminders.customDateTime')}</Label>
               <Input
                 type="datetime-local"
@@ -152,7 +152,7 @@ export default function ReminderDialog({ recordId, recordDate, children }: Props
           </TabsContent>
         </Tabs>
 
-        <div className="space-y-2">
+        <div className="form-field">
           <Label htmlFor="msg">{t('reminders.message')}</Label>
           <Textarea
             id="msg"

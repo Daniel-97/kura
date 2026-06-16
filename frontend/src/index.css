@@ -56,3 +56,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* Form building blocks */
+  .form              { @apply space-y-4; }
+  .form-field        { @apply space-y-2; }
+  .form-grid         { @apply grid gap-4; }
+  .form-grid-cols-2  { @apply grid grid-cols-2 gap-4; }
+
+  /* Page shells */
+  .page-shell          { @apply mx-auto max-w-5xl px-4 py-6; }
+  .page-shell-centered { @apply flex min-h-[calc(100vh-3.5rem)] items-center justify-center; }
+  .page-header         { @apply text-2xl font-bold; }
+
+  /* Auth (Login/Register) */
+  .auth-card  { @apply w-full max-w-sm; }
+  .auth-title { @apply text-center text-2xl; }
+
+  /* States */
+  .muted-empty          { @apply text-muted-foreground; }
+  .btn-block            { @apply w-full; }
+  .icon-btn-destructive { @apply shrink-0 text-muted-foreground hover:text-destructive; }
+}

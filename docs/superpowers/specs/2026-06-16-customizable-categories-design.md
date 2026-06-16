@@ -272,8 +272,12 @@ Espone due modalità tramite prop:
     "deletedSuccess": "Categoria eliminata",
     "duplicateName": "Esiste già una categoria con questo nome",
     "deleteConfirm": "Eliminare \"{name}\"?",
-    "deleteConfirmMessage": "I {count, plural, one {# record associato resterà} other {# record associati resteranno}} senza categoria.",
-    "usageCount": "{count, plural, one {# record} other {# record}}",
+    "deleteConfirmMessage": "I {count} record associati resteranno senza categoria.",
+    "deleteConfirmMessage_one": "Il record associato resterà senza categoria.",
+    "deleteConfirmMessage_other": "I {count} record associati resteranno senza categoria.",
+    "usageCount": "{count} record",
+    "usageCount_one": "{count} record",
+    "usageCount_other": "{count} record",
     "noCategoryAvailable": "Crea prima una categoria"
   }
   ```
@@ -282,8 +286,9 @@ Espone due modalità tramite prop:
 **`frontend/src/i18n/locales/en.json`** — modifiche speculari:
 - `nav.categories: "Categories"`
 - `common.uncategorized: "Uncategorized"`
-- `categories.*` con testi inglesi, mantenendo lo stesso shape (icu plural
-  incluso per `deleteConfirmMessage` e `usageCount`).
+- `categories.*` con testi inglesi, mantenendo lo stesso shape (i18next native
+  `_one`/`_other` suffix per `deleteConfirmMessage` e `usageCount`; i18next-icu
+  non è installato nel progetto).
 
 ## Data Flow
 

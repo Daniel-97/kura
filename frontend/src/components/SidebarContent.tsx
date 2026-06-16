@@ -19,7 +19,7 @@ export default function SidebarContent({ onNavigate }: SidebarContentProps) {
 
   return (
     <>
-      <div className="flex items-center gap-3 border-b px-4 py-4">
+      <div className="flex items-center gap-3 border-b px-4 py-3.5">
         <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-sm font-bold select-none">
           K
         </div>

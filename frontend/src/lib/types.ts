@@ -1,5 +1,15 @@
-export const CATEGORIES = ['visita', 'esame', 'referto', 'altro'] as const
-export type RecordCategory = (typeof CATEGORIES)[number]
+export type CategoryColor =
+  | 'indigo' | 'sky' | 'emerald' | 'amber'
+  | 'rose'   | 'violet' | 'teal'  | 'slate'
+
+export interface Category {
+  id: string
+  name: string
+  color: CategoryColor
+  user: string
+  created: string
+  updated: string
+}
 
 export interface HealthRecord {
   id: string
@@ -7,7 +17,8 @@ export interface HealthRecord {
   /** ISO 8601 UTC datetime */
   date: string
   description: string
-  category: RecordCategory
+  /** ID della Category collegata, oppure null (mai stata assegnata o eliminata) */
+  category: string | null
   /** Comma-separated free-form tags */
   tags: string
   file: string[]

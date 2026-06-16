@@ -14,7 +14,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useCreateRecord, useUpdateRecord, useFetchRecord } from '@/hooks/useRecords'
 import { useAuth } from '@/hooks/useAuth'
-import { CATEGORIES } from '@/lib/types'
+import { useCategories } from '@/hooks/useCategories'
 import { toLocalInputValue, fromLocalInputValue } from '@/lib/utils'
 
 export default function RecordForm() {
@@ -27,6 +27,7 @@ export default function RecordForm() {
   const createRecord = useCreateRecord()
   const updateRecord = useUpdateRecord()
   const { data: existingRecord, isLoading: isLoadingRecord } = useFetchRecord(id ?? '')
+  const { data: categories = [] } = useCategories()
 
   const [title, setTitle] = useState('')
   const [date, setDate] = useState(toLocalInputValue(new Date().toISOString()))
@@ -44,7 +45,7 @@ export default function RecordForm() {
     if (existingRecord) {
       setTitle(existingRecord.title)
       setDate(toLocalInputValue(existingRecord.date))
-      setCategory(existingRecord.category)
+      setCategory(existingRecord.category ?? '')
       setTags(existingRecord.tags ?? '')
       setDescription(existingRecord.description ?? '')
       setExistingFiles(existingRecord.file ?? [])
@@ -62,12 +63,12 @@ export default function RecordForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!category) return
+    if (!userId) return
 
     const fd = new FormData()
     fd.append('title', title)
     fd.append('date', fromLocalInputValue(date))
-    fd.append('category', category)
+    if (category) fd.append('category', category)
     fd.append('tags', tags)
     fd.append('description', description)
 
@@ -136,13 +137,17 @@ export default function RecordForm() {
             </div>
             <div className="form-field">
               <Label>{t('record.category')}</Label>
-              <Select value={category} onValueChange={setCategory} required>
+              <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger>
-                  <SelectValue placeholder={t('record.category')} />
+                  <SelectValue placeholder={
+                    categories.length === 0
+                      ? t('categories.noCategoryAvailable')
+                      : t('record.category')
+                  } />
                 </SelectTrigger>
                 <SelectContent>
-                  {CATEGORIES.map((c) => (
-                    <SelectItem key={c} value={c}>{t(`category.${c}`)}</SelectItem>
+                  {categories.map((c) => (
+                    <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

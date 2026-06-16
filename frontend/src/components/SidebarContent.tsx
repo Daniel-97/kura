@@ -38,6 +38,10 @@ export default function SidebarContent({ onNavigate }: SidebarContentProps) {
           <span>❤️</span>
           {t('nav.pressure')}
         </NavLink>
+        <NavLink to="/categories" className={navClass} onClick={onNavigate}>
+          <span>🏷️</span>
+          {t('nav.categories')}
+        </NavLink>
       </nav>
 
       <div className="border-t px-3 py-3">

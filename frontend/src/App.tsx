@@ -13,6 +13,7 @@ import Register from '@/pages/Register'
 import Timeline from '@/pages/Timeline'
 import RecordForm from '@/pages/RecordForm'
 import Pressione from '@/pages/Pressione'
+import Categories from '@/pages/Categories'
 
 function AuthGuard({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth()
@@ -80,6 +81,7 @@ export default function App() {
             <Route path="/new" element={<AuthGuard><RecordForm /></AuthGuard>} />
             <Route path="/record/:id/edit" element={<AuthGuard><RecordForm /></AuthGuard>} />
             <Route path="/blood-pressure" element={<AuthGuard><Pressione /></AuthGuard>} />
+            <Route path="/categories" element={<AuthGuard><Categories /></AuthGuard>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

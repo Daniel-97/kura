@@ -60,15 +60,15 @@ export default function Pressione() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{t('pressure.title')}</h1>
+      <h1 className="page-header">{t('pressure.title')}</h1>
 
       <BloodPressureChart measurements={measurements} />
 
       <Card>
         <CardContent className="pt-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
+          <form onSubmit={handleSubmit} className="form">
+            <div className="form-grid-cols-2">
+              <div className="form-field">
                 <Label htmlFor="systolic">{t('pressure.systolicLabel')}</Label>
                 <Input
                   id="systolic" type="number" inputMode="numeric"
@@ -77,7 +77,7 @@ export default function Pressione() {
                   required
                 />
               </div>
-              <div className="space-y-2">
+              <div className="form-field">
                 <Label htmlFor="diastolic">{t('pressure.diastolicLabel')}</Label>
                 <Input
                   id="diastolic" type="number" inputMode="numeric"
@@ -87,7 +87,7 @@ export default function Pressione() {
                 />
               </div>
             </div>
-            <div className="space-y-2">
+            <div className="form-field">
               <Label htmlFor="pulse">{t('pressure.pulseLabel')}</Label>
               <Input
                 id="pulse" type="number" inputMode="numeric"
@@ -95,7 +95,7 @@ export default function Pressione() {
                 value={pulse} onChange={(e) => setPulse(e.target.value)}
               />
             </div>
-            <div className="space-y-2">
+            <div className="form-field">
               <Label htmlFor="measuredAt">{t('pressure.measuredAt')}</Label>
               <Input
                 id="measuredAt" type="datetime-local"
@@ -103,7 +103,7 @@ export default function Pressione() {
                 required
               />
             </div>
-            <div className="space-y-2">
+            <div className="form-field">
               <Label htmlFor="notes">{t('pressure.notes')}</Label>
               <Textarea
                 id="notes" rows={2}
@@ -111,7 +111,7 @@ export default function Pressione() {
                 placeholder={t('pressure.notesPlaceholder')}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={create.isPending}>
+            <Button type="submit" className="btn-block" disabled={create.isPending}>
               {create.isPending ? t('common.loading') : t('pressure.add')}
             </Button>
           </form>
@@ -120,9 +120,9 @@ export default function Pressione() {
 
       <div className="space-y-3">
         {isLoading ? (
-          <p className="text-muted-foreground">{t('common.loading')}</p>
+          <p className="muted-empty">{t('common.loading')}</p>
         ) : measurements.length === 0 ? (
-          <p className="text-muted-foreground">{t('pressure.empty')}</p>
+          <p className="muted-empty">{t('pressure.empty')}</p>
         ) : (
           measurements.map((m) => (
             <Card key={m.id}>

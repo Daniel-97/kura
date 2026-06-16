@@ -34,8 +34,10 @@ flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors duration-
 
 Stato attivo:
 ```
-bg-gradient-to-r from-accent to-accent/80 text-accent-foreground font-medium
+bg-primary text-primary-foreground font-medium
 ```
+
+> Stesso trattamento del bottone "Aggiungi record" (variant default shadcn: `bg-primary text-primary-foreground`). In light mode: blocco scuro + testo chiaro, molto risaltato. In dark mode: blocco chiaro + testo scuro.
 
 Stato hover (inattivo):
 ```

@@ -11,10 +11,10 @@ export default function SidebarContent({ onNavigate }: SidebarContentProps) {
   const { logout } = useAuth()
 
   const navClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
+    `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors duration-200 ${
       isActive
-        ? 'bg-accent text-accent-foreground font-medium'
-        : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+        ? 'bg-primary text-primary-foreground font-medium'
+        : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
     }`
 
   return (
@@ -40,10 +40,10 @@ export default function SidebarContent({ onNavigate }: SidebarContentProps) {
         </NavLink>
       </nav>
 
-      <div className="border-t px-4 py-3">
+      <div className="border-t px-3 py-3">
         <button
           onClick={() => { logout(); onNavigate?.() }}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors duration-200 hover:bg-accent/50 hover:text-foreground"
         >
           <span>↩</span>
           {t('common.logout')}

@@ -113,8 +113,8 @@ export default function RecordForm() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
+          <form onSubmit={handleSubmit} className="form">
+            <div className="form-field">
               <Label htmlFor="title">{t('record.title')}</Label>
               <Input
                 id="title"
@@ -124,7 +124,7 @@ export default function RecordForm() {
                 required
               />
             </div>
-            <div className="space-y-2">
+            <div className="form-field">
               <Label htmlFor="date">{t('record.date')}</Label>
               <Input
                 id="date"
@@ -134,7 +134,7 @@ export default function RecordForm() {
                 required
               />
             </div>
-            <div className="space-y-2">
+            <div className="form-field">
               <Label>{t('record.category')}</Label>
               <Select value={category} onValueChange={setCategory} required>
                 <SelectTrigger>
@@ -147,7 +147,7 @@ export default function RecordForm() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-2">
+            <div className="form-field">
               <Label htmlFor="tags">{t('record.tags')}</Label>
               <Input
                 id="tags"
@@ -156,7 +156,7 @@ export default function RecordForm() {
                 placeholder={t('record.tagsPlaceholder')}
               />
             </div>
-            <div className="space-y-2">
+            <div className="form-field">
               <Label htmlFor="description">{t('record.description')}</Label>
               <Textarea
                 id="description"
@@ -168,7 +168,7 @@ export default function RecordForm() {
             </div>
 
             {isEditMode && existingFiles.length > 0 && (
-              <div className="space-y-2">
+              <div className="form-field">
                 <Label>{t('record.existingFiles')}</Label>
                 <div className="space-y-1">
                   {existingFiles.map((filename) => (
@@ -184,7 +184,7 @@ export default function RecordForm() {
                       <button
                         type="button"
                         onClick={() => toggleRemoveFile(filename)}
-                        className="shrink-0 text-muted-foreground hover:text-destructive"
+                        className="icon-btn-destructive"
                         aria-label={filesToRemove.has(filename) ? 'Ripristina' : 'Rimuovi'}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -195,7 +195,7 @@ export default function RecordForm() {
               </div>
             )}
 
-            <div className="space-y-2">
+            <div className="form-field">
               <Label htmlFor="files">
                 {isEditMode ? t('record.addMoreFiles') : t('record.files')}
               </Label>

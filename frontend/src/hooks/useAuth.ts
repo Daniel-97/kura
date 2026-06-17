@@ -14,6 +14,7 @@ export interface AuthUser {
 function readUser(): AuthUser | null {
   const record = pb.authStore.model
   if (!record) return null
+  // PocketBase SDK types authStore.model as {[key: string]: any} | null; the users collection populates every AuthUser field.
   return record as unknown as AuthUser
 }
 
@@ -28,6 +29,7 @@ export function useAuth() {
     const unsub = pb.authStore.onChange((_token, model) => {
       setIsAuthenticated(pb.authStore.isValid)
       setUserId(model?.id ?? null)
+      // PocketBase SDK types authStore.model as {[key: string]: any} | null; the users collection populates every AuthUser field.
       setUser(model ? (model as unknown as AuthUser) : null)
     })
     return unsub

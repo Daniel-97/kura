@@ -134,5 +134,10 @@
     "deletedSuccess": "Promemoria eliminato",
     "pending": "In attesa",
     "sent": "Inviato"
+  },
+  "userMenu": {
+    "aria": "Apri menu utente",
+    "fallbackName": "Utente",
+    "logout": "Esci"
   }
 }

@@ -134,5 +134,10 @@
     "deletedSuccess": "Reminder deleted",
     "pending": "Pending",
     "sent": "Sent"
+  },
+  "userMenu": {
+    "aria": "Open user menu",
+    "fallbackName": "User",
+    "logout": "Log out"
   }
 }

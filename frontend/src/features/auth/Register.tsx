@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useAuth } from '@/hooks/useAuth'
-import { useRegister } from '@/hooks/useRegister'
+import { useAuth } from './useAuth'
+import { useRegister } from './useRegister'
 
 const ALLOW_REGISTRATION = import.meta.env.VITE_ALLOW_REGISTRATION === 'true'
 

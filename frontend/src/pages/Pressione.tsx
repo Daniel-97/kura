@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent } from '@/components/ui/card'
 import { useBloodPressure, useCreateBloodPressure } from '@/hooks/useBloodPressure'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/features/auth/useAuth'
 import { BloodPressureChart } from '@/components/BloodPressureChart'
 
 function localDatetimeNow(): string {

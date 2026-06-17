@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/features/auth/useAuth'
 import { useCreateReminder } from '@/hooks/useReminders'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

@@ -14,7 +14,7 @@ import CategoryPicker from '@/components/CategoryPicker'
 import {
   useCategories, useCreateCategory, useDeleteCategory, useCategoryCounts,
 } from '@/hooks/useCategories'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/features/auth/useAuth'
 import { CATEGORY_COLORS, SWATCH_CLASSES } from '@/lib/category-styles'
 import { cn } from '@/lib/utils'
 import type { Category, CategoryColor } from '@/lib/types'

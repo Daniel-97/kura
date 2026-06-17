@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useCreateRecord, useUpdateRecord, useFetchRecord } from '@/hooks/useRecords'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/features/auth/useAuth'
 import { useCategories } from '@/hooks/useCategories'
 import { toLocalInputValue, fromLocalInputValue } from '@/lib/utils'
 

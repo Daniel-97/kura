@@ -3,24 +3,19 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { Menu } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Toaster } from '@/components/ui/sonner'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/features/auth/useAuth'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import ThemeToggle from '@/components/ThemeToggle'
 import AppDrawer from '@/components/AppDrawer'
 import UserMenu from '@/components/UserMenu'
 import SidebarContent from '@/components/SidebarContent'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
+import Login from '@/features/auth/Login'
+import Register from '@/features/auth/Register'
+import AuthGuard from '@/features/auth/AuthGuard'
 import Timeline from '@/pages/Timeline'
 import RecordForm from '@/pages/RecordForm'
 import Pressione from '@/pages/Pressione'
 import Categories from '@/pages/Categories'
-
-function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth()
-  if (!isAuthenticated) return <Navigate to="/login" replace />
-  return <>{children}</>
-}
 
 export default function App() {
   const { t } = useTranslation()

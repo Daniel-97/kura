@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils'
 import { pb } from '@/lib/pb'
 import { useDeleteRecord } from '@/hooks/useRecords'
 import { useCategories } from '@/features/categories/useCategories'
-import ReminderList from '@/components/ReminderList'
+import ReminderList from '@/features/reminders/ReminderList'
 import type { HealthRecord } from '@/lib/types'
 
 const IMAGE_EXTS = new Set(['png', 'jpg', 'jpeg', 'webp', 'gif', 'avif'])

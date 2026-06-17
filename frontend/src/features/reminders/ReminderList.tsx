@@ -3,7 +3,7 @@ import { toast } from 'sonner'
 import { Clock, CheckCircle2, Trash2, Plus, Bell } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { useReminders, useDeleteReminder } from '@/hooks/useReminders'
+import { useReminders, useDeleteReminder } from './useReminders'
 import ReminderDialog from './ReminderDialog'
 
 interface Props {

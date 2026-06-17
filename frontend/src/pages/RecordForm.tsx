@@ -14,7 +14,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useCreateRecord, useUpdateRecord, useFetchRecord } from '@/hooks/useRecords'
 import { useAuth } from '@/features/auth/useAuth'
-import { useCategories } from '@/hooks/useCategories'
+import { useCategories } from '@/features/categories/useCategories'
 import { toLocalInputValue, fromLocalInputValue } from '@/lib/utils'
 
 export default function RecordForm() {

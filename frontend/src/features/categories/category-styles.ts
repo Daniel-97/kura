@@ -1,4 +1,4 @@
-import type { CategoryColor } from './types'
+import type { CategoryColor } from '@/lib/types'
 
 export const CATEGORY_COLORS: CategoryColor[] = [
   'indigo', 'sky', 'emerald', 'amber',

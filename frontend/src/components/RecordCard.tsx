@@ -16,7 +16,7 @@ import {
 import { cn } from '@/lib/utils'
 import { pb } from '@/lib/pb'
 import { useDeleteRecord } from '@/hooks/useRecords'
-import { useCategories } from '@/hooks/useCategories'
+import { useCategories } from '@/features/categories/useCategories'
 import ReminderList from '@/components/ReminderList'
 import type { HealthRecord } from '@/lib/types'
 

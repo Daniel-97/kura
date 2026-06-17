@@ -15,7 +15,7 @@ import AuthGuard from '@/features/auth/AuthGuard'
 import Timeline from '@/pages/Timeline'
 import RecordForm from '@/pages/RecordForm'
 import Pressione from '@/features/blood-pressure/Pressione'
-import Categories from '@/pages/Categories'
+import Categories from '@/features/categories/Categories'
 
 export default function App() {
   const { t } = useTranslation()

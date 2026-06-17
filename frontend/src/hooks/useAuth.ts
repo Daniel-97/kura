@@ -1,16 +1,34 @@
 import { useState, useEffect, useCallback } from 'react'
 import { pb } from '@/lib/pb'
 
+export interface AuthUser {
+  id: string
+  email: string
+  name: string
+  avatar: string
+  verified: boolean
+  created: string
+  updated: string
+}
+
+function readUser(): AuthUser | null {
+  const record = pb.authStore.model
+  if (!record) return null
+  return record as unknown as AuthUser
+}
+
 export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(pb.authStore.isValid)
   const [userId, setUserId] = useState<string | null>(
     pb.authStore.isValid ? (pb.authStore.model?.id ?? null) : null
   )
+  const [user, setUser] = useState<AuthUser | null>(readUser())
 
   useEffect(() => {
     const unsub = pb.authStore.onChange((_token, model) => {
       setIsAuthenticated(pb.authStore.isValid)
       setUserId(model?.id ?? null)
+      setUser(model ? (model as unknown as AuthUser) : null)
     })
     return unsub
   }, [])
@@ -23,5 +41,5 @@ export function useAuth() {
     pb.authStore.clear()
   }, [])
 
-  return { isAuthenticated, userId, login, logout }
+  return { isAuthenticated, userId, user, login, logout }
 }

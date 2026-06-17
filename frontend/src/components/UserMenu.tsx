@@ -39,7 +39,7 @@ export default function UserMenu() {
           <span className="text-sm font-medium leading-tight text-foreground">
             {displayName}
           </span>
-          {user?.name?.trim() && email && (
+          {email && email !== displayName && (
             <span className="text-xs font-normal text-muted-foreground leading-tight">
               {email}
             </span>

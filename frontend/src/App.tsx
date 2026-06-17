@@ -9,13 +9,8 @@ import ThemeToggle from '@/components/shell/ThemeToggle'
 import AppDrawer from '@/components/shell/AppDrawer'
 import UserMenu from '@/components/shell/UserMenu'
 import SidebarContent from '@/components/shell/SidebarContent'
-import Login from '@/features/auth/Login'
-import Register from '@/features/auth/Register'
 import AuthGuard from '@/features/auth/AuthGuard'
-import Timeline from '@/features/records/Timeline'
-import RecordForm from '@/features/records/RecordForm'
-import Pressione from '@/features/blood-pressure/Pressione'
-import Categories from '@/features/categories/Categories'
+import { routes } from '@/lib/routes'
 
 export default function App() {
   const { t } = useTranslation()
@@ -73,13 +68,14 @@ export default function App() {
       <main className={`px-4 py-6 ${isAuthenticated ? 'lg:pl-64 lg:pt-20' : 'mx-auto max-w-sm'}`}>
         <div className={isAuthenticated ? 'mx-auto max-w-5xl' : ''}>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/" element={<AuthGuard><Timeline /></AuthGuard>} />
-            <Route path="/new" element={<AuthGuard><RecordForm /></AuthGuard>} />
-            <Route path="/record/:id/edit" element={<AuthGuard><RecordForm /></AuthGuard>} />
-            <Route path="/blood-pressure" element={<AuthGuard><Pressione /></AuthGuard>} />
-            <Route path="/categories" element={<AuthGuard><Categories /></AuthGuard>} />
+            {routes.map(({ path, component: Component, requiresAuth }) => {
+              const element = requiresAuth ? (
+                <AuthGuard><Component /></AuthGuard>
+              ) : (
+                <Component />
+              )
+              return <Route key={path} path={path} element={element} />
+            })}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

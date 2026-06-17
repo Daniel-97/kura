@@ -37,7 +37,7 @@ export default function App() {
         <>
           {/* Mobile header */}
           <header className="sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:hidden">
-            <div className="mx-auto flex h-14 max-w-2xl items-center justify-between px-4">
+            <div className="flex h-14 items-center justify-between px-3">
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setDrawerOpen(true)}

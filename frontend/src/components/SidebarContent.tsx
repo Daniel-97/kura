@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '@/hooks/useAuth'
 
 interface SidebarContentProps {
   onNavigate?: () => void
@@ -8,7 +7,6 @@ interface SidebarContentProps {
 
 export default function SidebarContent({ onNavigate }: SidebarContentProps) {
   const { t } = useTranslation()
-  const { logout } = useAuth()
 
   const navClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors duration-200 ${
@@ -43,16 +41,6 @@ export default function SidebarContent({ onNavigate }: SidebarContentProps) {
           {t('nav.categories')}
         </NavLink>
       </nav>
-
-      <div className="border-t px-3 py-3">
-        <button
-          onClick={() => { logout(); onNavigate?.() }}
-          className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors duration-200 hover:bg-accent/50 hover:text-foreground"
-        >
-          <span>↩</span>
-          {t('common.logout')}
-        </button>
-      </div>
     </>
   )
 }

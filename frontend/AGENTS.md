@@ -21,19 +21,60 @@ Guida allo stack e alle convenzioni del frontend di Kura per agenti AI e svilupp
 
 ## Struttura directory
 
+Layout feature-based: ogni feature raccoglie i propri componenti, hook, tipi e utils in una cartella dedicata; la shell dell'app e i componenti UI generici vivono sotto `components/`.
+
 ```
 frontend/src/
-├── components/        # Componenti riutilizzabili
+├── components/
 │   ├── ui/            # Componenti shadcn/ui (generati, non modificare manualmente)
-│   ├── AppDrawer.tsx  # Drawer di navigazione laterale
-│   ├── LanguageSwitcher.tsx
-│   ├── RecordCard.tsx
-│   ├── TagFilter.tsx
-│   └── ThemeToggle.tsx
-├── hooks/             # Custom hooks React
-│   ├── useAuth.ts     # Autenticazione PocketBase
-│   ├── useBloodPressure.ts
-│   └── useRecords.ts
+│   │   ├── badge.tsx
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── chart.tsx
+│   │   ├── dialog.tsx
+│   │   ├── dropdown-menu.tsx
+│   │   ├── input.tsx
+│   │   ├── label.tsx
+│   │   ├── popover.tsx
+│   │   ├── select.tsx
+│   │   ├── sonner.tsx
+│   │   ├── tabs.tsx
+│   │   └── textarea.tsx
+│   └── shell/         # App chrome (header, sidebar, drawer, switcher, toggle, user menu)
+│       ├── AppDrawer.tsx       # Drawer di navigazione laterale
+│       ├── LanguageSwitcher.tsx
+│       ├── SidebarContent.tsx
+│       ├── ThemeToggle.tsx
+│       └── UserMenu.tsx
+├── features/
+│   ├── auth/          # Login, Register, AuthGuard, useAuth, useRegister
+│   │   ├── AuthGuard.tsx
+│   │   ├── Login.tsx
+│   │   ├── Register.tsx
+│   │   ├── useAuth.ts          # Autenticazione PocketBase
+│   │   └── useRegister.ts
+│   ├── blood-pressure/         # Diario pressione arteriosa
+│   │   ├── BloodPressureChart.tsx
+│   │   ├── Pressione.tsx
+│   │   ├── bloodPressureUtils.ts
+│   │   ├── bloodPressureUtils.test.ts
+│   │   └── useBloodPressure.ts
+│   ├── categories/             # Gestione categorie
+│   │   ├── Categories.tsx
+│   │   ├── CategoryPicker.tsx
+│   │   ├── category-styles.ts
+│   │   ├── category-styles.test.ts
+│   │   └── useCategories.ts
+│   ├── reminders/              # Promemoria
+│   │   ├── ReminderDialog.tsx
+│   │   ├── ReminderList.tsx
+│   │   └── useReminders.ts
+│   └── records/                # Referti: lista, form, card, filtri
+│       ├── RecordCard.tsx
+│       ├── RecordForm.tsx      # Creazione/modifica referti
+│       ├── TagFilter.tsx
+│       ├── Timeline.tsx        # Lista referti con filtri
+│       └── useRecords.ts
 ├── i18n/
 │   ├── index.ts       # Configurazione i18next
 │   └── locales/
@@ -42,13 +83,9 @@ frontend/src/
 ├── lib/
 │   ├── pb.ts          # Istanza singleton PocketBase
 │   ├── types.ts       # Tipi TypeScript condivisi
-│   └── utils.ts       # Utility (cn helper)
-├── pages/             # Componenti pagina (route)
-│   ├── Login.tsx
-│   ├── Pressione.tsx  # Diario pressione arteriosa
-│   ├── RecordForm.tsx # Creazione/modifica referti
-│   └── Timeline.tsx   # Lista referti con filtri
-├── App.tsx            # Shell app: header, routing, drawer
+│   ├── utils.ts       # Utility (cn helper, date helpers)
+│   └── routes.ts      # Tabella route tipizzata (AppRoute + routes)
+├── App.tsx            # Shell app: header, routing, drawer (consuma lib/routes.ts)
 ├── index.css          # Variabili CSS shadcn/ui + base Tailwind
 └── main.tsx           # Entry point React + provider tree
 ```
@@ -72,7 +109,7 @@ npm run lint        # alias di tsc --noEmit
 ## Convenzioni
 
 ### Path alias
-`@/` punta a `frontend/src/`. Usare sempre `@/` invece di path relativi.
+`@/` punta a `frontend/src/`. **Import within-feature** (componenti, hook, tipi, utils della stessa feature) usano path relativi (`./useAuth`, `../useRecords`). **Import cross-feature, shell, ui, lib condivisi, i18n** usano `@/` (es. `@/features/auth/useAuth`, `@/components/ui/button`, `@/lib/pb`).
 
 ### Variabili CSS tema
 Non usare mai colori Tailwind hardcoded (`bg-white`, `text-gray-900`).

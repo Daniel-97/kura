@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/useAuth'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import ThemeToggle from '@/components/ThemeToggle'
 import AppDrawer from '@/components/AppDrawer'
+import UserMenu from '@/components/UserMenu'
 import SidebarContent from '@/components/SidebarContent'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
@@ -52,6 +53,7 @@ export default function App() {
               <div className="flex items-center gap-1">
                 <LanguageSwitcher />
                 <ThemeToggle />
+                <UserMenu />
               </div>
             </div>
           </header>
@@ -68,6 +70,7 @@ export default function App() {
           <div className="hidden lg:flex lg:fixed lg:top-0 lg:left-64 lg:right-0 lg:h-14 lg:items-center lg:justify-end lg:border-b lg:bg-background/95 lg:px-6 lg:gap-1 lg:z-30">
             <LanguageSwitcher />
             <ThemeToggle />
+            <UserMenu />
           </div>
         </>
       )}

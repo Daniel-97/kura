@@ -14,7 +14,7 @@ import Register from '@/features/auth/Register'
 import AuthGuard from '@/features/auth/AuthGuard'
 import Timeline from '@/pages/Timeline'
 import RecordForm from '@/pages/RecordForm'
-import Pressione from '@/pages/Pressione'
+import Pressione from '@/features/blood-pressure/Pressione'
 import Categories from '@/pages/Categories'
 
 export default function App() {

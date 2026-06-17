@@ -6,9 +6,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent } from '@/components/ui/card'
-import { useBloodPressure, useCreateBloodPressure } from '@/hooks/useBloodPressure'
+import { useBloodPressure, useCreateBloodPressure } from './useBloodPressure'
 import { useAuth } from '@/features/auth/useAuth'
-import { BloodPressureChart } from '@/components/BloodPressureChart'
+import { BloodPressureChart } from './BloodPressureChart'
 
 function localDatetimeNow(): string {
   const d = new Date()

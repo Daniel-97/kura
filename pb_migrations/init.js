@@ -32,6 +32,8 @@ migrate((app) => {
   }))
 
   // ── records ────────────────────────────────────────────────────────
+  const categoriesCol = app.findCollectionByNameOrId("categories")
+
   createIfMissing(() => new Collection({
     name: "records",
     type: "base",
@@ -41,7 +43,7 @@ migrate((app) => {
       { type: "text",     name: "description" },
       {
         type: "relation", name: "category",   required: false,
-        collectionId: "categories",
+        collectionId: categoriesCol.id,
         maxSelect: 1,
         cascadeDelete: false,
       },

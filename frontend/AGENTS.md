@@ -129,7 +129,7 @@ Il proxy Vite (`/api`, `/_`) redirige al backend su `http://127.0.0.1:8090` in s
 In produzione il frontend è servito direttamente da PocketBase (build in `pb_public/`).
 
 ### Routing
-Usa `HashRouter` — le route hanno prefisso `#/` nell'URL. Passare i path senza `#` a `<Link>` e `<NavLink>` (es. `to="/"`, `to="/pressione"`).
+Usa `HashRouter` — le route hanno prefisso `#/` nell'URL. Passare i path senza `#` a `<Link>` e `<NavLink>` (es. `to="/"`, `to="/blood-pressure"`).
 
 ## Backend (PocketBase)
 

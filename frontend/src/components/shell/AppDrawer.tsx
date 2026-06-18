@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import SidebarContent from '@/components/SidebarContent'
+import SidebarContent from './SidebarContent'
 
 interface AppDrawerProps {
   open: boolean

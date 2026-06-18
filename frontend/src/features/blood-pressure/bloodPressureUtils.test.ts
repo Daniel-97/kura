@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { filterByPreset, toChartData } from './bloodPressureUtils'
-import type { BloodPressureRecord } from './types'
+import type { BloodPressureRecord } from '@/lib/types'
 
 const make = (overrides: Partial<BloodPressureRecord> = {}): BloodPressureRecord => ({
   id: '1', systolic: 120, diastolic: 80, pulse: 70,

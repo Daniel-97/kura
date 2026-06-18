@@ -12,7 +12,7 @@ import type { BloodPressureRecord } from '@/lib/types'
 import {
   filterByPreset, toChartData,
   type ChartPoint, type ChartPreset,
-} from '@/lib/bloodPressureUtils'
+} from './bloodPressureUtils'
 
 const PRESETS: { key: ChartPreset; label: string }[] = [
   { key: '7d',  label: '7gg'  },

@@ -6,7 +6,7 @@
   - Schema defined in `pb_migrations/` (single idempotent `init.js`)
   - Data stored in `pb_data/` — **never commit, never read this directory**
   - File storage handled by PocketBase (files served from `pb_data/storage/`)
-- **Frontend**: React 18 + TypeScript strict, built with Vite. Source in `frontend/src/`. Build output → `pb_public/` (git-ignored).
+- **Frontend**: React 18 + TypeScript strict, built with Vite. Source in `frontend/src/` (feature-based layout: `features/<feature>/` co-locates each feature's code; `components/shell/` holds app chrome; `lib/routes.ts` is the single source of truth for routing). Build output → `pb_public/` (git-ignored).
 - **Serving**: In production, PocketBase serves `pb_public/` at `/`. In dev, Vite (port 5173) proxies `/api` and `/_` to PocketBase (port 8090).
 - **Docker**: Optional deploy path. `Dockerfile` multi-stage (Node builder → Alpine runtime). Dev without Docker is equally supported.
 
@@ -48,6 +48,10 @@ The admin dashboard can be used freely for ad-hoc inspection but is **not** a sc
 | Variable names, translation keys, and code comments in English | UI strings only in locale JSON files |
 | `pb.autoCancellation(false)` is set in `lib/pb.ts` | Prevents react-query from triggering abort errors on rapid re-renders |
 | Repeated UI styles live in `frontend/src/index.css` under `@layer components` (built with `@apply`). Pages and components reference these classes instead of repeating the same Tailwind chains. | Single source of truth for layout patterns; keeps page markup readable. |
+| Feature-based folder structure: each feature co-locates its pages, components, hooks, utils, and tests in `frontend/src/features/<feature>/` | Co-location makes feature code easy to find and maintain |
+| Within-feature imports use relative paths (`./useAuth`); cross-feature, shell, ui, lib-shared, i18n imports use `@/` | Clear dependency direction: within-feature is cohesive, cross-feature is explicit |
+| App chrome (header, sidebar, drawer, switchers, toggle, user menu) lives in `frontend/src/components/shell/` | Separates navigation/chrome from feature components |
+| Route table is a single source of truth in `frontend/src/lib/routes.ts` (`AppRoute` interface + `routes` array); `App.tsx` consumes it via `.map()` | Adding a route = one line in `routes.ts`, not editing JSX in `App.tsx` |
 
 ## PocketBase Version
 

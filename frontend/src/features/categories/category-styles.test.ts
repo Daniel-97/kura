@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { getCategoryStyles, CATEGORY_COLORS, SWATCH_CLASSES } from './category-styles'
-import type { CategoryColor } from './types'
+import type { CategoryColor } from '@/lib/types'
 
 describe('CATEGORY_COLORS', () => {
   it('contains 8 distinct colors', () => {

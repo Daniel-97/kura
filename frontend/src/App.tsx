@@ -3,24 +3,14 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { Menu } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Toaster } from '@/components/ui/sonner'
-import { useAuth } from '@/hooks/useAuth'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
-import ThemeToggle from '@/components/ThemeToggle'
-import AppDrawer from '@/components/AppDrawer'
-import UserMenu from '@/components/UserMenu'
-import SidebarContent from '@/components/SidebarContent'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
-import Timeline from '@/pages/Timeline'
-import RecordForm from '@/pages/RecordForm'
-import Pressione from '@/pages/Pressione'
-import Categories from '@/pages/Categories'
-
-function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth()
-  if (!isAuthenticated) return <Navigate to="/login" replace />
-  return <>{children}</>
-}
+import { useAuth } from '@/features/auth/useAuth'
+import LanguageSwitcher from '@/components/shell/LanguageSwitcher'
+import ThemeToggle from '@/components/shell/ThemeToggle'
+import AppDrawer from '@/components/shell/AppDrawer'
+import UserMenu from '@/components/shell/UserMenu'
+import SidebarContent from '@/components/shell/SidebarContent'
+import AuthGuard from '@/features/auth/AuthGuard'
+import { routes } from '@/lib/routes'
 
 export default function App() {
   const { t } = useTranslation()
@@ -78,13 +68,14 @@ export default function App() {
       <main className={`px-4 py-6 ${isAuthenticated ? 'lg:pl-64 lg:pt-20' : 'mx-auto max-w-sm'}`}>
         <div className={isAuthenticated ? 'mx-auto max-w-5xl' : ''}>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/" element={<AuthGuard><Timeline /></AuthGuard>} />
-            <Route path="/new" element={<AuthGuard><RecordForm /></AuthGuard>} />
-            <Route path="/record/:id/edit" element={<AuthGuard><RecordForm /></AuthGuard>} />
-            <Route path="/blood-pressure" element={<AuthGuard><Pressione /></AuthGuard>} />
-            <Route path="/categories" element={<AuthGuard><Categories /></AuthGuard>} />
+            {routes.map(({ path, component: Component, requiresAuth }) => {
+              const element = requiresAuth ? (
+                <AuthGuard><Component /></AuthGuard>
+              ) : (
+                <Component />
+              )
+              return <Route key={path} path={path} element={element} />
+            })}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

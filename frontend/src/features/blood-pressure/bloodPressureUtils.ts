@@ -1,4 +1,4 @@
-import type { BloodPressureRecord } from './types'
+import type { BloodPressureRecord } from '@/lib/types'
 
 export type ChartPreset = '7d' | '30d' | '3m' | 'all'
 

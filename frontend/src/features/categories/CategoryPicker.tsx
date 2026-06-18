@@ -1,5 +1,5 @@
 import type { CategoryColor } from '@/lib/types'
-import { CATEGORY_COLORS, SWATCH_CLASSES } from '@/lib/category-styles'
+import { CATEGORY_COLORS, SWATCH_CLASSES } from './category-styles'
 import { cn } from '@/lib/utils'
 
 interface CategoryPickerProps {

@@ -10,12 +10,12 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
   DialogDescription, DialogFooter, DialogClose,
 } from '@/components/ui/dialog'
-import CategoryPicker from '@/components/CategoryPicker'
+import CategoryPicker from './CategoryPicker'
 import {
   useCategories, useCreateCategory, useDeleteCategory, useCategoryCounts,
-} from '@/hooks/useCategories'
-import { useAuth } from '@/hooks/useAuth'
-import { CATEGORY_COLORS, SWATCH_CLASSES } from '@/lib/category-styles'
+} from './useCategories'
+import { useAuth } from '@/features/auth/useAuth'
+import { CATEGORY_COLORS, SWATCH_CLASSES } from './category-styles'
 import { cn } from '@/lib/utils'
 import type { Category, CategoryColor } from '@/lib/types'
 

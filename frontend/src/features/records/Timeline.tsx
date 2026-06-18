@@ -8,11 +8,11 @@ import {
   SelectTrigger, SelectValue,
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-import { useRecords } from '@/hooks/useRecords'
-import { useCategories } from '@/hooks/useCategories'
-import { getCategoryStyles } from '@/lib/category-styles'
-import RecordCard from '@/components/RecordCard'
-import TagFilter from '@/components/TagFilter'
+import { useRecords } from './useRecords'
+import { useCategories } from '@/features/categories/useCategories'
+import { getCategoryStyles } from '@/features/categories/category-styles'
+import RecordCard from './RecordCard'
+import TagFilter from './TagFilter'
 import type { HealthRecord } from '@/lib/types'
 
 function groupByYearMonth(records: HealthRecord[]): [string, HealthRecord[]][] {

@@ -13,11 +13,15 @@
 ## Starting the Development Environment
 
 ```bash
-./scripts/setup.sh            # download pinned PocketBase binary (once)
-cd frontend && npm install    # install frontend deps (once)
+make setup    # once: download pinned PocketBase binary + install frontend deps
+make dev      # backend on :8090 + frontend on :5173 (HMR, API proxy); Ctrl+C stops both
+```
 
-./pocketbase serve            # backend on :8090, runs migrations automatically
-cd frontend && npm run dev    # frontend on :5173 with HMR and API proxy
+Run `make help` for all targets (`backend`, `frontend`, `check`, `docker-up`, …). The raw commands still work:
+
+```bash
+./pocketbase serve            # backend only, runs migrations automatically
+cd frontend && npm run dev    # frontend only
 ```
 
 Admin dashboard: http://localhost:8090/_/
@@ -34,6 +38,10 @@ If a schema change is needed:
 5. Every change to `types.ts` is a change to the public contract — update the hook return types accordingly
 
 The admin dashboard can be used freely for ad-hoc inspection but is **not** a schema source of truth.
+
+## Git Conventions
+
+- **Always commit using the locally configured `git config user.name` and `git config user.email`. Never override them** (no `--author`, no `-c user.name=...`, no editing the identity config).
 
 ## Code Conventions
 

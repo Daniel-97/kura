@@ -7,31 +7,37 @@ Kura è un'applicazione web self-hosted per gestire il proprio libretto sanitari
 - **Node.js LTS** (v20+) per sviluppo e build locale
 - **Docker** + **Docker Compose** — opzionale, per il deploy containerizzato
 
-## Setup sviluppo locale
-
-```bash
-# 1. Scarica il binario PocketBase
-./scripts/setup.sh
-
-# 2. Installa le dipendenze frontend
-cd frontend && npm install && cd ..
-```
-
 ## Sviluppo locale
 
-Avvia due processi in parallelo:
+Il workflow è gestito da un `Makefile` (`make help` per l'elenco completo dei target):
 
 ```bash
-# Terminale 1 — backend PocketBase
-./pocketbase serve
-
-# Terminale 2 — frontend con hot reload
-cd frontend && npm run dev
+make setup   # prima volta: scarica il binario PocketBase + npm install
+make dev     # avvia backend (:8090) e frontend (:5173) insieme; Ctrl+C ferma entrambi
 ```
 
 Apri http://localhost:5173. Il dev server fa proxy delle richieste `/api` e `/_` verso PocketBase (porta 8090).
 
 L'admin UI di PocketBase è raggiungibile su http://localhost:8090/_/.
+
+Altri target utili:
+
+```bash
+make backend      # solo PocketBase
+make frontend     # solo Vite dev server
+make check        # type-check + test
+make build        # build di produzione → pb_public/
+```
+
+### Troubleshooting: `attempt to write a readonly database`
+
+Succede quando i file in `pb_data/` appartengono a `root` (tipicamente perché il container Docker è stato eseguito come root in passato). Sistema con:
+
+```bash
+make fix-perms   # richiede sudo
+```
+
+Il `docker-compose.yml` ora esegue il container come il tuo utente (`KURA_UID`/`KURA_GID`, default `1000:1000`), quindi il problema non si ripresenta.
 
 ## Build e deploy manuale (senza Docker)
 
@@ -51,12 +57,13 @@ PocketBase serve automaticamente il frontend da `pb_public/`.
 ## Deploy con Docker
 
 ```bash
-docker compose up -d
+make docker-up    # equivale a: KURA_UID=$(id -u) KURA_GID=$(id -g) docker compose up -d --build
 ```
 
 - Dati persistenti in `./pb_data/` (bind mount automatico)
-- Per aggiornare: `docker compose up -d --build`
-- Per i log: `docker compose logs -f kura`
+- Il container gira come il tuo utente (non root), così `pb_data/` resta scrivibile anche fuori da Docker. Se lanci `docker compose` a mano con un utente con UID diverso da 1000, esporta `KURA_UID` e `KURA_GID`.
+- Per fermare: `make docker-down`
+- Per i log: `make docker-logs`
 
 ## Primo avvio: crea l'admin e l'utente
 

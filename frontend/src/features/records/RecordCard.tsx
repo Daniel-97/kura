@@ -16,6 +16,7 @@ import {
 import { cn } from '@/lib/utils'
 import { pb } from '@/lib/pb'
 import { useDeleteRecord } from './useRecords'
+import { useFileToken } from './fileToken'
 import { useCategories } from '@/features/categories/useCategories'
 import ReminderList from '@/features/reminders/ReminderList'
 import type { HealthRecord } from '@/lib/types'
@@ -35,6 +36,7 @@ export default function RecordCard({ record, className }: Props) {
   const [showConfirm, setShowConfirm] = useState(false)
 
   const deleteRecord = useDeleteRecord()
+  const { data: fileToken } = useFileToken()
   const { data: categories = [] } = useCategories()
   const category = categories.find((c) => c.id === record.category)
 
@@ -148,7 +150,11 @@ export default function RecordCard({ record, className }: Props) {
                 {record.file.map((filename) => {
                   const ext = filename.split('.').pop()?.toLowerCase()
                   const isImage = ext ? IMAGE_EXTS.has(ext) : false
-                  const url = pb.files.getUrl(record, filename)
+                  // Files are protected: without a token the URL would 404,
+                  // so the tile stays non-clickable until the token arrives.
+                  const url = fileToken
+                    ? pb.files.getUrl(record, filename, { token: fileToken })
+                    : undefined
                   return (
                     <a
                       key={filename}
@@ -158,7 +164,7 @@ export default function RecordCard({ record, className }: Props) {
                       title={filename}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      {isImage ? (
+                      {isImage && url ? (
                         <img
                           src={url}
                           alt={filename}

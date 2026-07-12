@@ -49,7 +49,10 @@ migrate((app) => {
       },
       { type: "text",     name: "tags" },
       {
+        // Protected: medical attachments require a short-lived file token,
+        // never a public URL.
         type: "file",     name: "file",
+        protected: true,
         maxSelect: 5,
         mimeTypes: [
           "application/pdf",

@@ -11,8 +11,7 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] **Bug email promemoria: mostra l'ID categoria invece del nome** *(fatto: la relazione viene risolta con `findRecordById("categories", ...)`; riga "Categoria" omessa se il referto non ha categoria)*
 
-- [ ] **Email promemoria: escaping HTML mancante**
-  Titolo, descrizione e messaggio vengono interpolati nell'HTML dell'email senza escaping (`pb_hooks/reminders.js`). Fix: escapare i campi utente prima dell'interpolazione.
+- [x] **Email promemoria: escaping HTML mancante** *(fatto: `escapeHtml` su titolo, categoria, descrizione e messaggio nella parte HTML; il text/plain resta volutamente crudo. Corretto anche il `catch` del dispatcher che usava `reminder.getId()` — inesistente nel JSVM — e quindi mascherava gli errori reali. Nota JSVM: gli handler girano in VM separate, gli helper vanno definiti dentro il callback)*
 
 - [ ] **Email promemoria: lingua hardcoded it-IT**
   Le date nell'email sono formattate con locale `it-IT` fisso anche se l'app è bilingue (it/en). Nota: verificato che il JSVM (Goja) **ignora** locale e opzioni di `toLocaleDateString` — l'email oggi mostra `07/20/2026 alle 12:30:00`. Fix: formattare le date manualmente (niente Intl negli hook) e usare la lingua preferita dell'utente.

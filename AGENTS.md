@@ -42,6 +42,7 @@ The admin dashboard can be used freely for ad-hoc inspection but is **not** a sc
 ## Git Conventions
 
 - **Always commit using the locally configured `git config user.name` and `git config user.email`. Never override them** (no `--author`, no `-c user.name=...`, no editing the identity config).
+- **No `Co-Authored-By` trailers** (or similar AI-attribution lines) in commit messages.
 
 ## Code Conventions
 

@@ -2,13 +2,13 @@
 onBootstrap((e) => {
   e.next()
 
-  const host = $os.getEnv("SMTP_HOST")
-  const port = parseInt($os.getEnv("SMTP_PORT") || "587")
-  const username = $os.getEnv("SMTP_USERNAME")
-  const password = $os.getEnv("SMTP_PASSWORD")
-  const fromAddress = $os.getEnv("SMTP_FROM")
-  const fromName = $os.getEnv("SMTP_FROM_NAME") || "Kura"
-  const appUrl = $os.getEnv("APP_URL") || "http://localhost:8090"
+  const host = $os.getenv("SMTP_HOST")
+  const port = parseInt($os.getenv("SMTP_PORT") || "587")
+  const username = $os.getenv("SMTP_USERNAME")
+  const password = $os.getenv("SMTP_PASSWORD")
+  const fromAddress = $os.getenv("SMTP_FROM")
+  const fromName = $os.getenv("SMTP_FROM_NAME") || "Kura"
+  const appUrl = $os.getenv("APP_URL") || "http://localhost:8090"
 
   if (host && username && password && fromAddress) {
     const settings = $app.settings()

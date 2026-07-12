@@ -7,17 +7,17 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 - [x] **Proteggere gli allegati dei referti** *(fatto: `protected: true` sul campo `file` in `init.js` + file token in `RecordCard` via hook `useFileToken`; le istanze esistenti richiedono wipe di `pb_data/` o toggle manuale dal dashboard)*
   Il campo `file` della collezione `records` (`pb_migrations/init.js`) non ha `protected: true`: in PocketBase i file sono pubblici di default, quindi chiunque conosca l'URL può scaricare un referto senza autenticazione. Fix: marcare il campo come protetto e usare i file token (`pb.files.getToken()`) nel frontend per generare gli URL di download.
 
-- [ ] **Bug email promemoria: mostra l'ID categoria invece del nome**
-  In `pb_hooks/reminders.js` `record.get("category")` restituisce l'ID della relazione, non il nome: l'email mostra "Categoria: abc123xyz". Fix: risolvere la relazione con `$app.findRecordById("categories", ...)` e usare `name`.
+- [x] **Hook PocketBase mai caricati** *(scoperto e corretto durante il fix dei promemoria: PocketBase carica solo `pb_hooks/*.pb.js`, i file erano `.js` — promemoria, SMTP da env e toggle registrazione non sono mai stati attivi. Rinominati in `.pb.js`; corretto anche `$os.getEnv` → `$os.getenv` e il filtro `sent_at` che, essendo un oggetto DateTime truthy anche da vuoto, scartava tutti i promemoria)*
+
+- [x] **Bug email promemoria: mostra l'ID categoria invece del nome** *(fatto: la relazione viene risolta con `findRecordById("categories", ...)`; riga "Categoria" omessa se il referto non ha categoria)*
 
 - [ ] **Email promemoria: escaping HTML mancante**
   Titolo, descrizione e messaggio vengono interpolati nell'HTML dell'email senza escaping (`pb_hooks/reminders.js`). Fix: escapare i campi utente prima dell'interpolazione.
 
 - [ ] **Email promemoria: lingua hardcoded it-IT**
-  Le date nell'email sono formattate con locale `it-IT` fisso anche se l'app è bilingue (it/en). Fix: salvare la lingua preferita sull'utente (o dedurla) e usarla per la formattazione.
+  Le date nell'email sono formattate con locale `it-IT` fisso anche se l'app è bilingue (it/en). Nota: verificato che il JSVM (Goja) **ignora** locale e opzioni di `toLocaleDateString` — l'email oggi mostra `07/20/2026 alle 12:30:00`. Fix: formattare le date manualmente (niente Intl negli hook) e usare la lingua preferita dell'utente.
 
-- [ ] **Query promemoria inefficiente nel cron**
-  Il dispatcher (`pb_hooks/reminders.js`) carica *tutti* i reminder ogni minuto con `findAllRecords` e filtra in JS. Fix: filtrare lato DB, es. `$app.findRecordsByFilter("reminders", "sent_at = '' && fire_at <= {:now}", ...)`.
+- [x] **Query promemoria inefficiente nel cron** *(fatto insieme al fix del filtro `sent_at`: il dispatcher ora usa `findRecordsByFilter("reminders", "sent_at = '' && fire_at <= {:now}", ...)` — selezione lato DB)*
 
 - [ ] **Filtri record non sanitizzati**
   `buildFilter` in `frontend/src/features/records/useRecords.ts` interpola `category` e `tag` direttamente nella stringa filtro. Fix: usare `pb.filter()` del SDK per l'interpolazione sicura.

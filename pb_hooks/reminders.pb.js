@@ -4,19 +4,31 @@
 cronAdd("reminders-dispatcher", "*/1 * * * *", () => {
   const now = new Date()
 
-  const all = $app.findAllRecords("reminders")
-  const pending = all.filter((r) => !r.get("sent_at"))
+  // Filter DB-side: an empty date field comes back as a truthy DateTime
+  // object in JS, so a `!r.get("sent_at")` check would never match.
+  const pending = $app.findRecordsByFilter(
+    "reminders",
+    "sent_at = '' && fire_at <= {:now}",
+    "fire_at", 0, 0,
+    { now: now.toISOString().replace("T", " ") },
+  )
 
   for (const reminder of pending) {
-    const fireAt = new Date(reminder.get("fire_at"))
-    if (fireAt > now) continue
-
     try {
       const record = $app.findRecordById("records", reminder.get("record"))
       const user = $app.findRecordById("users", reminder.get("user"))
       if (!record || !user) continue
 
-      const category = record.get("category") || ""
+      // record.get("category") is the relation id; resolve it to the name.
+      let category = ""
+      const categoryId = record.get("category")
+      if (categoryId) {
+        try {
+          category = $app.findRecordById("categories", categoryId).get("name")
+        } catch (_) {
+          // category was deleted; leave the label empty
+        }
+      }
       const rawDate = new Date(record.get("date"))
       const dateStr = rawDate.toLocaleDateString("it-IT", {
         day: "numeric", month: "long", year: "numeric",
@@ -30,7 +42,7 @@ cronAdd("reminders-dispatcher", "*/1 * * * *", () => {
       const subject = `[Kura] Promemoria: ${record.get("title")}`
       const html = [
         `<h1>${record.get("title")}</h1>`,
-        `<p><strong>Categoria:</strong> ${category}</p>`,
+        category ? `<p><strong>Categoria:</strong> ${category}</p>` : "",
         `<p><strong>Data:</strong> ${dateStr} alle ${timeStr}</p>`,
         description ? `<p>${description}</p>` : "",
         reminderMsg ? `<p><em>${reminderMsg}</em></p>` : "",
@@ -42,7 +54,11 @@ cronAdd("reminders-dispatcher", "*/1 * * * *", () => {
         to: [{ address: user.get("email") }],
         subject: subject,
         html: html,
-        text: `${record.get("title")}\nCategoria: ${category}\nData: ${dateStr} alle ${timeStr}`,
+        text: [
+          record.get("title"),
+          category ? `Categoria: ${category}` : "",
+          `Data: ${dateStr} alle ${timeStr}`,
+        ].filter(Boolean).join("\n"),
       }
 
       $app.newMailClient().send(message)

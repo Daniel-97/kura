@@ -7,6 +7,8 @@ export interface AuthUser {
   name: string
   avatar: string
   verified: boolean
+  /** Preferred UI/email language ('it' | 'en'), empty until first switch */
+  language: string
   created: string
   updated: string
 }

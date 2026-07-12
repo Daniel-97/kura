@@ -129,6 +129,14 @@ migrate((app) => {
     })
   })
 
+  // ── users extras ───────────────────────────────────────────────────
+  // Preferred UI/email language; empty means the Italian default.
+  if (!usersCol.fields.getByName("language")) {
+    usersCol.fields.add(new Field({
+      type: "select", name: "language", maxSelect: 1, values: ["it", "en"],
+    }))
+  }
+
   // ── Disable user registration (default off; ALLOW_REGISTRATION env overrides at boot) ──
   usersCol.createRule = null
   app.save(usersCol)

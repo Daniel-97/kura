@@ -13,8 +13,7 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] **Email promemoria: escaping HTML mancante** *(fatto: `escapeHtml` su titolo, categoria, descrizione e messaggio nella parte HTML; il text/plain resta volutamente crudo. Corretto anche il `catch` del dispatcher che usava `reminder.getId()` — inesistente nel JSVM — e quindi mascherava gli errori reali. Nota JSVM: gli handler girano in VM separate, gli helper vanno definiti dentro il callback)*
 
-- [ ] **Email promemoria: lingua hardcoded it-IT**
-  Le date nell'email sono formattate con locale `it-IT` fisso anche se l'app è bilingue (it/en). Nota: verificato che il JSVM (Goja) **ignora** locale e opzioni di `toLocaleDateString` — l'email oggi mostra `07/20/2026 alle 12:30:00`. Fix: formattare le date manualmente (niente Intl negli hook) e usare la lingua preferita dell'utente.
+- [x] **Email promemoria: lingua hardcoded it-IT** *(fatto: campo `language` (select it/en) su `users` in `init.js`; il LanguageSwitcher persiste la scelta sul profilo e al login la lingua salvata viene applicata; email tradotta it/en con date formattate a mano — il JSVM ignora `toLocaleDateString`. Le istanze esistenti richiedono wipe di `pb_data/` o aggiunta manuale del campo dal dashboard; senza campo l'email resta in italiano. Nota: l'orario nell'email usa il fuso del server)*
 
 - [x] **Query promemoria inefficiente nel cron** *(fatto insieme al fix del filtro `sent_at`: il dispatcher ora usa `findRecordsByFilter("reminders", "sent_at = '' && fire_at <= {:now}", ...)` — selezione lato DB)*
 

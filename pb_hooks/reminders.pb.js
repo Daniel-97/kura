@@ -4,8 +4,8 @@
 cronAdd("reminders-dispatcher", "*/1 * * * *", () => {
   const now = new Date()
 
-  // NB: defined inside the callback on purpose — jsvm handlers run in
-  // separate executor VMs without access to file-level bindings.
+  // NB: everything is defined inside the callback on purpose — jsvm
+  // handlers run in separate executor VMs without file-level bindings.
   //
   // User-provided fields end up inside the email HTML: escape them so
   // markup in titles/notes can't inject content into the message.
@@ -15,6 +15,28 @@ cronAdd("reminders-dispatcher", "*/1 * * * *", () => {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;")
+
+  // Goja has no ICU: toLocaleDateString ignores locale and options, so
+  // dates are formatted by hand in the user's preferred language.
+  const LOCALES = {
+    it: {
+      subject: "Promemoria", category: "Categoria", date: "Data",
+      footer: "Kura — Libretto sanitario personale",
+      months: ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
+               "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"],
+      formatDate: (d, months) => `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`,
+      atTime: (dateStr, timeStr) => `${dateStr} alle ${timeStr}`,
+    },
+    en: {
+      subject: "Reminder", category: "Category", date: "Date",
+      footer: "Kura — Personal health record",
+      months: ["January", "February", "March", "April", "May", "June",
+               "July", "August", "September", "October", "November", "December"],
+      formatDate: (d, months) => `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`,
+      atTime: (dateStr, timeStr) => `${dateStr} at ${timeStr}`,
+    },
+  }
+  const pad2 = (n) => String(n).padStart(2, "0")
 
   // Filter DB-side: an empty date field comes back as a truthy DateTime
   // object in JS, so a `!r.get("sent_at")` check would never match.
@@ -41,24 +63,23 @@ cronAdd("reminders-dispatcher", "*/1 * * * *", () => {
           // category was deleted; leave the label empty
         }
       }
+      const L = LOCALES[user.get("language")] || LOCALES.it
+
       const rawDate = new Date(record.get("date"))
-      const dateStr = rawDate.toLocaleDateString("it-IT", {
-        day: "numeric", month: "long", year: "numeric",
-      })
-      const timeStr = rawDate.toLocaleTimeString("it-IT", {
-        hour: "2-digit", minute: "2-digit",
-      })
+      const dateStr = L.formatDate(rawDate, L.months)
+      const timeStr = `${pad2(rawDate.getHours())}:${pad2(rawDate.getMinutes())}`
+      const whenStr = L.atTime(dateStr, timeStr)
       const description = record.get("description") || ""
       const reminderMsg = reminder.get("message") || ""
 
-      const subject = `[Kura] Promemoria: ${record.get("title")}`
+      const subject = `[Kura] ${L.subject}: ${record.get("title")}`
       const html = [
         `<h1>${escapeHtml(record.get("title"))}</h1>`,
-        category ? `<p><strong>Categoria:</strong> ${escapeHtml(category)}</p>` : "",
-        `<p><strong>Data:</strong> ${dateStr} alle ${timeStr}</p>`,
+        category ? `<p><strong>${L.category}:</strong> ${escapeHtml(category)}</p>` : "",
+        `<p><strong>${L.date}:</strong> ${whenStr}</p>`,
         description ? `<p>${escapeHtml(description)}</p>` : "",
         reminderMsg ? `<p><em>${escapeHtml(reminderMsg)}</em></p>` : "",
-        `<hr><p style="color:#888;font-size:12px">Kura — Libretto sanitario personale</p>`,
+        `<hr><p style="color:#888;font-size:12px">${L.footer}</p>`,
       ].join("\n")
 
       const message = {
@@ -68,8 +89,8 @@ cronAdd("reminders-dispatcher", "*/1 * * * *", () => {
         html: html,
         text: [
           record.get("title"),
-          category ? `Categoria: ${category}` : "",
-          `Data: ${dateStr} alle ${timeStr}`,
+          category ? `${L.category}: ${category}` : "",
+          `${L.date}: ${whenStr}`,
         ].filter(Boolean).join("\n"),
       }
 

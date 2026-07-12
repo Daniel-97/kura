@@ -4,8 +4,11 @@ import { ThemeProvider } from 'next-themes'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { HashRouter } from 'react-router-dom'
 import './i18n/index'
+import { initLanguageSync } from './features/auth/languageSync'
 import App from './App'
 import './index.css'
+
+initLanguageSync()
 
 const queryClient = new QueryClient({
   defaultOptions: {

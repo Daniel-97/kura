@@ -3,6 +3,8 @@ set -euo pipefail
 
 PB_URL="${PB_URL:-http://localhost:8090}"
 COMPOSE_SERVICE="${COMPOSE_SERVICE:-kura}"
+PB_DATA_DIR="${PB_DATA_DIR:-pb_data}"
+SEED_MODE="${SEED_MODE:-}"   # docker | local | empty = auto-detect
 declare -i PB_TIMEOUT="${PB_TIMEOUT:-60}"
 
 readonly RED='\033[0;31m'
@@ -14,13 +16,29 @@ ok()   { printf "${GREEN}✓${NC} %s\n" "$*"; }
 err()  { printf "${RED}✗${NC} %s\n" "$*" >&2; }
 info() { printf "${YELLOW}→${NC} %s\n" "$*"; }
 
+detect_mode() {
+  if [[ -n "$SEED_MODE" ]]; then
+    MODE="$SEED_MODE"
+  elif docker compose ps --status running --services 2>/dev/null | grep -qx "$COMPOSE_SERVICE"; then
+    MODE="docker"
+  elif [[ -x ./pocketbase ]]; then
+    MODE="local"
+  else
+    err "No running '${COMPOSE_SERVICE}' container and no ./pocketbase binary found."
+    err "Start the app first: 'make docker-up' or 'make dev' (after 'make setup')."
+    exit 1
+  fi
+  info "Seeding in ${MODE} mode"
+}
+
 wait_for_pb() {
   info "Waiting for PocketBase at ${PB_URL}..."
   local elapsed=0
   until curl -sf "${PB_URL}/api/health" > /dev/null 2>&1; do
     if (( elapsed >= PB_TIMEOUT )); then
       echo ""
-      err "PocketBase did not become healthy within ${PB_TIMEOUT}s. Is the container running?"
+      err "PocketBase did not become healthy within ${PB_TIMEOUT}s."
+      err "Start it with 'make dev' (local) or 'make docker-up' (Docker) and retry."
       exit 1
     fi
     printf "."
@@ -88,11 +106,20 @@ collect_credentials() {
 
 create_admin() {
   local output
-  if ! output=$(docker compose exec -T "$COMPOSE_SERVICE" \
-      /pb/pocketbase superuser upsert "$ADMIN_EMAIL" "$ADMIN_PASS" 2>&1); then
-    err "Failed to create admin: ${output}"
-    unset ADMIN_PASS ADMIN_PASS2
-    exit 1
+  if [[ "$MODE" == "docker" ]]; then
+    output=$(docker compose exec -T "$COMPOSE_SERVICE" \
+      /pb/pocketbase superuser upsert "$ADMIN_EMAIL" "$ADMIN_PASS" 2>&1) || {
+      err "Failed to create admin: ${output}"
+      unset ADMIN_PASS ADMIN_PASS2
+      exit 1
+    }
+  else
+    output=$(./pocketbase superuser upsert "$ADMIN_EMAIL" "$ADMIN_PASS" \
+      --dir "$PB_DATA_DIR" 2>&1) || {
+      err "Failed to create admin: ${output}"
+      unset ADMIN_PASS ADMIN_PASS2
+      exit 1
+    }
   fi
   ok "Admin created"
 }
@@ -141,6 +168,7 @@ create_user() {
 main() {
   trap 'unset ADMIN_PASS ADMIN_PASS2 USER_PASS USER_PASS2 ADMIN_TOKEN' EXIT
 
+  detect_mode
   collect_credentials
   wait_for_pb
   create_admin

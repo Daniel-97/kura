@@ -67,13 +67,13 @@ make docker-up    # equivale a: KURA_UID=$(id -u) KURA_GID=$(id -g) docker compo
 
 ## Primo avvio: crea l'admin e l'utente
 
-Dopo il primo `docker compose up -d`, esegui lo script di setup:
+Con l'app in esecuzione (`make dev` in locale oppure `make docker-up`), esegui:
 
 ```bash
-./scripts/seed_users.sh
+make seed
 ```
 
-Lo script chiede interattivamente email e password per l'account admin (superuser PocketBase) e per il tuo utente personale, poi li crea automaticamente. Va eseguito una sola volta su un'istanza fresh.
+Lo script chiede interattivamente email e password per l'account admin (superuser PocketBase) e per il tuo utente personale, poi li crea automaticamente. Rileva da solo se usare il container Docker o il binario locale (forzabile con `SEED_MODE=docker|local`). Va eseguito una sola volta su un'istanza fresh.
 
 Variabili d'ambiente opzionali:
 

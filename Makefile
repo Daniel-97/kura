@@ -46,7 +46,7 @@ docker-down: ## Stop the Docker stack
 docker-logs: ## Tail Docker logs
 	docker compose logs -f kura
 
-seed: ## Create admin + personal user on a fresh instance (interactive)
+seed: ## Create admin + personal user (interactive; auto-detects Docker or local)
 	./scripts/seed_users.sh
 
 fix-perms: ## Reclaim pb_data ownership (needs sudo; use if Docker ever ran as root)

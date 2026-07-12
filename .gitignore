@@ -22,4 +22,11 @@ frontend/node_modules/
 Thumbs.db
 *.swp
 
-.superpowers
+# AI tooling
+.claude/
+.opencode/
+.superpowers/
+
+# Planning docs
+docs/plans/
+docs/specs/

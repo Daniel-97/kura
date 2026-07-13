@@ -36,8 +36,7 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] **Parametri vitali generici** *(fatto: collezione `measurements` con discriminatore `type` — peso e glicemia; `blood_pressure` resta separata perché multi-valore; multi-profilo deciso NO — single utente per account. Pagina "Misurazioni" con tab Pressione/Peso/Glicemia, config per tipo nel frontend, export esteso con `misurazioni.json/csv`, redirect da `/blood-pressure`. Istanze esistenti: wipe + `make seed` o collezione manuale dal dashboard)*
 
-- [ ] **Dashboard: blocco misurazioni generico**
-  Follow-up: estendere il blocco "Pressione recente" alle ultime misurazioni (peso/glicemia). Tipi aggiuntivi (SpO2, temperatura) = un valore nel select di `init.js` + una entry in `measurementTypes.ts`.
+- [x] **Dashboard: blocco misurazioni generico** *(fatto: la card è ora "Misurazioni recenti" — pressione con grafico + ultimo peso e ultima glicemia con data, righe nascoste se il tipo non ha dati. Tipi aggiuntivi (SpO2, temperatura) = un valore nel select di `init.js` + una entry in `measurementTypes.ts`)*
 
 - [ ] **Promemoria ricorrenti / terapie**
   Oggi i reminder sono one-shot legati a un record. Aggiungere una sezione farmaci/terapie con ricorrenze ("ogni mattina", "richiamo tra 5 anni").

@@ -152,14 +152,14 @@
     "logPressure": "Registra pressione",
     "upcoming": "Prossime visite",
     "noUpcoming": "Nessuna visita programmata",
-    "pressure": "Pressione recente",
-    "noPressure": "Nessuna misurazione registrata",
     "reminders": "Promemoria attivi",
     "noReminders": "Nessun promemoria in attesa",
     "viewAll": "Vedi tutto",
     "today": "Oggi",
     "tomorrow": "Domani",
-    "inDays": "tra {{count}} giorni"
+    "inDays": "tra {{count}} giorni",
+    "recentMeasurements": "Misurazioni recenti",
+    "noMeasurements": "Nessuna misurazione registrata"
   },
   "measurements": {
     "title": "Misurazioni",

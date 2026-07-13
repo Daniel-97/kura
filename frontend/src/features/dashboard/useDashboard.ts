@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { pb } from '@/lib/pb'
-import type { HealthRecord, Reminder } from '@/lib/types'
+import type { HealthRecord, Reminder, Measurement, MeasurementType } from '@/lib/types'
 
 export interface PendingReminder extends Reminder {
   expand?: { record?: HealthRecord }
@@ -14,6 +14,19 @@ export function useUpcomingRecords() {
       pb.collection('records').getList<HealthRecord>(1, 3, {
         sort: 'date',
         filter: pb.filter('date >= {:now}', { now: new Date() }),
+      }),
+    enabled: pb.authStore.isValid,
+  })
+}
+
+/** Most recent measurement of a given type (one row). */
+export function useLatestMeasurement(type: MeasurementType) {
+  return useQuery({
+    queryKey: ['measurements', type, 'latest'] as const,
+    queryFn: () =>
+      pb.collection('measurements').getList<Measurement>(1, 1, {
+        sort: '-measured_at',
+        filter: pb.filter('type = {:type}', { type }),
       }),
     enabled: pb.authStore.isValid,
   })

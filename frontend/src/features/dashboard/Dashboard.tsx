@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Plus, HeartPulse, ArrowRight, BellRing, CalendarClock } from 'lucide-react'
+import { Plus, HeartPulse, Activity, ArrowRight, BellRing, CalendarClock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -10,8 +10,27 @@ import { getCategoryStyles } from '@/features/categories/category-styles'
 import { useBloodPressure } from '@/features/blood-pressure/useBloodPressure'
 import { BloodPressureChart } from '@/features/blood-pressure/BloodPressureChart'
 import EcgTrace from '@/components/EcgTrace'
-import { useUpcomingRecords, usePendingReminders } from './useDashboard'
+import { MEASUREMENT_TYPES } from '@/features/measurements/measurementTypes'
+import { useUpcomingRecords, usePendingReminders, useLatestMeasurement } from './useDashboard'
 import { daysUntil, formatMetaDate, lastNDays } from './dashboardUtils'
+import type { Measurement, MeasurementType } from '@/lib/types'
+
+function LatestValue({ type, measurement }: { type: MeasurementType; measurement: Measurement }) {
+  const { t, i18n } = useTranslation()
+  const cfg = MEASUREMENT_TYPES[type]
+  return (
+    <div>
+      <p className="text-xs text-muted-foreground">{t(`measurements.${type}Tab`)}</p>
+      <p className="value-mono text-lg font-medium">
+        {measurement.value}{' '}
+        <span className="text-xs font-normal text-muted-foreground">{cfg.unit}</span>
+      </p>
+      <p className="value-mono text-xs text-muted-foreground">
+        {formatMetaDate(measurement.measured_at, i18n.language)}
+      </p>
+    </div>
+  )
+}
 
 function CountdownBadge({ days }: { days: number }) {
   const { t } = useTranslation()
@@ -31,12 +50,16 @@ export default function Dashboard() {
   const { data: upcoming, isLoading: loadingUpcoming } = useUpcomingRecords()
   const { data: reminders, isLoading: loadingReminders } = usePendingReminders()
   const { data: pressureData, isLoading: loadingPressure } = useBloodPressure()
+  const { data: latestWeightData } = useLatestMeasurement('weight')
+  const { data: latestGlucoseData } = useLatestMeasurement('glucose')
   const { data: categories = [] } = useCategories()
 
   const visits = upcoming?.items ?? []
   const pending = reminders?.items ?? []
   const measurements = lastNDays(pressureData?.items ?? [], 30)
   const latest = pressureData?.items?.[0]
+  const latestWeight = latestWeightData?.items?.[0]
+  const latestGlucose = latestGlucoseData?.items?.[0]
   const categoryById = new Map(categories.map((c) => [c.id, c]))
 
   return (
@@ -111,13 +134,13 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Pressione recente */}
+        {/* Misurazioni recenti: pressione + ultimo peso/glicemia */}
         <Card className="lg:order-3">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center justify-between text-lg">
               <span className="flex items-center gap-2">
-                <HeartPulse className="h-5 w-5 text-primary" />
-                {t('dashboard.pressure')}
+                <Activity className="h-5 w-5 text-primary" />
+                {t('dashboard.recentMeasurements')}
               </span>
               <Link
                 to="/measurements"
@@ -131,25 +154,35 @@ export default function Dashboard() {
           <CardContent>
             {loadingPressure ? (
               <p className="muted-empty">{t('common.loading')}</p>
-            ) : !latest ? (
-              <p className="muted-empty">{t('dashboard.noPressure')}</p>
+            ) : !latest && !latestWeight && !latestGlucose ? (
+              <p className="muted-empty">{t('dashboard.noMeasurements')}</p>
             ) : (
               <div className="space-y-4">
-                <div className="flex items-baseline gap-3">
-                  {/* §3: valori clinici in mono */}
-                  <span className="value-mono text-3xl font-medium">
-                    {latest.systolic}/{latest.diastolic}
-                  </span>
-                  <span className="text-sm text-muted-foreground">mmHg</span>
-                  {latest.pulse != null && (
-                    <span className="value-mono text-sm text-muted-foreground">
-                      {latest.pulse} bpm
-                    </span>
-                  )}
-                </div>
-                <p className="value-mono text-sm text-muted-foreground">
-                  {formatMetaDate(latest.measured_at, i18n.language)}
-                </p>
+                {latest && (
+                  <>
+                    <div className="flex items-baseline gap-3">
+                      {/* §3: valori clinici in mono */}
+                      <span className="value-mono text-3xl font-medium">
+                        {latest.systolic}/{latest.diastolic}
+                      </span>
+                      <span className="text-sm text-muted-foreground">mmHg</span>
+                      {latest.pulse != null && (
+                        <span className="value-mono text-sm text-muted-foreground">
+                          {latest.pulse} bpm
+                        </span>
+                      )}
+                    </div>
+                    <p className="value-mono text-sm text-muted-foreground">
+                      {formatMetaDate(latest.measured_at, i18n.language)}
+                    </p>
+                  </>
+                )}
+                {(latestWeight || latestGlucose) && (
+                  <div className={cn('grid grid-cols-2 gap-3', latest && 'border-t pt-4')}>
+                    {latestWeight && <LatestValue type="weight" measurement={latestWeight} />}
+                    {latestGlucose && <LatestValue type="glucose" measurement={latestGlucose} />}
+                  </div>
+                )}
                 {measurements.length > 1 && (
                   <BloodPressureChart measurements={measurements} />
                 )}

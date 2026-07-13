@@ -152,14 +152,14 @@
     "logPressure": "Log pressure",
     "upcoming": "Upcoming visits",
     "noUpcoming": "No scheduled visits",
-    "pressure": "Recent pressure",
-    "noPressure": "No measurements yet",
     "reminders": "Active reminders",
     "noReminders": "No pending reminders",
     "viewAll": "View all",
     "today": "Today",
     "tomorrow": "Tomorrow",
-    "inDays": "in {{count}} days"
+    "inDays": "in {{count}} days",
+    "recentMeasurements": "Recent measurements",
+    "noMeasurements": "No measurements yet"
   },
   "measurements": {
     "title": "Measurements",

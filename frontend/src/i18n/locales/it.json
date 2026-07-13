@@ -223,5 +223,8 @@
     "every_year_one": "ogni anno",
     "every_year_other": "ogni {{count}} anni",
     "atTime": "alle {{time}}"
+  },
+  "notifications": {
+    "emailNotConfigured": "Le email non sono configurate su questo server: l'avviso non verrà inviato. Chiedi all'amministratore di impostare l'SMTP."
   }
 }

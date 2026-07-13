@@ -11,6 +11,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select'
 import { useAuth } from '@/features/auth/useAuth'
+import EmailDisabledHint from '@/features/notifications/EmailDisabledHint'
 import {
   computeNextDue, expiryNoticeAt, type RecurrenceUnit,
 } from './therapyUtils'
@@ -179,6 +180,7 @@ export default function TherapyForm() {
               />
               {t('therapies.emailEnabled')}
             </label>
+            {emailEnabled && <EmailDisabledHint />}
 
             <p className="text-sm font-semibold">{t('therapies.expirySection')}</p>
             <div className="form-grid-cols-2">

@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 import { useAuth } from '@/features/auth/useAuth'
 import { useCreateReminder } from './useReminders'
 import { Button } from '@/components/ui/button'
+import EmailDisabledHint from '@/features/notifications/EmailDisabledHint'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -96,6 +97,8 @@ export default function ReminderDialog({ recordId, recordDate, children }: Props
         <DialogHeader>
           <DialogTitle>{t('reminders.add')}</DialogTitle>
         </DialogHeader>
+
+        <EmailDisabledHint />
 
         <Tabs value={kind} onValueChange={(v) => setKind(v as 'offset' | 'custom')}>
           <TabsList className="grid w-full grid-cols-2">

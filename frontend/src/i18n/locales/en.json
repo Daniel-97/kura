@@ -223,5 +223,8 @@
     "every_year_one": "every year",
     "every_year_other": "every {{count}} years",
     "atTime": "at {{time}}"
+  },
+  "notifications": {
+    "emailNotConfigured": "Email is not configured on this server: the notice won't be sent. Ask the administrator to set up SMTP."
   }
 }

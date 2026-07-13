@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Plus, HeartPulse, Activity, ArrowRight, BellRing, CalendarClock } from 'lucide-react'
+import { Plus, HeartPulse, Activity, ArrowRight, BellRing, CalendarClock, Pill } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -11,6 +11,9 @@ import { useBloodPressure } from '@/features/blood-pressure/useBloodPressure'
 import { BloodPressureChart } from '@/features/blood-pressure/BloodPressureChart'
 import EcgTrace from '@/components/EcgTrace'
 import { MEASUREMENT_TYPES } from '@/features/measurements/measurementTypes'
+import { useTherapies } from '@/features/therapies/useTherapies'
+import { humanizeSchedule, isActive, type RecurrenceUnit } from '@/features/therapies/therapyUtils'
+import { expiresSoon } from '@/features/therapies/Therapies'
 import { useUpcomingRecords, usePendingReminders, useLatestMeasurement } from './useDashboard'
 import { daysUntil, formatMetaDate, lastNDays } from './dashboardUtils'
 import type { Measurement, MeasurementType } from '@/lib/types'
@@ -50,6 +53,7 @@ export default function Dashboard() {
   const { data: upcoming, isLoading: loadingUpcoming } = useUpcomingRecords()
   const { data: reminders, isLoading: loadingReminders } = usePendingReminders()
   const { data: pressureData, isLoading: loadingPressure } = useBloodPressure()
+  const { data: allTherapies = [] } = useTherapies()
   const { data: latestWeightData } = useLatestMeasurement('weight')
   const { data: latestGlucoseData } = useLatestMeasurement('glucose')
   const { data: categories = [] } = useCategories()
@@ -60,6 +64,8 @@ export default function Dashboard() {
   const latest = pressureData?.items?.[0]
   const latestWeight = latestWeightData?.items?.[0]
   const latestGlucose = latestGlucoseData?.items?.[0]
+  const activeTherapies = allTherapies.filter((th) => isActive(th))
+  const expiringTherapies = allTherapies.filter((th) => expiresSoon(th))
   const categoryById = new Map(categories.map((c) => [c.id, c]))
 
   return (
@@ -191,8 +197,54 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Promemoria attivi */}
+        {/* Terapie in corso */}
         <Card className="lg:order-4">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center justify-between text-lg">
+              <span className="flex items-center gap-2">
+                <Pill className="h-5 w-5 text-primary" />
+                {t('dashboard.therapies')}
+              </span>
+              <Link
+                to="/therapies"
+                className="flex items-center gap-1 text-sm font-normal text-primary hover:underline"
+              >
+                {t('dashboard.viewAll')}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {activeTherapies.length === 0 && expiringTherapies.length === 0 ? (
+              <p className="muted-empty">{t('dashboard.noTherapies')}</p>
+            ) : (
+              <ul className="space-y-2">
+                {expiringTherapies.map((th) => (
+                  <li key={`exp-${th.id}`} className="flex items-baseline justify-between gap-3">
+                    <span className="truncate text-sm">{th.name}</span>
+                    <Badge className="bg-warning-bg text-warning hover:bg-warning-bg shrink-0">
+                      {t('therapies.expiresOn')}{' '}
+                      <span className="value-mono ml-1">{formatMetaDate(th.expiry, i18n.language)}</span>
+                    </Badge>
+                  </li>
+                ))}
+                {activeTherapies
+                  .filter((th) => th.every > 0 && th.unit)
+                  .map((th) => (
+                    <li key={th.id} className="flex items-baseline justify-between gap-3">
+                      <span className="truncate text-sm">{th.name}</span>
+                      <span className="shrink-0 text-sm text-muted-foreground">
+                        {humanizeSchedule(th.every, th.unit as RecurrenceUnit, th.time, t)}
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Promemoria attivi */}
+        <Card className="lg:order-5">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-lg">
               <BellRing className="h-5 w-5 text-primary" />

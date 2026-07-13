@@ -7,7 +7,8 @@
     "error": "An error occurred",
     "back": "Back",
     "logout": "Logout",
-    "uncategorized": "Uncategorized"
+    "uncategorized": "Uncategorized",
+    "edit": "Edit"
   },
   "nav": {
     "timeline": "Timeline",
@@ -15,7 +16,8 @@
     "sections": "Sections",
     "categories": "Categories",
     "dashboard": "Overview",
-    "measurements": "Measurements"
+    "measurements": "Measurements",
+    "therapies": "Therapies"
   },
   "auth": {
     "login": "Login",
@@ -159,7 +161,9 @@
     "tomorrow": "Tomorrow",
     "inDays": "in {{count}} days",
     "recentMeasurements": "Recent measurements",
-    "noMeasurements": "No measurements yet"
+    "noMeasurements": "No measurements yet",
+    "therapies": "Ongoing therapies",
+    "noTherapies": "No active therapies"
   },
   "measurements": {
     "title": "Measurements",
@@ -175,5 +179,49 @@
     "empty": "No measurements yet",
     "chartEmpty": "No data in the selected period",
     "rangeError": "Value out of range ({{min}}–{{max}} {{unit}})"
+  },
+  "therapies": {
+    "title": "Therapies",
+    "newTitle": "New therapy",
+    "editTitle": "Edit therapy",
+    "name": "Name",
+    "dosage": "Dosage",
+    "dosagePlaceholder": "e.g. 1 tablet",
+    "notes": "Notes",
+    "recurrence": "Recurrence (optional)",
+    "everyLabel": "Every",
+    "unitLabel": "Unit",
+    "unitPlaceholder": "Pick…",
+    "unit_day": "days",
+    "unit_week": "weeks",
+    "unit_month": "months",
+    "unit_year": "years",
+    "timeLabel": "Time",
+    "startDate": "Start date",
+    "endDate": "End date (optional)",
+    "emailEnabled": "Email me on every occurrence",
+    "expirySection": "Package expiry (optional)",
+    "expiry": "Expiry date",
+    "noticeDays": "Notice days",
+    "savedSuccess": "Therapy saved",
+    "deletedSuccess": "Therapy deleted",
+    "deleteConfirm": "Delete this therapy?",
+    "empty": "No therapies yet",
+    "inactive": "Inactive",
+    "openMenu": "Open therapy menu",
+    "emailOn": "Emails on",
+    "emailOff": "Emails off",
+    "expiresOn": "Expires on",
+    "recurrenceIncomplete": "Recurrence needs frequency, unit and start date",
+    "invalidTime": "Invalid time (use HH:MM)",
+    "every_day_one": "every day",
+    "every_day_other": "every {{count}} days",
+    "every_week_one": "every week",
+    "every_week_other": "every {{count}} weeks",
+    "every_month_one": "every month",
+    "every_month_other": "every {{count}} months",
+    "every_year_one": "every year",
+    "every_year_other": "every {{count}} years",
+    "atTime": "at {{time}}"
   }
 }

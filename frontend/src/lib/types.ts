@@ -52,6 +52,29 @@ export interface Measurement {
   updated: string
 }
 
+export interface Therapy {
+  id: string
+  name: string
+  dosage: string
+  notes: string
+  /** 0 = no recurrence (PocketBase empty number) */
+  every: number
+  unit: '' | 'day' | 'week' | 'month' | 'year'
+  /** HH:MM, empty when no recurrence */
+  time: string
+  start_date: string
+  end_date: string
+  email_enabled: boolean
+  /** Next occurrence, materialized; advanced by the cron */
+  next_due: string
+  expiry: string
+  expiry_notice_at: string
+  expiry_notified: string
+  user: string
+  created: string
+  updated: string
+}
+
 export type ReminderKind = 'offset' | 'custom'
 
 export interface Reminder {

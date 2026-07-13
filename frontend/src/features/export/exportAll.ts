@@ -3,7 +3,7 @@ import { pb } from '@/lib/pb'
 import { toCsv } from './csv'
 import { recordFolderNames } from './exportPaths'
 import { downloadBlob } from './download'
-import type { HealthRecord, Category, BloodPressureRecord, Reminder, Measurement } from '@/lib/types'
+import type { HealthRecord, Category, BloodPressureRecord, Reminder, Measurement, Therapy } from '@/lib/types'
 
 /**
  * Fetch every collection of the logged-in user and assemble the export ZIP.
@@ -18,6 +18,7 @@ export async function buildExportZip(): Promise<Uint8Array> {
     pb.collection('reminders').getFullList<Reminder>({ sort: 'fire_at' }),
     pb.collection('measurements').getFullList<Measurement>({ sort: '-measured_at' }),
   ])
+  const therapies = await pb.collection('therapies').getFullList<Therapy>({ sort: 'name' })
 
   const categoryName = new Map(categories.map((c) => [c.id, c.name]))
   const recordTitle = new Map(records.map((r) => [r.id, r.title]))
@@ -31,6 +32,7 @@ export async function buildExportZip(): Promise<Uint8Array> {
   putJson('promemoria.json', reminders)
   putJson('pressione.json', pressure)
   putJson('misurazioni.json', measurements)
+  putJson('terapie.json', therapies)
 
   // Simplified CSVs: relations resolved to readable values for spreadsheets.
   files['referti.csv'] = strToU8(toCsv(
@@ -61,6 +63,10 @@ export async function buildExportZip(): Promise<Uint8Array> {
   files['misurazioni.csv'] = strToU8(toCsv(
     measurements,
     ['measured_at', 'type', 'value', 'notes'],
+  ))
+  files['terapie.csv'] = strToU8(toCsv(
+    therapies,
+    ['name', 'dosage', 'every', 'unit', 'time', 'start_date', 'end_date', 'expiry', 'email_enabled', 'notes'],
   ))
 
   // Attachments, one folder per record, downloaded with a file token

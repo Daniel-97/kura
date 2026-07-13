@@ -7,7 +7,8 @@
     "error": "Si è verificato un errore",
     "back": "Indietro",
     "logout": "Esci",
-    "uncategorized": "Senza categoria"
+    "uncategorized": "Senza categoria",
+    "edit": "Modifica"
   },
   "nav": {
     "timeline": "Diario",
@@ -15,7 +16,8 @@
     "sections": "Sezioni",
     "categories": "Categorie",
     "dashboard": "Panoramica",
-    "measurements": "Misurazioni"
+    "measurements": "Misurazioni",
+    "therapies": "Terapie"
   },
   "auth": {
     "login": "Accedi",
@@ -159,7 +161,9 @@
     "tomorrow": "Domani",
     "inDays": "tra {{count}} giorni",
     "recentMeasurements": "Misurazioni recenti",
-    "noMeasurements": "Nessuna misurazione registrata"
+    "noMeasurements": "Nessuna misurazione registrata",
+    "therapies": "Terapie in corso",
+    "noTherapies": "Nessuna terapia attiva"
   },
   "measurements": {
     "title": "Misurazioni",
@@ -175,5 +179,49 @@
     "empty": "Nessuna misurazione registrata",
     "chartEmpty": "Nessun dato nel periodo selezionato",
     "rangeError": "Valore fuori range ({{min}}–{{max}} {{unit}})"
+  },
+  "therapies": {
+    "title": "Terapie",
+    "newTitle": "Nuova terapia",
+    "editTitle": "Modifica terapia",
+    "name": "Nome",
+    "dosage": "Dosaggio",
+    "dosagePlaceholder": "es. 1 compressa",
+    "notes": "Note",
+    "recurrence": "Ricorrenza (opzionale)",
+    "everyLabel": "Ogni",
+    "unitLabel": "Unità",
+    "unitPlaceholder": "Scegli…",
+    "unit_day": "giorni",
+    "unit_week": "settimane",
+    "unit_month": "mesi",
+    "unit_year": "anni",
+    "timeLabel": "Orario",
+    "startDate": "Data inizio",
+    "endDate": "Data fine (opzionale)",
+    "emailEnabled": "Inviami un'email a ogni occorrenza",
+    "expirySection": "Scadenza confezione (opzionale)",
+    "expiry": "Data di scadenza",
+    "noticeDays": "Giorni di preavviso",
+    "savedSuccess": "Terapia salvata",
+    "deletedSuccess": "Terapia eliminata",
+    "deleteConfirm": "Eliminare questa terapia?",
+    "empty": "Nessuna terapia registrata",
+    "inactive": "Non attiva",
+    "openMenu": "Apri menu terapia",
+    "emailOn": "Email attive",
+    "emailOff": "Email disattivate",
+    "expiresOn": "Scade il",
+    "recurrenceIncomplete": "Per la ricorrenza servono frequenza, unità e data di inizio",
+    "invalidTime": "Orario non valido (usa HH:MM)",
+    "every_day_one": "ogni giorno",
+    "every_day_other": "ogni {{count}} giorni",
+    "every_week_one": "ogni settimana",
+    "every_week_other": "ogni {{count}} settimane",
+    "every_month_one": "ogni mese",
+    "every_month_other": "ogni {{count}} mesi",
+    "every_year_one": "ogni anno",
+    "every_year_other": "ogni {{count}} anni",
+    "atTime": "alle {{time}}"
   }
 }

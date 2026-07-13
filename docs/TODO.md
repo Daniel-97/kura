@@ -38,8 +38,7 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] **Dashboard: blocco misurazioni generico** *(fatto: la card è ora "Misurazioni recenti" — pressione con grafico + ultimo peso e ultima glicemia con data, righe nascoste se il tipo non ha dati. Tipi aggiuntivi (SpO2, temperatura) = un valore nel select di `init.js` + una entry in `measurementTypes.ts`)*
 
-- [ ] **Promemoria ricorrenti / terapie**
-  Oggi i reminder sono one-shot legati a un record. Aggiungere una sezione farmaci/terapie con ricorrenze ("ogni mattina", "richiamo tra 5 anni").
+- [x] **Promemoria ricorrenti / terapie** *(fatto: collezione `therapies` — entità unica terapia/medicinale con ricorrenza a intervallo (every+unit+orario) e scadenza confezione entrambe opzionali; `next_due`/`expiry_notice_at` materializzati; dispatcher cron dedicato che avanza sempre `next_due` (una sola email dopo downtime) e notifica le scadenze una volta; email per-terapia opzionale; pagina `/therapies` (5ª voce nav, icona Pill), card "Terapie in corso" in dashboard, export esteso. Consegna notifiche estratta in `pb_hooks/lib/notify.js` — canale unico email oggi, seam pronto per ntfy/push futuri, usato anche dal dispatcher promemoria)*
 
 ## 3. Idee più grosse (se il progetto cresce)
 

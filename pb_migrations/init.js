@@ -132,6 +132,45 @@ migrate((app) => {
     deleteRule: '@request.auth.id != "" && user = @request.auth.id',
   }))
 
+  // ── therapies ──────────────────────────────────────────────────────
+  // Therapy/medicine entity: recurrence and package expiry are both
+  // optional, so a row can be a pure therapy, a cabinet item with just
+  // an expiry date, or both. next_due / expiry_notice_at are
+  // materialized dates (PB filters can't do date arithmetic): the
+  // frontend computes them on save, the cron advances next_due.
+  createIfMissing(() => new Collection({
+    name: "therapies",
+    type: "base",
+    fields: [
+      { type: "text",   name: "name",    required: true, max: 200 },
+      { type: "text",   name: "dosage",  max: 200 },
+      { type: "text",   name: "notes" },
+      { type: "number", name: "every",   min: 1, onlyInt: true },
+      {
+        type: "select", name: "unit",
+        maxSelect: 1, values: ["day", "week", "month", "year"],
+      },
+      { type: "text",   name: "time",    max: 5 },
+      { type: "date",   name: "start_date" },
+      { type: "date",   name: "end_date" },
+      { type: "bool",   name: "email_enabled" },
+      { type: "date",   name: "next_due" },
+      { type: "date",   name: "expiry" },
+      { type: "date",   name: "expiry_notice_at" },
+      { type: "date",   name: "expiry_notified" },
+      {
+        type: "relation", name: "user", required: true,
+        collectionId: usersCol.id, maxSelect: 1,
+        cascadeDelete: true,
+      },
+    ],
+    listRule:   '@request.auth.id != "" && user = @request.auth.id',
+    viewRule:   '@request.auth.id != "" && user = @request.auth.id',
+    createRule: '@request.auth.id != "" && @request.body.user = @request.auth.id',
+    updateRule: '@request.auth.id != "" && user = @request.auth.id',
+    deleteRule: '@request.auth.id != "" && user = @request.auth.id',
+  }))
+
   // ── reminders ──────────────────────────────────────────────────────
   createIfMissing(() => {
     const recordsCol = app.findCollectionByNameOrId("records")
@@ -173,7 +212,7 @@ migrate((app) => {
   usersCol.createRule = null
   app.save(usersCol)
 }, (app) => {
-  for (const name of ["reminders", "records", "categories", "blood_pressure", "measurements"]) {
+  for (const name of ["reminders", "records", "categories", "blood_pressure", "measurements", "therapies"]) {
     try { app.delete(app.findCollectionByNameOrId(name)) } catch (_) {}
   }
   try {

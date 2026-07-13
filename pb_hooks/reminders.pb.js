@@ -2,6 +2,8 @@
 
 // ── Cron dispatcher: every minute ─────────────────────────────────────
 cronAdd("reminders-dispatcher", "*/1 * * * *", () => {
+  // Delivery is channel-agnostic: see pb_hooks/lib/notify.js
+  const notify = require(`${__hooks}/lib/notify.js`)
   const now = new Date()
 
   // NB: everything is defined inside the callback on purpose — jsvm
@@ -82,9 +84,7 @@ cronAdd("reminders-dispatcher", "*/1 * * * *", () => {
         `<hr><p style="color:#888;font-size:12px">${L.footer}</p>`,
       ].join("\n")
 
-      const message = {
-        from: { address: $app.settings().meta.senderAddress, name: $app.settings().meta.senderName },
-        to: [{ address: user.get("email") }],
+      notify(user, {
         subject: subject,
         html: html,
         text: [
@@ -92,9 +92,7 @@ cronAdd("reminders-dispatcher", "*/1 * * * *", () => {
           category ? `${L.category}: ${category}` : "",
           `${L.date}: ${whenStr}`,
         ].filter(Boolean).join("\n"),
-      }
-
-      $app.newMailClient().send(message)
+      })
 
       reminder.set("sent_at", now.toISOString())
       $app.save(reminder)

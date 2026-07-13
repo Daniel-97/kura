@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useInfiniteQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query'
 import type { ListResult } from 'pocketbase'
 import { pb } from '@/lib/pb'
 import type { HealthRecord } from '@/lib/types'
@@ -37,6 +37,9 @@ export function useRecords(filters: RecordFilters = {}) {
     initialPageParam: 1,
     getNextPageParam: nextPageParam,
     enabled: pb.authStore.isValid,
+    // When the filters change, keep showing the previous list (with the
+    // search spinner on) instead of flashing the empty loading state.
+    placeholderData: keepPreviousData,
   })
 }
 

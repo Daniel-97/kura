@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Plus, Search } from 'lucide-react'
+import { Plus, Search, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -45,10 +45,13 @@ export default function Timeline() {
     () => new Map(categoriesData.map((c) => [c.id, c])),
     [categoriesData],
   )
-  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useRecords({
+  const { data, isLoading, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage } = useRecords({
     category: category === '__null' ? '' : (category || undefined),
     search: debouncedSearch || undefined,
   })
+  // Spinner while the debounce is pending or the filtered query is in flight
+  // (page loads from the infinite scroll have their own indicator).
+  const isSearching = search.trim() !== debouncedSearch || (isFetching && !isFetchingNextPage)
   const records = useMemo(
     () => data?.pages.flatMap((p) => p.items) ?? [],
     [data],
@@ -165,7 +168,11 @@ export default function Timeline() {
           </SelectContent>
         </Select>
         <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+          {isSearching ? (
+            <Loader2 className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-muted-foreground" aria-hidden="true" />
+          ) : (
+            <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+          )}
           <Input
             className="w-64 pl-8"
             value={search}

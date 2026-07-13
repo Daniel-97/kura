@@ -19,8 +19,7 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] **Filtri record non sanitizzati** *(fatto: `buildFilter` in `useRecords.ts` e il filtro in `useReminders.ts` usano `pb.filter()`; verificato e2e che un tag ostile non inietta più clausole — prima un valore come `x" || user != "` faceva tornare tutti i record. La `listRule` per-utente impediva comunque leak cross-utente)*
 
-- [ ] **Timeline troncata a 500 record**
-  `useRecords` fa `getList(1, 500)`: oltre 500 record la timeline tronca silenziosamente. Fix: paginazione o infinite scroll (`useInfiniteQuery` + `getList` paginato).
+- [x] **Timeline troncata a 500 record** *(fatto: `useRecords` è una `useInfiniteQuery` a pagine da 100 con helper `nextPageParam` testato; la Timeline carica le pagine successive automaticamente con un sentinel `IntersectionObserver` in fondo alla lista)*
 
 ## 2. Funzionalità ad alto valore, sforzo contenuto
 

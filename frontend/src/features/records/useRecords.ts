@@ -1,6 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import type { ListResult } from 'pocketbase'
 import { pb } from '@/lib/pb'
 import type { HealthRecord } from '@/lib/types'
+
+const PER_PAGE = 100
 
 interface RecordFilters {
   category?: string
@@ -14,14 +17,20 @@ export function buildFilter(filters: RecordFilters): string {
   return parts.join(' && ')
 }
 
+export function nextPageParam(lastPage: ListResult<HealthRecord>): number | undefined {
+  return lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined
+}
+
 export function useRecords(filters: RecordFilters = {}) {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ['records', filters] as const,
-    queryFn: () =>
-      pb.collection('records').getList<HealthRecord>(1, 500, {
+    queryFn: ({ pageParam }) =>
+      pb.collection('records').getList<HealthRecord>(pageParam, PER_PAGE, {
         sort: '-date',
         filter: buildFilter(filters),
       }),
+    initialPageParam: 1,
+    getNextPageParam: nextPageParam,
     enabled: pb.authStore.isValid,
   })
 }

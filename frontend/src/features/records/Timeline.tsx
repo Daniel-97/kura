@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
@@ -39,12 +39,27 @@ export default function Timeline() {
     () => new Map(categoriesData.map((c) => [c.id, c])),
     [categoriesData],
   )
-  const { data, isLoading } = useRecords({
+  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useRecords({
     category: category === '__null' ? '' : (category || undefined),
     tag: tag || undefined,
   })
-  const records = data?.items ?? []
+  const records = useMemo(
+    () => data?.pages.flatMap((p) => p.items) ?? [],
+    [data],
+  )
   const grouped = groupByYearMonth(records)
+
+  // Auto-load older records when the sentinel at the bottom scrolls into view.
+  const sentinelRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = sentinelRef.current
+    if (!el || !hasNextPage) return
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !isFetchingNextPage) fetchNextPage()
+    })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
   // Split each group into future and past records; a group can appear in both
   // when it straddles today (e.g. current month has past and future records).
@@ -179,6 +194,11 @@ export default function Timeline() {
               <div className="absolute left-[64px] top-0 bottom-0 w-0.5 bg-border" aria-hidden="true" />
               {renderGroups(pastGroups, false)}
             </div>
+          )}
+
+          <div ref={sentinelRef} aria-hidden="true" />
+          {isFetchingNextPage && (
+            <p className="muted-empty">{t('common.loading')}</p>
           )}
         </>
       )}

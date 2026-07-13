@@ -1,5 +1,8 @@
-import { LogOut } from 'lucide-react'
+import { useState } from 'react'
+import { LogOut, Download, Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import { exportAllData } from '@/features/export/exportAll'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +23,19 @@ function initialsOf(name: string, email: string): string {
 export default function UserMenu() {
   const { t } = useTranslation()
   const { user, logout } = useAuth()
+  const [isExporting, setIsExporting] = useState(false)
+
+  const handleExport = async () => {
+    setIsExporting(true)
+    try {
+      await exportAllData()
+      toast.success(t('export.success'))
+    } catch {
+      toast.error(t('export.error'))
+    } finally {
+      setIsExporting(false)
+    }
+  }
 
   const displayName = user?.name?.trim() || user?.email || t('userMenu.fallbackName')
   const email = user?.email ?? ''
@@ -45,6 +61,21 @@ export default function UserMenu() {
             </span>
           )}
         </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          disabled={isExporting}
+          onSelect={(e) => {
+            e.preventDefault() // keep the menu open so the spinner stays visible
+            handleExport()
+          }}
+        >
+          {isExporting ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Download className="h-4 w-4" />
+          )}
+          {t('export.menuItem')}
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={() => logout()}>
           <LogOut className="h-4 w-4" />

@@ -139,5 +139,10 @@
     "aria": "Open user menu",
     "fallbackName": "User",
     "logout": "Log out"
+  },
+  "export": {
+    "menuItem": "Export my data",
+    "success": "Export completed",
+    "error": "Export failed, try again"
   }
 }

@@ -139,5 +139,10 @@
     "aria": "Apri menu utente",
     "fallbackName": "Utente",
     "logout": "Esci"
+  },
+  "export": {
+    "menuItem": "Esporta i miei dati",
+    "success": "Export completato",
+    "error": "Export fallito, riprova"
   }
 }

@@ -185,10 +185,22 @@ export default function Timeline() {
 
       {isLoading ? (
         <p className="muted-empty">{t('common.loading')}</p>
-      ) : records.length === 0 ? (
-        <p className="muted-empty">{t('timeline.empty')}</p>
       ) : (
-        <>
+        <div
+          className={cn(
+            'relative transition-opacity duration-200',
+            isSearching && 'opacity-50 pointer-events-none',
+          )}
+          aria-busy={isSearching}
+        >
+          {isSearching && (
+            <div className="absolute inset-x-0 top-10 z-10 flex justify-center">
+              <Loader2 className="h-7 w-7 animate-spin text-muted-foreground" aria-hidden="true" />
+            </div>
+          )}
+          {records.length === 0 && (
+            <p className="muted-empty">{t('timeline.empty')}</p>
+          )}
           {futureGroups.length > 0 && (
             <div className="relative">
               <div
@@ -222,7 +234,7 @@ export default function Timeline() {
           {isFetchingNextPage && (
             <p className="muted-empty">{t('common.loading')}</p>
           )}
-        </>
+        </div>
       )}
     </div>
   )

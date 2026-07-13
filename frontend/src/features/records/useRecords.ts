@@ -7,13 +7,18 @@ const PER_PAGE = 100
 
 interface RecordFilters {
   category?: string
-  tag?: string
+  search?: string
 }
 
 export function buildFilter(filters: RecordFilters): string {
   const parts: string[] = []
   if (filters.category) parts.push(pb.filter('category = {:category}', { category: filters.category }))
-  if (filters.tag)      parts.push(pb.filter('tags ~ {:tag}', { tag: filters.tag }))
+  if (filters.search) {
+    parts.push(pb.filter(
+      '(title ~ {:q} || description ~ {:q} || tags ~ {:q})',
+      { q: filters.search },
+    ))
+  }
   return parts.join(' && ')
 }
 

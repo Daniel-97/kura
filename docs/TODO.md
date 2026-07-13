@@ -23,8 +23,7 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 ## 2. Funzionalità ad alto valore, sforzo contenuto
 
-- [ ] **Ricerca full-text sui referti**
-  Campo di ricerca su titolo/descrizione nella timeline: filtro `title ~ {:q} || description ~ {:q}` in aggiunta ai filtri categoria/tag esistenti.
+- [x] **Ricerca full-text sui referti** *(fatto: casella di ricerca con debounce 300ms nella timeline, filtro `(title ~ q || description ~ q || tags ~ q)` combinabile col select categoria; il vecchio filtro per tag è stato rimosso perché ridondante — i tag sono coperti dalla ricerca)*
 
 - [ ] **Export dati**
   - ZIP con referti + allegati (portabilità, utile da portare dal medico)

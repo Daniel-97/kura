@@ -44,7 +44,7 @@
     "title": "Diario sanitario",
     "empty": "Nessun referto trovato",
     "filterByCategory": "Filtra per categoria",
-    "filterByTag": "Filtra per tag",
+    "search": "Cerca titolo, note, tag…",
     "allCategories": "Tutte le categorie",
     "attachments": "Allegati",
     "today": "Oggi"

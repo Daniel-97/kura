@@ -1,8 +1,9 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Plus } from 'lucide-react'
+import { Plus, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   Select, SelectContent, SelectItem,
   SelectTrigger, SelectValue,
@@ -12,7 +13,6 @@ import { useRecords } from './useRecords'
 import { useCategories } from '@/features/categories/useCategories'
 import { getCategoryStyles } from '@/features/categories/category-styles'
 import RecordCard from './RecordCard'
-import TagFilter from './TagFilter'
 import type { HealthRecord } from '@/lib/types'
 
 function groupByYearMonth(records: HealthRecord[]): [string, HealthRecord[]][] {
@@ -33,7 +33,13 @@ function isFuture(dateStr: string, now: Date): boolean {
 export default function Timeline() {
   const { t, i18n } = useTranslation()
   const [category, setCategory] = useState('')
-  const [tag, setTag] = useState('')
+  const [search, setSearch] = useState('')
+  // Debounced copy of the search text so typing doesn't fire a query per keystroke.
+  const [debouncedSearch, setDebouncedSearch] = useState('')
+  useEffect(() => {
+    const id = setTimeout(() => setDebouncedSearch(search.trim()), 300)
+    return () => clearTimeout(id)
+  }, [search])
   const { data: categoriesData = [] } = useCategories()
   const categoryById = useMemo(
     () => new Map(categoriesData.map((c) => [c.id, c])),
@@ -41,7 +47,7 @@ export default function Timeline() {
   )
   const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useRecords({
     category: category === '__null' ? '' : (category || undefined),
-    tag: tag || undefined,
+    search: debouncedSearch || undefined,
   })
   const records = useMemo(
     () => data?.pages.flatMap((p) => p.items) ?? [],
@@ -158,7 +164,16 @@ export default function Timeline() {
             ))}
           </SelectContent>
         </Select>
-        <TagFilter value={tag} onChange={setTag} />
+        <div className="relative">
+          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+          <Input
+            className="w-64 pl-8"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={t('timeline.search')}
+            aria-label={t('timeline.search')}
+          />
+        </div>
       </div>
 
       {isLoading ? (

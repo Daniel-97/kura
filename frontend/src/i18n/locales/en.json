@@ -44,7 +44,7 @@
     "title": "Health diary",
     "empty": "No records found",
     "filterByCategory": "Filter by category",
-    "filterByTag": "Filter by tag",
+    "search": "Search title, notes, tags…",
     "allCategories": "All categories",
     "attachments": "Attachments",
     "today": "Today"

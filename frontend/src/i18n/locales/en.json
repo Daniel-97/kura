@@ -15,7 +15,8 @@
     "pressure": "Blood pressure",
     "sections": "Sections",
     "openMenu": "Open menu",
-    "categories": "Categories"
+    "categories": "Categories",
+    "dashboard": "Overview"
   },
   "auth": {
     "login": "Login",
@@ -146,5 +147,20 @@
     "menuItem": "Export my data",
     "success": "Export completed",
     "error": "Export failed, try again"
+  },
+  "dashboard": {
+    "title": "Overview",
+    "newVisit": "New visit",
+    "logPressure": "Log pressure",
+    "upcoming": "Upcoming visits",
+    "noUpcoming": "No scheduled visits",
+    "pressure": "Recent pressure",
+    "noPressure": "No measurements yet",
+    "reminders": "Active reminders",
+    "noReminders": "No pending reminders",
+    "viewAll": "View all",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "inDays": "in {{count}} days"
   }
 }

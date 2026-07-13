@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { LayoutDashboard, NotebookText, HeartPulse, Tags } from 'lucide-react'
 
 interface SidebarContentProps {
   onNavigate?: () => void
@@ -28,16 +29,21 @@ export default function SidebarContent({ onNavigate }: SidebarContentProps) {
         <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
           {t('nav.sections')}
         </p>
+        {/* §6: icone solo Lucide in navigazione */}
         <NavLink to="/" end className={navClass} onClick={onNavigate}>
-          <span>📋</span>
+          <LayoutDashboard className="h-5 w-5" />
+          {t('nav.dashboard')}
+        </NavLink>
+        <NavLink to="/timeline" className={navClass} onClick={onNavigate}>
+          <NotebookText className="h-5 w-5" />
           {t('nav.timeline')}
         </NavLink>
         <NavLink to="/blood-pressure" className={navClass} onClick={onNavigate}>
-          <span>❤️</span>
+          <HeartPulse className="h-5 w-5" />
           {t('nav.pressure')}
         </NavLink>
         <NavLink to="/categories" className={navClass} onClick={onNavigate}>
-          <span>🏷️</span>
+          <Tags className="h-5 w-5" />
           {t('nav.categories')}
         </NavLink>
       </nav>

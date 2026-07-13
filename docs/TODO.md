@@ -30,8 +30,10 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
   - [x] Export della singola visita: voce "Esporta" nel menu della card → ZIP con `referto.json` + `referto.csv` + allegati
   - [x] ICS calendario: voce "Aggiungi al calendario" nel menu della card → `.ics` a evento singolo (RFC 5545, durata default 1h); scelta per-visita invece dell'export globale delle future
 
-- [ ] **Dashboard iniziale**
-  Home con vista d'insieme: prossime visite, promemoria attivi, trend recente della pressione. Oggi la home è direttamente la timeline.
+- [x] **Dashboard iniziale** *(fatto: `/` è la nuova home "Panoramica" con azioni rapide, prossime 3 visite con countdown, ultima pressione + trend 30 giorni, promemoria pendenti; la timeline è su `/timeline`. Include la fondazione del design system: token shadcn rimappati su `docs/design-system.md`, font Outfit/Inter/JetBrains Mono self-hosted, palette kura, ombre verdi, raggi; icone nav passate da emoji a Lucide)*
+
+- [ ] **Allineamento strutturale al design system**
+  La fondazione (colori/font/raggi) è applicata ovunque, ma restano le difformità strutturali: card documento §5.2 (la timeline usa il bordo sinistro colorato, vietato), ribbon "oggi" rosa (§1: niente rosso dominante), bottom bar mobile §5.4, empty state con ECG nelle altre pagine. Valutare anche se tracciare `docs/design-system.md` in git.
 
 - [ ] **Parametri vitali generici**
   Generalizzare `blood_pressure` in una collezione "misurazioni" (peso, glicemia, saturazione, …) riusando lo stesso pattern grafico + form.

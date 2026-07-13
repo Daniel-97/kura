@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
 import Login from '@/features/auth/Login'
 import Register from '@/features/auth/Register'
+import Dashboard from '@/features/dashboard/Dashboard'
 import Timeline from '@/features/records/Timeline'
 import RecordForm from '@/features/records/RecordForm'
 import Pressione from '@/features/blood-pressure/Pressione'
@@ -15,7 +16,8 @@ export interface AppRoute {
 export const routes: AppRoute[] = [
   { path: '/login',           component: Login,      requiresAuth: false },
   { path: '/register',        component: Register,   requiresAuth: false },
-  { path: '/',                component: Timeline,   requiresAuth: true },
+  { path: '/',                component: Dashboard,  requiresAuth: true },
+  { path: '/timeline',        component: Timeline,   requiresAuth: true },
   { path: '/new',             component: RecordForm, requiresAuth: true },
   { path: '/record/:id/edit', component: RecordForm, requiresAuth: true },
   { path: '/blood-pressure',  component: Pressione,  requiresAuth: true },

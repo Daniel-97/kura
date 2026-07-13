@@ -19,11 +19,10 @@ export default function SidebarContent({ onNavigate }: SidebarContentProps) {
 
   return (
     <>
+      {/* §5.4: logo ufficiale (icona 32px + wordmark in Outfit) */}
       <div className="flex items-center gap-3 border-b px-4 py-3.5">
-        <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-sm font-bold select-none">
-          K
-        </div>
-        <span className="font-semibold text-sm">Kura</span>
+        <img src="/kura-icon.svg" alt="" className="h-8 w-8 select-none" />
+        <span className="font-display text-base font-semibold">Kura</span>
       </div>
 
       <nav className="flex-1 px-3 py-4">

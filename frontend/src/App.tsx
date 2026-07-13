@@ -20,7 +20,10 @@ export default function App() {
               nella bottom bar (design system §5.4) */}
           <header className="sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:hidden">
             <div className="flex h-14 items-center justify-between px-4">
-              <span className="font-display text-lg font-semibold">Kura</span>
+              <span className="flex items-center gap-2.5">
+                <img src="/kura-icon.svg" alt="" className="h-7 w-7 select-none" />
+                <span className="font-display text-lg font-semibold">Kura</span>
+              </span>
               <div className="flex items-center gap-1">
                 <LanguageSwitcher />
                 <ThemeToggle />

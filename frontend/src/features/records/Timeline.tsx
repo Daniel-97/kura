@@ -146,7 +146,7 @@ export default function Timeline() {
       <div className="flex items-center justify-between">
         <h1 className="page-header">{t('timeline.title')}</h1>
         <Button asChild size="sm">
-          <Link to="/new">
+          <Link to="/timeline/new">
             <Plus className="mr-1 h-4 w-4" />
             {t('record.newRecord')}
           </Link>

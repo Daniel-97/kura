@@ -77,7 +77,7 @@ export default function Dashboard() {
         <Card className="lg:order-2">
           <CardContent className="flex flex-col gap-3 pt-6 sm:flex-row">
             <Button asChild className="flex-1">
-              <Link to="/new">
+              <Link to="/timeline/new">
                 <Plus className="mr-2 h-5 w-5" />
                 {t('dashboard.newVisit')}
               </Link>

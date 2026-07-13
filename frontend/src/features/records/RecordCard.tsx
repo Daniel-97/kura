@@ -125,7 +125,7 @@ export default function RecordCard({ record, className }: Props) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => navigate(`/record/${record.id}/edit`)}>
+                  <DropdownMenuItem onClick={() => navigate(`/timeline/${record.id}/edit`)}>
                     <Pencil className="h-4 w-4" />
                     {t('record.edit')}
                   </DropdownMenuItem>

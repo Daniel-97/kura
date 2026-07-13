@@ -7,6 +7,7 @@ import Timeline from '@/features/records/Timeline'
 import RecordForm from '@/features/records/RecordForm'
 import Measurements from '@/features/measurements/Measurements'
 import Therapies from '@/features/therapies/Therapies'
+import TherapyForm from '@/features/therapies/TherapyForm'
 import Categories from '@/features/categories/Categories'
 
 // Old bookmarks: /blood-pressure now lives inside /measurements.
@@ -25,10 +26,12 @@ export const routes: AppRoute[] = [
   { path: '/register',        component: Register,   requiresAuth: false },
   { path: '/',                component: Dashboard,  requiresAuth: true },
   { path: '/timeline',        component: Timeline,   requiresAuth: true },
-  { path: '/new',             component: RecordForm, requiresAuth: true },
-  { path: '/record/:id/edit', component: RecordForm, requiresAuth: true },
+  { path: '/timeline/new',      component: RecordForm, requiresAuth: true },
+  { path: '/timeline/:id/edit', component: RecordForm, requiresAuth: true },
   { path: '/measurements',    component: Measurements, requiresAuth: true },
-  { path: '/therapies',       component: Therapies,  requiresAuth: true },
+  { path: '/therapies',          component: Therapies,   requiresAuth: true },
+  { path: '/therapies/new',      component: TherapyForm, requiresAuth: true },
+  { path: '/therapies/:id/edit', component: TherapyForm, requiresAuth: true },
   { path: '/blood-pressure',  component: BloodPressureRedirect, requiresAuth: true },
   { path: '/categories',      component: Categories, requiresAuth: true },
 ]

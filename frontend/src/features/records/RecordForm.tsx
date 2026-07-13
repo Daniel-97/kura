@@ -79,7 +79,7 @@ export default function RecordForm() {
       updateRecord.mutate({ id: id!, data: fd }, {
         onSuccess: () => {
           toast.success(t('record.updatedSuccess'))
-          navigate('/')
+          navigate('/timeline')
         },
         onError: () => toast.error(t('common.error')),
       })
@@ -89,7 +89,7 @@ export default function RecordForm() {
       if (files) Array.from(files).forEach((f) => fd.append('file', f))
 
       createRecord.mutate(fd, {
-        onSuccess: () => { toast.success(t('record.savedSuccess')); navigate('/') },
+        onSuccess: () => { toast.success(t('record.savedSuccess')); navigate('/timeline') },
         onError: () => toast.error(t('common.error')),
       })
     }

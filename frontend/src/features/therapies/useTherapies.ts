@@ -11,6 +11,14 @@ export function useTherapies() {
   })
 }
 
+export function useFetchTherapy(id: string) {
+  return useQuery({
+    queryKey: ['therapies', id] as const,
+    queryFn: () => pb.collection('therapies').getOne<Therapy>(id),
+    enabled: !!id && pb.authStore.isValid,
+  })
+}
+
 type TherapyData = Partial<Omit<Therapy, 'id' | 'created' | 'updated'>>
 
 export function useCreateTherapy() {

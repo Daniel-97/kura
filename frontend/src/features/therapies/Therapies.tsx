@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Plus, Pencil, Trash2, MoreVertical, Mail, MailX, Pill } from 'lucide-react'
@@ -13,7 +14,6 @@ import { formatMetaDate } from '@/features/dashboard/dashboardUtils'
 import type { Therapy } from '@/lib/types'
 import { humanizeSchedule, isActive, type RecurrenceUnit } from './therapyUtils'
 import { useTherapies, useDeleteTherapy } from './useTherapies'
-import TherapyDialog from './TherapyDialog'
 
 const EXPIRING_SOON_DAYS = 30
 
@@ -26,15 +26,11 @@ export function expiresSoon(therapy: Therapy, now = new Date()): boolean {
 
 export default function Therapies() {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
   const { data: therapies = [], isLoading } = useTherapies()
   const deleteTherapy = useDeleteTherapy()
 
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [editing, setEditing] = useState<Therapy | undefined>(undefined)
   const [confirming, setConfirming] = useState<Therapy | null>(null)
-
-  const openNew = () => { setEditing(undefined); setDialogOpen(true) }
-  const openEdit = (th: Therapy) => { setEditing(th); setDialogOpen(true) }
 
   const handleDelete = () => {
     if (!confirming) return
@@ -48,9 +44,11 @@ export default function Therapies() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="page-header">{t('therapies.title')}</h1>
-        <Button size="sm" onClick={openNew}>
-          <Plus className="mr-1 h-4 w-4" />
-          {t('therapies.newTitle')}
+        <Button asChild size="sm">
+          <Link to="/therapies/new">
+            <Plus className="mr-1 h-4 w-4" />
+            {t('therapies.newTitle')}
+          </Link>
         </Button>
       </div>
 
@@ -112,7 +110,7 @@ export default function Therapies() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => openEdit(th)}>
+                      <DropdownMenuItem onClick={() => navigate(`/therapies/${th.id}/edit`)}>
                         <Pencil className="h-4 w-4" />
                         {t('common.edit')}
                       </DropdownMenuItem>
@@ -129,12 +127,6 @@ export default function Therapies() {
           })}
         </div>
       )}
-
-      <TherapyDialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        therapy={editing}
-      />
 
       {confirming && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">

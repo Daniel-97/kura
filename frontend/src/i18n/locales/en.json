@@ -69,7 +69,9 @@
     "deletedSuccess": "Record deleted",
     "existingFiles": "Existing attachments",
     "addMoreFiles": "Add more attachments",
-    "openMenu": "Open actions menu"
+    "openMenu": "Open actions menu",
+    "export": "Export",
+    "addToCalendar": "Add to calendar"
   },
   "categories": {
     "title": "Categories",

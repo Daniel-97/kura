@@ -2,6 +2,7 @@ import { zipSync, strToU8 } from 'fflate'
 import { pb } from '@/lib/pb'
 import { toCsv } from './csv'
 import { recordFolderNames } from './exportPaths'
+import { downloadBlob } from './download'
 import type { HealthRecord, Category, BloodPressureRecord, Reminder } from '@/lib/types'
 
 /**
@@ -86,12 +87,5 @@ export function exportFileName(now = new Date()): string {
 
 /** Browser entry point: build the ZIP and trigger the download. */
 export async function exportAllData(): Promise<void> {
-  const zip = await buildExportZip()
-  const blob = new Blob([zip.buffer as ArrayBuffer], { type: 'application/zip' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = exportFileName()
-  a.click()
-  URL.revokeObjectURL(url)
+  downloadBlob(exportFileName(), await buildExportZip(), 'application/zip')
 }

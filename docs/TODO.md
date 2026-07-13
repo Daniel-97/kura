@@ -25,10 +25,10 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] **Ricerca full-text sui referti** *(fatto: casella di ricerca con debounce 300ms nella timeline, filtro `(title ~ q || description ~ q || tags ~ q)` combinabile col select categoria; il vecchio filtro per tag è stato rimosso perché ridondante — i tag sono coperti dalla ricerca)*
 
-- [ ] **Export dati**
+- [x] **Export dati**
   - [x] Export completo: "Esporta i miei dati" nel menu utente → ZIP client-side (`fflate`) con ogni collezione in JSON fedele + CSV semplificato (relazioni risolte) e allegati in cartelle per referto (design in `docs/superpowers/specs/2026-07-13-data-export-design.md`, non tracciato)
-  - [ ] Export della singola visita (riusa le utility di `features/export/`)
-  - [ ] Export ICS delle visite future da importare nel calendario
+  - [x] Export della singola visita: voce "Esporta" nel menu della card → ZIP con `referto.json` + `referto.csv` + allegati
+  - [x] ICS calendario: voce "Aggiungi al calendario" nel menu della card → `.ics` a evento singolo (RFC 5545, durata default 1h); scelta per-visita invece dell'export globale delle future
 
 - [ ] **Dashboard iniziale**
   Home con vista d'insieme: prossime visite, promemoria attivi, trend recente della pressione. Oggi la home è direttamente la timeline.

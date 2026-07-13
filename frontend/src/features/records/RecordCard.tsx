@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { FileText, MoreVertical, Pencil, Trash2 } from 'lucide-react'
+import { FileText, MoreVertical, Pencil, Trash2, Download, CalendarPlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils'
 import { pb } from '@/lib/pb'
 import { useDeleteRecord } from './useRecords'
 import { useFileToken } from './fileToken'
+import { exportRecordData, downloadRecordIcs } from '@/features/export/exportRecord'
 import { useCategories } from '@/features/categories/useCategories'
 import ReminderList from '@/features/reminders/ReminderList'
 import type { HealthRecord } from '@/lib/types'
@@ -126,6 +127,20 @@ export default function RecordCard({ record, className }: Props) {
                   <DropdownMenuItem onClick={() => navigate(`/record/${record.id}/edit`)}>
                     <Pencil className="h-4 w-4" />
                     {t('record.edit')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      exportRecordData(record, category?.name ?? '')
+                        .then(() => toast.success(t('export.success')))
+                        .catch(() => toast.error(t('export.error')))
+                    }
+                  >
+                    <Download className="h-4 w-4" />
+                    {t('record.export')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => downloadRecordIcs(record)}>
+                    <CalendarPlus className="h-4 w-4" />
+                    {t('record.addToCalendar')}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem

@@ -32,8 +32,7 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] **Dashboard iniziale** *(fatto: `/` è la nuova home "Panoramica" con azioni rapide, prossime 3 visite con countdown, ultima pressione + trend 30 giorni, promemoria pendenti; la timeline è su `/timeline`. Include la fondazione del design system: token shadcn rimappati su `docs/design-system.md`, font Outfit/Inter/JetBrains Mono self-hosted, palette kura, ombre verdi, raggi; icone nav passate da emoji a Lucide)*
 
-- [ ] **Allineamento strutturale al design system**
-  La fondazione (colori/font/raggi) è applicata ovunque, ma restano le difformità strutturali: card documento §5.2 (la timeline usa il bordo sinistro colorato, vietato), ribbon "oggi" rosa (§1: niente rosso dominante), bottom bar mobile §5.4, empty state con ECG nelle altre pagine. Valutare anche se tracciare `docs/design-system.md` in git.
+- [x] **Allineamento strutturale al design system** *(fatto: card senza bordo sinistro colorato §5.2, ribbon "oggi" sul primario invece del rosa §1, stato attivo sidebar su tinta chiara §5.4, bottom bar mobile a 4 voci al posto di hamburger+drawer §5.4, empty state timeline con firma ECG §5.5, date metadati in mono §3; `design-system.md` tracciato in git)*
 
 - [ ] **Parametri vitali generici**
   Generalizzare `blood_pressure` in una collezione "misurazioni" (peso, glicemia, saturazione, …) riusando lo stesso pattern grafico + form.

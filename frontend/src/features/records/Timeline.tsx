@@ -13,6 +13,7 @@ import { useRecords } from './useRecords'
 import { useCategories } from '@/features/categories/useCategories'
 import { getCategoryStyles } from '@/features/categories/category-styles'
 import RecordCard from './RecordCard'
+import EcgTrace from '@/components/EcgTrace'
 import type { HealthRecord } from '@/lib/types'
 
 function groupByYearMonth(records: HealthRecord[]): [string, HealthRecord[]][] {
@@ -127,13 +128,11 @@ export default function Timeline() {
                     future ? cn('bg-background', styles.outline) : styles.dot,
                   )} />
                 </div>
+                {/* §5.2: niente bordo sinistro colorato — la categoria parla
+                    attraverso il dot sulla spina e il badge nella card */}
                 <RecordCard
                   record={r}
-                  className={cn(
-                    'border-l-4',
-                    styles.border,
-                    future && 'border-dashed border-border/50 bg-muted/20 [border-left-style:solid]',
-                  )}
+                  className={cn(future && 'border-dashed border-border/50 bg-muted/20')}
                 />
               </div>
             )
@@ -198,8 +197,12 @@ export default function Timeline() {
               <Loader2 className="h-7 w-7 animate-spin text-muted-foreground" aria-hidden="true" />
             </div>
           )}
+          {/* §5.5: empty state con la firma ECG (unica occorrenza in pagina) */}
           {records.length === 0 && (
-            <p className="muted-empty">{t('timeline.empty')}</p>
+            <div className="flex flex-col items-center gap-3 py-10 text-center">
+              <EcgTrace />
+              <p className="muted-empty">{t('timeline.empty')}</p>
+            </div>
           )}
           {futureGroups.length > 0 && (
             <div className="relative">
@@ -214,9 +217,11 @@ export default function Timeline() {
             </div>
           )}
 
+          {/* §1: niente rosso per contenuti non distruttivi — il marcatore
+              "oggi" usa il primario brand */}
           {hasSplit && (
             <div
-              className="inline-block bg-rose-500 text-white text-[9px] font-extrabold uppercase tracking-widest py-[5px] pl-[10px] pr-5"
+              className="inline-block bg-primary text-primary-foreground text-[9px] font-extrabold uppercase tracking-widest py-[5px] pl-[10px] pr-5"
               style={{ clipPath: 'polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%)' }}
             >
               {t('timeline.today')} · {todayLabel}

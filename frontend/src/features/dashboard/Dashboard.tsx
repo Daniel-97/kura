@@ -9,22 +9,9 @@ import { useCategories } from '@/features/categories/useCategories'
 import { getCategoryStyles } from '@/features/categories/category-styles'
 import { useBloodPressure } from '@/features/blood-pressure/useBloodPressure'
 import { BloodPressureChart } from '@/features/blood-pressure/BloodPressureChart'
+import EcgTrace from '@/components/EcgTrace'
 import { useUpcomingRecords, usePendingReminders } from './useDashboard'
 import { daysUntil, formatMetaDate, lastNDays } from './dashboardUtils'
-
-/** Design system §6: tracciato ECG del logo, unica occorrenza per schermata
- *  (qui: empty state delle prossime visite). */
-function EcgTrace() {
-  return (
-    <svg viewBox="0 -10 290 200" className="h-10 w-auto text-kura-300" aria-hidden="true">
-      <path
-        d="M0 40 L86 120 H132 L162 44 L196 176 L226 120 H290"
-        fill="none" stroke="currentColor" strokeWidth={14}
-        strokeLinecap="round" strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
 
 function CountdownBadge({ days }: { days: number }) {
   const { t } = useTranslation()

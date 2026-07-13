@@ -95,7 +95,8 @@ export default function RecordCard({ record, className }: Props) {
                   {category?.name ?? t('common.uncategorized')}
                 </Badge>
               </div>
-              <p className="text-sm text-muted-foreground">{dateLabel}</p>
+              {/* §3: date nei metadati in mono */}
+              <p className="value-mono text-sm text-muted-foreground">{dateLabel}</p>
               {record.description && (
                 <p className="whitespace-pre-wrap text-sm text-muted-foreground">
                   {record.description}

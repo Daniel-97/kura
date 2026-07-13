@@ -22,7 +22,6 @@ describe('getCategoryStyles', () => {
     expect(getCategoryStyles('indigo')).toEqual({
       dot: 'bg-indigo-500 ring-indigo-500',
       outline: 'ring-indigo-500',
-      border: 'border-l-indigo-500',
     })
   })
 
@@ -30,7 +29,6 @@ describe('getCategoryStyles', () => {
     expect(getCategoryStyles('slate')).toEqual({
       dot: 'bg-slate-400 ring-slate-400',
       outline: 'ring-slate-400',
-      border: 'border-l-slate-400',
     })
   })
 
@@ -44,7 +42,6 @@ describe('getCategoryStyles', () => {
     expect(getCategoryStyles(null)).toEqual({
       dot: 'bg-muted ring-muted',
       outline: 'ring-muted',
-      border: 'border-l-muted',
     })
   })
 
@@ -52,7 +49,6 @@ describe('getCategoryStyles', () => {
     expect(getCategoryStyles('not-a-color')).toEqual({
       dot: 'bg-muted ring-muted',
       outline: 'ring-muted',
-      border: 'border-l-muted',
     })
   })
 
@@ -60,7 +56,6 @@ describe('getCategoryStyles', () => {
     expect(getCategoryStyles('')).toEqual({
       dot: 'bg-muted ring-muted',
       outline: 'ring-muted',
-      border: 'border-l-muted',
     })
   })
 })

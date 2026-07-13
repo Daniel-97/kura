@@ -19,8 +19,9 @@ export default function SidebarContent({ onNavigate }: SidebarContentProps) {
 
   return (
     <>
-      {/* §5.4: logo ufficiale (icona 32px + wordmark in Outfit) */}
-      <div className="flex items-center gap-3 border-b px-4 py-3.5">
+      {/* §5.4: logo ufficiale (icona 32px + wordmark in Outfit).
+          h-14 fissa: il bordo inferiore deve allinearsi alla top bar. */}
+      <div className="flex h-14 shrink-0 items-center gap-3 border-b px-4">
         <img src="/kura-icon.svg" alt="" className="h-8 w-8 select-none" />
         <span className="font-display text-base font-semibold">Kura</span>
       </div>

@@ -1,6 +1,20 @@
+<p align="center">
+  <img src="frontend/public/kura-icon.svg" width="96" alt="Kura" />
+</p>
+
 # Kura — Libretto sanitario personale
 
-Kura è un'applicazione web self-hosted per gestire il proprio libretto sanitario: referti medici, visite, esami, e diario della pressione arteriosa.
+Kura è un'applicazione web self-hosted per gestire il proprio libretto sanitario: referti e documenti medici, misurazioni (pressione, peso, glicemia), terapie e promemoria — tutto sul tuo server, mobile-first e installabile come app.
+
+## Funzionalità
+
+- **🗂 Diario clinico** — timeline dei referti con allegati (PDF e immagini) protetti da token temporanei, categorie personalizzabili con colori, ricerca full-text su titoli/note/tag, promemoria email per le visite
+- **📊 Misurazioni** — diario della pressione con grafico (sistolica/diastolica/battiti), peso e glicemia con trend; nuovi parametri aggiungibili con una riga di configurazione
+- **💊 Terapie e medicinali** — ricorrenze flessibili ("ogni giorno alle 8", "ogni 6 mesi"), scadenze delle confezioni con preavviso via email, notifiche per occorrenza attivabili per singola terapia
+- **🏠 Panoramica** — dashboard con prossime visite e countdown, ultime misurazioni, terapie in corso e promemoria in attesa
+- **📤 Export e portabilità** — export completo in ZIP (JSON fedele + CSV apribili in Excel + tutti gli allegati), export della singola visita, evento `.ics` da importare nel calendario
+- **🌍 Esperienza** — bilingue italiano/inglese (preferenza salvata sul profilo), tema chiaro/scuro, installabile sul telefono (PWA), design system dedicato
+- **🔒 Sicurezza e backup** — dati isolati per utente a livello di API, allegati mai raggiungibili senza autenticazione, backup automatici notturni con rotazione
 
 ## Prerequisiti
 
@@ -93,15 +107,19 @@ Variabili d'ambiente opzionali:
 | `BACKUP_CRON`     | `0 3 * * *`              | Backup automatico di `pb_data` (schedulazione cron); `off` per disabilitare |
 | `BACKUP_MAX_KEEP` | `7`                      | Quanti backup tenere prima di ruotare    |
 
-I backup finiscono in `pb_data/backups/` e si ripristinano dal dashboard admin (Settings → Backups). Nota: sono sullo stesso disco dei dati — per il disaster recovery includi `pb_data/backups/` nel backup dell'host.
-
 Al termine accedi all'app su **http://localhost:8090**.
 
 Admin panel: **http://localhost:8090/_/**
 
 ## Backup
 
-Tutti i dati si trovano nella cartella `pb_data/`. Backup manuale:
+Kura esegue di serie un **backup automatico notturno** dell'intera `pb_data/` (database + allegati, ZIP atomico): di default ogni notte alle 3, tenendo gli ultimi 7. Schedulazione e retention si controllano con `BACKUP_CRON` / `BACKUP_MAX_KEEP` (tabella sopra; `BACKUP_CRON=off` disabilita).
+
+- I backup finiscono in `pb_data/backups/`
+- **Ripristino** (e backup manuali extra): dashboard admin → Settings → Backups
+- Limite da conoscere: i backup vivono sullo **stesso disco** dei dati — coprono errori umani e software, non il guasto del disco. Per il disaster recovery includi `pb_data/backups/` (o l'intera `pb_data/`) nel backup dell'host.
+
+Copia manuale al volo, se serve:
 
 ```bash
 cp -r pb_data/ backup/pb_data_$(date +%Y%m%d_%H%M%S)/

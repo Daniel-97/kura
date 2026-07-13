@@ -51,8 +51,11 @@ migrate((app) => {
       {
         // Protected: medical attachments require a short-lived file token,
         // never a public URL.
+        // PocketBase serves only pre-declared thumb sizes; 160x160 backs
+        // the 80px tiles in RecordCard (crisp on retina).
         type: "file",     name: "file",
         protected: true,
+        thumbs: ["160x160"],
         maxSelect: 5,
         mimeTypes: [
           "application/pdf",

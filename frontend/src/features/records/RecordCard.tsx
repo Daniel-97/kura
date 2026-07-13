@@ -171,6 +171,11 @@ export default function RecordCard({ record, className }: Props) {
                   const url = fileToken
                     ? pb.files.getUrl(record, filename, { token: fileToken })
                     : undefined
+                  // 80px tile: serve a cached server-side thumb, not the
+                  // multi-MB original (160 stays crisp on retina).
+                  const thumbUrl = fileToken
+                    ? pb.files.getUrl(record, filename, { token: fileToken, thumb: '160x160' })
+                    : undefined
                   return (
                     <a
                       key={filename}
@@ -180,9 +185,9 @@ export default function RecordCard({ record, className }: Props) {
                       title={filename}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      {isImage && url ? (
+                      {isImage && thumbUrl ? (
                         <img
-                          src={url}
+                          src={thumbUrl}
                           alt={filename}
                           className="h-20 w-20 rounded border object-cover"
                           loading="lazy"

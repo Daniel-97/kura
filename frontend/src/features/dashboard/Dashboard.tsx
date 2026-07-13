@@ -54,7 +54,7 @@ export default function Dashboard() {
               </Link>
             </Button>
             <Button asChild variant="secondary" className="flex-1">
-              <Link to="/blood-pressure">
+              <Link to="/measurements">
                 <HeartPulse className="mr-2 h-5 w-5" />
                 {t('dashboard.logPressure')}
               </Link>
@@ -120,7 +120,7 @@ export default function Dashboard() {
                 {t('dashboard.pressure')}
               </span>
               <Link
-                to="/blood-pressure"
+                to="/measurements"
                 className="flex items-center gap-1 text-sm font-normal text-primary hover:underline"
               >
                 {t('dashboard.viewAll')}

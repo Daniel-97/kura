@@ -100,6 +100,35 @@ migrate((app) => {
     deleteRule: '@request.auth.id != "" && user = @request.auth.id',
   }))
 
+  // ── measurements ───────────────────────────────────────────────────
+  // Single-value vitals with a type discriminator (weight, glucose, …).
+  // Blood pressure stays in its own collection: it is genuinely
+  // multi-valued (systolic + diastolic + pulse per reading).
+  createIfMissing(() => new Collection({
+    name: "measurements",
+    type: "base",
+    fields: [
+      {
+        type: "select", name: "type", required: true,
+        maxSelect: 1, values: ["weight", "glucose"],
+      },
+      // Wide DB bounds; per-type ranges are enforced client-side.
+      { type: "number", name: "value",       required: true, min: 0, max: 5000 },
+      { type: "date",   name: "measured_at", required: true },
+      { type: "text",   name: "notes" },
+      {
+        type: "relation", name: "user", required: true,
+        collectionId: usersCol.id, maxSelect: 1,
+        cascadeDelete: true,
+      },
+    ],
+    listRule:   '@request.auth.id != "" && user = @request.auth.id',
+    viewRule:   '@request.auth.id != "" && user = @request.auth.id',
+    createRule: '@request.auth.id != "" && @request.body.user = @request.auth.id',
+    updateRule: '@request.auth.id != "" && user = @request.auth.id',
+    deleteRule: '@request.auth.id != "" && user = @request.auth.id',
+  }))
+
   // ── reminders ──────────────────────────────────────────────────────
   createIfMissing(() => {
     const recordsCol = app.findCollectionByNameOrId("records")
@@ -141,7 +170,7 @@ migrate((app) => {
   usersCol.createRule = null
   app.save(usersCol)
 }, (app) => {
-  for (const name of ["reminders", "records", "categories", "blood_pressure"]) {
+  for (const name of ["reminders", "records", "categories", "blood_pressure", "measurements"]) {
     try { app.delete(app.findCollectionByNameOrId(name)) } catch (_) {}
   }
   try {

@@ -12,10 +12,10 @@
   "nav": {
     "timeline": "Diario",
     "newRecord": "Nuovo referto",
-    "pressure": "Pressione",
     "sections": "Sezioni",
     "categories": "Categorie",
-    "dashboard": "Panoramica"
+    "dashboard": "Panoramica",
+    "measurements": "Misurazioni"
   },
   "auth": {
     "login": "Accedi",
@@ -91,7 +91,6 @@
     "noCategoryAvailable": "Crea prima una categoria"
   },
   "pressure": {
-    "title": "Pressione arteriosa",
     "systolic": "Sistolica",
     "diastolic": "Diastolica",
     "pulse": "Battiti",
@@ -161,5 +160,20 @@
     "today": "Oggi",
     "tomorrow": "Domani",
     "inDays": "tra {{count}} giorni"
+  },
+  "measurements": {
+    "title": "Misurazioni",
+    "pressureTab": "Pressione",
+    "weightTab": "Peso",
+    "glucoseTab": "Glicemia",
+    "valueLabel": "Valore ({{unit}})",
+    "measuredAt": "Data e ora",
+    "notes": "Note",
+    "notesPlaceholder": "es. a digiuno, dopo i pasti…",
+    "add": "Aggiungi misurazione",
+    "savedSuccess": "Misurazione salvata",
+    "empty": "Nessuna misurazione registrata",
+    "chartEmpty": "Nessun dato nel periodo selezionato",
+    "rangeError": "Valore fuori range ({{min}}–{{max}} {{unit}})"
   }
 }

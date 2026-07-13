@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { LayoutDashboard, NotebookText, HeartPulse, Tags } from 'lucide-react'
+import { LayoutDashboard, NotebookText, Activity, Tags } from 'lucide-react'
 
 interface SidebarContentProps {
   onNavigate?: () => void
@@ -39,9 +39,9 @@ export default function SidebarContent({ onNavigate }: SidebarContentProps) {
           <NotebookText className="h-5 w-5" />
           {t('nav.timeline')}
         </NavLink>
-        <NavLink to="/blood-pressure" className={navClass} onClick={onNavigate}>
-          <HeartPulse className="h-5 w-5" />
-          {t('nav.pressure')}
+        <NavLink to="/measurements" className={navClass} onClick={onNavigate}>
+          <Activity className="h-5 w-5" />
+          {t('nav.measurements')}
         </NavLink>
         <NavLink to="/categories" className={navClass} onClick={onNavigate}>
           <Tags className="h-5 w-5" />

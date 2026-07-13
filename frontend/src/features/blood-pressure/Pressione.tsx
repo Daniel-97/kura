@@ -58,10 +58,9 @@ export default function Pressione() {
     hour: '2-digit', minute: '2-digit',
   })
 
+  // Rendered as a tab inside Measurements: the page title lives there.
   return (
     <div className="space-y-6">
-      <h1 className="page-header">{t('pressure.title')}</h1>
-
       <BloodPressureChart measurements={measurements} />
 
       <Card>

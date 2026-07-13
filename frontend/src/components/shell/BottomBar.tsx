@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { LayoutDashboard, NotebookText, HeartPulse, Tags } from 'lucide-react'
+import { LayoutDashboard, NotebookText, Activity, Tags } from 'lucide-react'
 
 /** Design system §5.4: navigazione mobile come bottom bar a 4 voci,
  *  icona 24px + label 11px, voce attiva nel primario. */
@@ -15,7 +15,7 @@ export default function BottomBar() {
   const items = [
     { to: '/', end: true, icon: LayoutDashboard, label: t('nav.dashboard') },
     { to: '/timeline', icon: NotebookText, label: t('nav.timeline') },
-    { to: '/blood-pressure', icon: HeartPulse, label: t('nav.pressure') },
+    { to: '/measurements', icon: Activity, label: t('nav.measurements') },
     { to: '/categories', icon: Tags, label: t('nav.categories') },
   ]
 

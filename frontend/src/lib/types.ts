@@ -39,6 +39,19 @@ export interface BloodPressureRecord {
   updated: string
 }
 
+export type MeasurementType = 'weight' | 'glucose'
+
+export interface Measurement {
+  id: string
+  type: MeasurementType
+  value: number
+  measured_at: string
+  notes: string
+  user: string
+  created: string
+  updated: string
+}
+
 export type ReminderKind = 'offset' | 'custom'
 
 export interface Reminder {

@@ -34,8 +34,10 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] **Allineamento strutturale al design system** *(fatto: card senza bordo sinistro colorato §5.2, ribbon "oggi" sul primario invece del rosa §1, stato attivo sidebar su tinta chiara §5.4, bottom bar mobile a 4 voci al posto di hamburger+drawer §5.4, empty state timeline con firma ECG §5.5, date metadati in mono §3; `design-system.md` tracciato in git)*
 
-- [ ] **Parametri vitali generici**
-  Generalizzare `blood_pressure` in una collezione "misurazioni" (peso, glicemia, saturazione, …) riusando lo stesso pattern grafico + form.
+- [x] **Parametri vitali generici** *(fatto: collezione `measurements` con discriminatore `type` — peso e glicemia; `blood_pressure` resta separata perché multi-valore; multi-profilo deciso NO — single utente per account. Pagina "Misurazioni" con tab Pressione/Peso/Glicemia, config per tipo nel frontend, export esteso con `misurazioni.json/csv`, redirect da `/blood-pressure`. Istanze esistenti: wipe + `make seed` o collezione manuale dal dashboard)*
+
+- [ ] **Dashboard: blocco misurazioni generico**
+  Follow-up: estendere il blocco "Pressione recente" alle ultime misurazioni (peso/glicemia). Tipi aggiuntivi (SpO2, temperatura) = un valore nel select di `init.js` + una entry in `measurementTypes.ts`.
 
 - [ ] **Promemoria ricorrenti / terapie**
   Oggi i reminder sono one-shot legati a un record. Aggiungere una sezione farmaci/terapie con ricorrenze ("ogni mattina", "richiamo tra 5 anni").

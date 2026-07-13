@@ -12,10 +12,10 @@
   "nav": {
     "timeline": "Timeline",
     "newRecord": "New record",
-    "pressure": "Blood pressure",
     "sections": "Sections",
     "categories": "Categories",
-    "dashboard": "Overview"
+    "dashboard": "Overview",
+    "measurements": "Measurements"
   },
   "auth": {
     "login": "Login",
@@ -91,7 +91,6 @@
     "noCategoryAvailable": "Create a category first"
   },
   "pressure": {
-    "title": "Blood pressure",
     "systolic": "Systolic",
     "diastolic": "Diastolic",
     "pulse": "Heart rate",
@@ -161,5 +160,20 @@
     "today": "Today",
     "tomorrow": "Tomorrow",
     "inDays": "in {{count}} days"
+  },
+  "measurements": {
+    "title": "Measurements",
+    "pressureTab": "Blood pressure",
+    "weightTab": "Weight",
+    "glucoseTab": "Glucose",
+    "valueLabel": "Value ({{unit}})",
+    "measuredAt": "Date and time",
+    "notes": "Notes",
+    "notesPlaceholder": "e.g. fasting, after meals…",
+    "add": "Add measurement",
+    "savedSuccess": "Measurement saved",
+    "empty": "No measurements yet",
+    "chartEmpty": "No data in the selected period",
+    "rangeError": "Value out of range ({{min}}–{{max}} {{unit}})"
   }
 }

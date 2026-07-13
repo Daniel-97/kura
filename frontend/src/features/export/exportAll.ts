@@ -3,7 +3,7 @@ import { pb } from '@/lib/pb'
 import { toCsv } from './csv'
 import { recordFolderNames } from './exportPaths'
 import { downloadBlob } from './download'
-import type { HealthRecord, Category, BloodPressureRecord, Reminder } from '@/lib/types'
+import type { HealthRecord, Category, BloodPressureRecord, Reminder, Measurement } from '@/lib/types'
 
 /**
  * Fetch every collection of the logged-in user and assemble the export ZIP.
@@ -11,11 +11,12 @@ import type { HealthRecord, Category, BloodPressureRecord, Reminder } from '@/li
  * export: a silently partial backup is worse than a failed one.
  */
 export async function buildExportZip(): Promise<Uint8Array> {
-  const [records, categories, pressure, reminders] = await Promise.all([
+  const [records, categories, pressure, reminders, measurements] = await Promise.all([
     pb.collection('records').getFullList<HealthRecord>({ sort: '-date' }),
     pb.collection('categories').getFullList<Category>({ sort: 'name' }),
     pb.collection('blood_pressure').getFullList<BloodPressureRecord>({ sort: '-measured_at' }),
     pb.collection('reminders').getFullList<Reminder>({ sort: 'fire_at' }),
+    pb.collection('measurements').getFullList<Measurement>({ sort: '-measured_at' }),
   ])
 
   const categoryName = new Map(categories.map((c) => [c.id, c.name]))
@@ -29,6 +30,7 @@ export async function buildExportZip(): Promise<Uint8Array> {
   putJson('categorie.json', categories)
   putJson('promemoria.json', reminders)
   putJson('pressione.json', pressure)
+  putJson('misurazioni.json', measurements)
 
   // Simplified CSVs: relations resolved to readable values for spreadsheets.
   files['referti.csv'] = strToU8(toCsv(
@@ -55,6 +57,10 @@ export async function buildExportZip(): Promise<Uint8Array> {
   files['pressione.csv'] = strToU8(toCsv(
     pressure,
     ['measured_at', 'systolic', 'diastolic', 'pulse', 'notes'],
+  ))
+  files['misurazioni.csv'] = strToU8(toCsv(
+    measurements,
+    ['measured_at', 'type', 'value', 'notes'],
   ))
 
   // Attachments, one folder per record, downloaded with a file token

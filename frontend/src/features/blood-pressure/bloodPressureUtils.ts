@@ -10,10 +10,10 @@ export interface ChartPoint {
   pulse: number | null
 }
 
-export function filterByPreset(
-  measurements: BloodPressureRecord[],
+export function filterByPreset<T extends { measured_at: string }>(
+  measurements: T[],
   preset: ChartPreset,
-): BloodPressureRecord[] {
+): T[] {
   if (preset === 'all') return measurements
   const cutoff = new Date()
   if (preset === '7d') cutoff.setDate(cutoff.getDate() - 7)

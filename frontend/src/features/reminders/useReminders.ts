@@ -7,7 +7,7 @@ export function useReminders(recordId: string) {
     queryKey: ['reminders', recordId],
     queryFn: () =>
       pb.collection('reminders').getList<Reminder>(1, 50, {
-        filter: `record = "${recordId}"`,
+        filter: pb.filter('record = {:recordId}', { recordId }),
         sort: 'fire_at',
       }),
     enabled: pb.authStore.isValid && !!recordId,

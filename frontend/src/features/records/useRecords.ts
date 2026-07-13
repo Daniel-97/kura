@@ -7,10 +7,10 @@ interface RecordFilters {
   tag?: string
 }
 
-function buildFilter(filters: RecordFilters): string {
+export function buildFilter(filters: RecordFilters): string {
   const parts: string[] = []
-  if (filters.category) parts.push(`category = "${filters.category}"`)
-  if (filters.tag)      parts.push(`tags ~ "${filters.tag}"`)
+  if (filters.category) parts.push(pb.filter('category = {:category}', { category: filters.category }))
+  if (filters.tag)      parts.push(pb.filter('tags ~ {:tag}', { tag: filters.tag }))
   return parts.join(' && ')
 }
 

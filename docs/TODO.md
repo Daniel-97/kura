@@ -17,8 +17,7 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] **Query promemoria inefficiente nel cron** *(fatto insieme al fix del filtro `sent_at`: il dispatcher ora usa `findRecordsByFilter("reminders", "sent_at = '' && fire_at <= {:now}", ...)` — selezione lato DB)*
 
-- [ ] **Filtri record non sanitizzati**
-  `buildFilter` in `frontend/src/features/records/useRecords.ts` interpola `category` e `tag` direttamente nella stringa filtro. Fix: usare `pb.filter()` del SDK per l'interpolazione sicura.
+- [x] **Filtri record non sanitizzati** *(fatto: `buildFilter` in `useRecords.ts` e il filtro in `useReminders.ts` usano `pb.filter()`; verificato e2e che un tag ostile non inietta più clausole — prima un valore come `x" || user != "` faceva tornare tutti i record. La `listRule` per-utente impediva comunque leak cross-utente)*
 
 - [ ] **Timeline troncata a 500 record**
   `useRecords` fa `getList(1, 500)`: oltre 500 record la timeline tronca silenziosamente. Fix: paginazione o infinite scroll (`useInfiniteQuery` + `getList` paginato).

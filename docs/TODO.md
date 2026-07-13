@@ -45,8 +45,7 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] ~~**Multi-profilo (familiari)**~~ *(deciso NO il 2026-07-13 durante il design delle misurazioni: ogni persona ha il proprio login, PocketBase isola già per utente. Se mai servirà, sarà una migrazione dedicata)*
 
-- [ ] **PWA / offline**
-  Manifest + service worker per installare l'app sul telefono. L'UI è già mobile-first.
+- [x] **PWA installabile** *(fatto: manifest.webmanifest + icone PNG 192/512/maskable/apple-touch generate dall'SVG ufficiale, theme-color kura-600. **Niente service worker/offline per scelta** — i browser moderni non lo richiedono per l'install prompt e l'offline vero (cache dati) resta un progetto a sé se mai servirà)*
 
 - [x] **Anteprime allegati** *(ridimensionato dopo brainstorming: solo thumbnail server-side `160x160` per i tile immagine — prima scaricavano l'originale intero; verificato 389KB→25KB e 404 senza token. Viewer PDF scartato: il browser lo fa già bene, pdf.js sarebbe una dipendenza pesante per nulla. Nota: `thumbs` va dichiarato sul campo file in `init.js` — istanze esistenti: solito wipe o toggle manuale)*
 

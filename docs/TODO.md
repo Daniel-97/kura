@@ -50,5 +50,4 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 - [x] **Anteprime allegati** *(ridimensionato dopo brainstorming: solo thumbnail server-side `160x160` per i tile immagine — prima scaricavano l'originale intero; verificato 389KB→25KB e 404 senza token. Viewer PDF scartato: il browser lo fa già bene, pdf.js sarebbe una dipendenza pesante per nulla. Nota: `thumbs` va dichiarato sul campo file in `init.js` — istanze esistenti: solito wipe o toggle manuale)*
 
-- [ ] **Backup automatici**
-  Sfruttare l'API di backup schedulabile di PocketBase; cron di backup + rotazione nel docker-compose.
+- [x] **Backup automatici** *(fatto: `backup.pb.js` imposta i backup nativi PocketBase da env — `BACKUP_CRON` default `0 3 * * *` attivo di default, `off` per disabilitare; `BACKUP_MAX_KEEP` default 7. ZIP in `pb_data/backups/`, restore dal dashboard admin. Nota: stesso disco dei dati — per disaster recovery includere `pb_data/backups/` nel backup dell'host; S3 valutato e rimandato)*

@@ -90,6 +90,10 @@ Variabili d'ambiente opzionali:
 | `SMTP_FROM`       | —                        | Indirizzo mittente (es. `noreply@kura.tld`) |
 | `SMTP_FROM_NAME`  | `Kura`                   | Nome mittente                            |
 | `APP_URL`         | `http://localhost:8090`  | URL pubblico dell'app                    |
+| `BACKUP_CRON`     | `0 3 * * *`              | Backup automatico di `pb_data` (schedulazione cron); `off` per disabilitare |
+| `BACKUP_MAX_KEEP` | `7`                      | Quanti backup tenere prima di ruotare    |
+
+I backup finiscono in `pb_data/backups/` e si ripristinano dal dashboard admin (Settings → Backups). Nota: sono sullo stesso disco dei dati — per il disaster recovery includi `pb_data/backups/` nel backup dell'host.
 
 Al termine accedi all'app su **http://localhost:8090**.
 

@@ -44,8 +44,7 @@ Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
 
 ## 3. Idee più grosse (se il progetto cresce)
 
-- [ ] **Multi-profilo (familiari)**
-  Gestire i libretti di figli/genitori dallo stesso account. Richiede un campo `profile` su tutte le collezioni: meglio decidere presto perché tocca lo schema.
+- [x] ~~**Multi-profilo (familiari)**~~ *(deciso NO il 2026-07-13 durante il design delle misurazioni: ogni persona ha il proprio login, PocketBase isola già per utente. Se mai servirà, sarà una migrazione dedicata)*
 
 - [ ] **PWA / offline**
   Manifest + service worker per installare l'app sul telefono. L'UI è già mobile-first.

@@ -45,6 +45,7 @@
   },
   "timeline": {
     "title": "Health diary",
+    "info": "Log visits, tests, symptoms and health documents; attach files and organize everything by category.",
     "empty": "No records found",
     "filterByCategory": "Filter by category",
     "search": "Search title, notes, tags…",
@@ -78,6 +79,7 @@
   },
   "categories": {
     "title": "Categories",
+    "info": "Create and customize the categories used to organize your diary entries.",
     "empty": "No categories yet. Add one to get started.",
     "namePlaceholder": "E.g. Cardiology",
     "add": "Add",
@@ -151,6 +153,7 @@
   },
   "dashboard": {
     "title": "Overview",
+    "info": "Quick summary: latest measurements, active therapies, upcoming reminders and medicine expiry dates.",
     "newVisit": "New visit",
     "logPressure": "Log pressure",
     "upcoming": "Upcoming visits",
@@ -168,6 +171,7 @@
   },
   "measurements": {
     "title": "Measurements",
+    "info": "Log blood pressure, weight and other values over time and track trends in the charts.",
     "pressureTab": "Blood pressure",
     "weightTab": "Weight",
     "glucoseTab": "Glucose",
@@ -183,6 +187,7 @@
   },
   "therapies": {
     "title": "Therapies",
+    "info": "Manage ongoing therapies, including recurring ones — or add just a medicine to track its expiry date and get an alert.",
     "newTitle": "New therapy",
     "editTitle": "Edit therapy",
     "name": "Name",

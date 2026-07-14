@@ -45,6 +45,7 @@
   },
   "timeline": {
     "title": "Diario sanitario",
+    "info": "Registra visite, esami, sintomi e documenti sanitari; allega file e organizza tutto per categoria.",
     "empty": "Nessun referto trovato",
     "filterByCategory": "Filtra per categoria",
     "search": "Cerca titolo, note, tag…",
@@ -78,6 +79,7 @@
   },
   "categories": {
     "title": "Categorie",
+    "info": "Crea e personalizza le categorie con cui organizzare le voci del diario.",
     "empty": "Nessuna categoria. Aggiungine una per iniziare.",
     "namePlaceholder": "Es. Cardiologia",
     "add": "Aggiungi",
@@ -151,6 +153,7 @@
   },
   "dashboard": {
     "title": "Panoramica",
+    "info": "Riepilogo rapido: ultime misurazioni, terapie attive, promemoria in scadenza e scadenze dei farmaci.",
     "newVisit": "Nuova visita",
     "logPressure": "Registra pressione",
     "upcoming": "Prossime visite",
@@ -168,6 +171,7 @@
   },
   "measurements": {
     "title": "Misurazioni",
+    "info": "Registra pressione, peso e altri valori nel tempo e osserva l'andamento nei grafici.",
     "pressureTab": "Pressione",
     "weightTab": "Peso",
     "glucoseTab": "Glicemia",
@@ -183,6 +187,7 @@
   },
   "therapies": {
     "title": "Terapie",
+    "info": "Gestisci terapie in corso, anche ricorrenti — oppure aggiungi solo un farmaco per monitorarne la scadenza e ricevere un avviso.",
     "newTitle": "Nuova terapia",
     "editTitle": "Modifica terapia",
     "name": "Nome",

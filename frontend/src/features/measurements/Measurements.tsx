@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { InfoTip } from '@/components/InfoTip'
 import Pressione from '@/features/blood-pressure/Pressione'
 import MeasurementTab from './MeasurementTab'
 
@@ -8,7 +9,10 @@ export default function Measurements() {
 
   return (
     <div className="space-y-6">
-      <h1 className="page-header">{t('measurements.title')}</h1>
+      <h1 className="page-header flex items-center gap-2">
+        {t('measurements.title')}
+        <InfoTip text={t('measurements.info')} />
+      </h1>
 
       <Tabs defaultValue="pressure">
         <TabsList>

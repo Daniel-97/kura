@@ -6,6 +6,7 @@ import { Plus, Pencil, Trash2, MoreVertical, Mail, MailX, Pill } from 'lucide-re
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import { InfoTip } from '@/components/InfoTip'
 import {
   DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
   DropdownMenuItem, DropdownMenuSeparator,
@@ -43,7 +44,10 @@ export default function Therapies() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="page-header">{t('therapies.title')}</h1>
+        <h1 className="page-header flex items-center gap-2">
+          {t('therapies.title')}
+          <InfoTip text={t('therapies.info')} />
+        </h1>
         <Button asChild size="sm">
           <Link to="/therapies/new">
             <Plus className="mr-1 h-4 w-4" />

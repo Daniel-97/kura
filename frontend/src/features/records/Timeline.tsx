@@ -14,6 +14,7 @@ import { useCategories } from '@/features/categories/useCategories'
 import { getCategoryStyles } from '@/features/categories/category-styles'
 import RecordCard from './RecordCard'
 import EcgTrace from '@/components/EcgTrace'
+import { InfoTip } from '@/components/InfoTip'
 import type { HealthRecord } from '@/lib/types'
 
 function groupByYearMonth(records: HealthRecord[]): [string, HealthRecord[]][] {
@@ -144,7 +145,10 @@ export default function Timeline() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="page-header">{t('timeline.title')}</h1>
+        <h1 className="page-header flex items-center gap-2">
+          {t('timeline.title')}
+          <InfoTip text={t('timeline.info')} />
+        </h1>
         <Button asChild size="sm">
           <Link to="/timeline/new">
             <Plus className="mr-1 h-4 w-4" />

@@ -10,6 +10,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
   DialogDescription, DialogFooter, DialogClose,
 } from '@/components/ui/dialog'
+import { InfoTip } from '@/components/InfoTip'
 import CategoryPicker from './CategoryPicker'
 import {
   useCategories, useCreateCategory, useDeleteCategory, useCategoryCounts,
@@ -74,7 +75,10 @@ export default function Categories() {
 
   return (
     <div className="space-y-6">
-      <h1 className="page-header">{t('categories.title')}</h1>
+      <h1 className="page-header flex items-center gap-2">
+        {t('categories.title')}
+        <InfoTip text={t('categories.info')} />
+      </h1>
 
       <Card>
         <CardHeader>

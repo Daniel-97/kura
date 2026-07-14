@@ -10,6 +10,7 @@ import { getCategoryStyles } from '@/features/categories/category-styles'
 import { useBloodPressure } from '@/features/blood-pressure/useBloodPressure'
 import { BloodPressureChart } from '@/features/blood-pressure/BloodPressureChart'
 import EcgTrace from '@/components/EcgTrace'
+import { InfoTip } from '@/components/InfoTip'
 import { MEASUREMENT_TYPES } from '@/features/measurements/measurementTypes'
 import { useTherapies } from '@/features/therapies/useTherapies'
 import { humanizeSchedule, isActive, type RecurrenceUnit } from '@/features/therapies/therapyUtils'
@@ -70,7 +71,10 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="page-header">{t('dashboard.title')}</h1>
+      <h1 className="page-header flex items-center gap-2">
+        {t('dashboard.title')}
+        <InfoTip text={t('dashboard.info')} />
+      </h1>
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Azioni rapide — un solo bottone primario per vista (§5.1) */}

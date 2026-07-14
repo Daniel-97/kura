@@ -8,7 +8,8 @@
     "back": "Indietro",
     "logout": "Esci",
     "uncategorized": "Senza categoria",
-    "edit": "Modifica"
+    "edit": "Modifica",
+    "sectionInfo": "Informazioni sulla sezione"
   },
   "nav": {
     "timeline": "Diario",

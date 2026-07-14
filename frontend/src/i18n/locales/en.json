@@ -8,7 +8,8 @@
     "back": "Back",
     "logout": "Logout",
     "uncategorized": "Uncategorized",
-    "edit": "Edit"
+    "edit": "Edit",
+    "sectionInfo": "Section info"
   },
   "nav": {
     "timeline": "Timeline",

@@ -9,6 +9,25 @@ Ogni release è taggata su Git come `vX.Y.Z` e pubblica un'immagine su
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-15
+
+Prima release pubblica.
+
+### Added
+
+- Diario clinico: timeline dei referti con allegati (PDF/immagini) protetti da
+  token, categorie personalizzabili, ricerca full-text, promemoria email
+- Misurazioni: pressione (con grafico), peso e glicemia, con trend
+- Terapie e medicinali: ricorrenze flessibili, scadenze confezioni, notifiche
+  per occorrenza
+- Dashboard "Panoramica": prossime visite, ultime misurazioni, terapie in
+  corso, promemoria in attesa
+- Export e portabilità: export completo (ZIP JSON+CSV+allegati), export della
+  singola visita, evento `.ics`
+- Bilingue italiano/inglese, tema chiaro/scuro, PWA installabile
+- Backup automatici notturni con rotazione
+- Pubblicazione immagine Docker multi-arch (amd64/arm64) su ghcr.io via CI/CD
+
 ## Convenzioni
 
 - **MAJOR**: breaking change — richiede un intervento manuale prima o dopo

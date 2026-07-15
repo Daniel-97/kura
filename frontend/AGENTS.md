@@ -1,32 +1,32 @@
 # Frontend — AGENTS.md
 
-Guida allo stack e alle convenzioni del frontend di Kura per agenti AI e sviluppatori.
+Guide to the stack and conventions of Kura's frontend, for AI agents and developers.
 
 ## Stack
 
-| Layer | Tecnologia |
+| Layer | Technology |
 |---|---|
 | Framework | React 18 |
-| Linguaggio | TypeScript 5 |
+| Language | TypeScript 5 |
 | Build tool | Vite 6 |
-| Stile | Tailwind CSS 3 + shadcn/ui (variabili CSS) |
-| Componenti UI | Radix UI (via shadcn/ui) |
+| Styling | Tailwind CSS 3 + shadcn/ui (CSS variables) |
+| UI components | Radix UI (via shadcn/ui) |
 | Routing | React Router v6 (HashRouter) |
 | State / fetch | TanStack Query v5 |
 | Backend client | PocketBase JS SDK (`pocketbase` ^0.21.5) |
 | i18n | i18next + react-i18next + browser language detector |
-| Tema | next-themes (light / dark, persistito in localStorage) |
-| Icone | lucide-react |
-| Notifiche | sonner |
+| Theme | next-themes (light / dark, persisted in localStorage) |
+| Icons | lucide-react |
+| Notifications | sonner |
 
-## Struttura directory
+## Directory structure
 
-Layout feature-based: ogni feature raccoglie i propri componenti, hook, tipi e utils in una cartella dedicata; la shell dell'app e i componenti UI generici vivono sotto `components/`.
+Feature-based layout: each feature collects its own components, hooks, types and utils in a dedicated folder; the app shell and generic UI components live under `components/`.
 
 ```
 frontend/src/
 ├── components/
-│   ├── ui/            # Componenti shadcn/ui (generati, non modificare manualmente)
+│   ├── ui/            # shadcn/ui components (generated, do not edit manually)
 │   │   ├── badge.tsx
 │   │   ├── button.tsx
 │   │   ├── card.tsx
@@ -41,7 +41,7 @@ frontend/src/
 │   │   ├── tabs.tsx
 │   │   └── textarea.tsx
 │   └── shell/         # App chrome (header, sidebar, drawer, switcher, toggle, user menu)
-│       ├── AppDrawer.tsx       # Drawer di navigazione laterale
+│       ├── AppDrawer.tsx       # Side navigation drawer
 │       ├── LanguageSwitcher.tsx
 │       ├── SidebarContent.tsx
 │       ├── ThemeToggle.tsx
@@ -51,92 +51,92 @@ frontend/src/
 │   │   ├── AuthGuard.tsx
 │   │   ├── Login.tsx
 │   │   ├── Register.tsx
-│   │   ├── useAuth.ts          # Autenticazione PocketBase
+│   │   ├── useAuth.ts          # PocketBase authentication
 │   │   └── useRegister.ts
-│   ├── blood-pressure/         # Diario pressione arteriosa
+│   ├── blood-pressure/         # Blood pressure log
 │   │   ├── BloodPressureChart.tsx
 │   │   ├── Pressione.tsx
 │   │   ├── bloodPressureUtils.ts
 │   │   ├── bloodPressureUtils.test.ts
 │   │   └── useBloodPressure.ts
-│   ├── categories/             # Gestione categorie
+│   ├── categories/             # Category management
 │   │   ├── Categories.tsx
 │   │   ├── CategoryPicker.tsx
 │   │   ├── category-styles.ts
 │   │   ├── category-styles.test.ts
 │   │   └── useCategories.ts
-│   ├── reminders/              # Promemoria
+│   ├── reminders/              # Reminders
 │   │   ├── ReminderDialog.tsx
 │   │   ├── ReminderList.tsx
 │   │   └── useReminders.ts
-│   └── records/                # Referti: lista, form, card, filtri
+│   └── records/                # Records: list, form, card, filters
 │       ├── RecordCard.tsx
-│       ├── RecordForm.tsx      # Creazione/modifica referti
+│       ├── RecordForm.tsx      # Create/edit records
 │       ├── TagFilter.tsx
-│       ├── Timeline.tsx        # Lista referti con filtri
+│       ├── Timeline.tsx        # Record list with filters
 │       └── useRecords.ts
 ├── i18n/
-│   ├── index.ts       # Configurazione i18next
+│   ├── index.ts       # i18next configuration
 │   └── locales/
-│       ├── it.json    # Italiano (default)
-│       └── en.json    # Inglese
+│       ├── it.json    # Italian (default)
+│       └── en.json    # English
 ├── lib/
-│   ├── pb.ts          # Istanza singleton PocketBase
-│   ├── types.ts       # Tipi TypeScript condivisi
-│   ├── utils.ts       # Utility (cn helper, date helpers)
-│   └── routes.ts      # Tabella route tipizzata (AppRoute + routes)
-├── App.tsx            # Shell app: header, routing, drawer (consuma lib/routes.ts)
-├── index.css          # Variabili CSS shadcn/ui + base Tailwind
-└── main.tsx           # Entry point React + provider tree
+│   ├── pb.ts          # PocketBase singleton instance
+│   ├── types.ts       # Shared TypeScript types
+│   ├── utils.ts       # Utilities (cn helper, date helpers)
+│   └── routes.ts      # Typed route table (AppRoute + routes)
+├── App.tsx            # App shell: header, routing, drawer (consumes lib/routes.ts)
+├── index.css          # shadcn/ui CSS variables + Tailwind base
+└── main.tsx           # React entry point + provider tree
 ```
 
-## Comandi
+## Commands
 
 ```bash
-# Installare dipendenze
+# Install dependencies
 npm install
 
-# Avviare dev server (porta 5173, proxy verso PocketBase su 8090)
+# Start dev server (port 5173, proxies to PocketBase on 8090)
 npm run dev
 
-# Build di produzione (output in ../pb_public/)
+# Production build (output in ../pb_public/)
 npm run build
 
-# Type check senza emissione file
-npm run lint        # alias di tsc --noEmit
+# Type check without emitting files
+npm run lint        # alias for tsc --noEmit
 ```
 
-## Convenzioni
+## Conventions
 
 ### Path alias
-`@/` punta a `frontend/src/`. **Import within-feature** (componenti, hook, tipi, utils della stessa feature) usano path relativi (`./useAuth`, `../useRecords`). **Import cross-feature, shell, ui, lib condivisi, i18n** usano `@/` (es. `@/features/auth/useAuth`, `@/components/ui/button`, `@/lib/pb`).
+`@/` points to `frontend/src/`. **Within-feature imports** (components, hooks, types, utils of the same feature) use relative paths (`./useAuth`, `../useRecords`). **Cross-feature, shell, ui, shared lib, i18n imports** use `@/` (e.g. `@/features/auth/useAuth`, `@/components/ui/button`, `@/lib/pb`).
 
-### Variabili CSS tema
-Non usare mai colori Tailwind hardcoded (`bg-white`, `text-gray-900`).
-Usare sempre le variabili shadcn/ui: `bg-background`, `text-foreground`, `bg-accent`, `text-muted-foreground`, `border`, ecc.
-Questo garantisce che i componenti funzionino in entrambi i temi (light e dark).
+### Theme CSS variables
+Never use hardcoded Tailwind colors (`bg-white`, `text-gray-900`).
+Always use shadcn/ui variables instead: `bg-background`, `text-foreground`, `bg-accent`, `text-muted-foreground`, `border`, etc.
+This guarantees components work in both themes (light and dark).
 
-### Componenti UI
-I componenti in `src/components/ui/` sono generati da shadcn/ui. Non modificarli direttamente — rigenerare via CLI se necessario. Usarli come building block nei componenti custom.
+### UI components
+Components in `src/components/ui/` are generated by shadcn/ui. Don't edit them directly — regenerate via the CLI if needed. Use them as building blocks in custom components.
 
 ### i18n
-Tutte le stringhe visibili all'utente devono usare `t('chiave')` da `react-i18next`.
-Aggiungere sempre la chiave in entrambi i file (`it.json` e `en.json`) prima di usarla nel codice.
+All user-visible strings must use `t('key')` from `react-i18next`.
+Always add the key to both files (`it.json` and `en.json`) before using it in code.
 
 ### PocketBase
-L'istanza `pb` è un singleton esportato da `@/lib/pb`. Non creare nuove istanze.
-Il proxy Vite (`/api`, `/_`) redirige al backend su `http://127.0.0.1:8090` in sviluppo.
-In produzione il frontend è servito direttamente da PocketBase (build in `pb_public/`).
+The `pb` instance is a singleton exported from `@/lib/pb`. Don't create new instances.
+The Vite proxy (`/api`, `/_`) redirects to the backend at `http://127.0.0.1:8090` in development.
+In production the frontend is served directly by PocketBase (build output in `pb_public/`).
 
 ### Routing
-Usa `HashRouter` — le route hanno prefisso `#/` nell'URL. Passare i path senza `#` a `<Link>` e `<NavLink>` (es. `to="/"`, `to="/blood-pressure"`).
+Uses `HashRouter` — routes are prefixed with `#/` in the URL. Pass paths without `#` to `<Link>` and `<NavLink>` (e.g. `to="/"`, `to="/blood-pressure"`).
 
 ## Backend (PocketBase)
 
-Il backend è PocketBase v0.27.1. Espone due collezioni:
+The backend is PocketBase v0.27.1. It exposes two collections:
 
-- **records** — referti sanitari (titolo, data, categoria, tag, allegati, utente)
-- **blood_pressure** — misurazioni pressione (systolic, diastolic, pulse, measured_at, notes, user)
+- **records** — health records (title, date, category, tags, attachments, user)
+- **blood_pressure** — blood pressure measurements (systolic, diastolic, pulse, measured_at, notes, user)
 
-Tutte le regole di accesso richiedono autenticazione e limitano i dati all'utente autenticato.
-La dashboard admin è su `http://localhost:8090/_/`.
+All access rules require authentication and scope data to the authenticated user.
+The admin dashboard is at `http://localhost:8090/_/`.

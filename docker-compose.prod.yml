@@ -1,0 +1,41 @@
+services:
+  kura:
+    # Immagine pre-buildata da ghcr.io: nessuna build locale necessaria.
+    # Tag pinnato a una versione precisa (NON :latest) per evitare che un
+    # `docker compose pull && up -d` aggiorni la app da solo su dati
+    # sanitari sensibili. Aggiorna il numero a mano dopo aver letto il
+    # CHANGELOG della nuova versione, poi rilancia `docker compose pull kura
+    # && docker compose up -d`.
+    image: ghcr.io/daniel-97/kura:1.0.0
+    # Run as the host user so files in ./pb_data stay writable outside Docker
+    user: "${KURA_UID:-1000}:${KURA_GID:-1000}"
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./pb_data:/pb/pb_data
+    restart: unless-stopped
+    environment:
+      # ALLOW_REGISTRATION qui disabilita solo l'endpoint API di registrazione:
+      # il link "Registrati" nell'interfaccia resta visibile perché
+      # VITE_ALLOW_REGISTRATION è cotto nel bundle al momento della build
+      # dell'immagine su ghcr.io (default: abilitato). Per nasconderlo devi
+      # buildare l'immagine in locale (vedi docker-compose.yml) con
+      # ALLOW_REGISTRATION=false.
+      ALLOW_REGISTRATION: ${ALLOW_REGISTRATION:-true}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-Kura}
+      APP_URL: ${APP_URL:-http://localhost:8090}
+      # Backup schedulati nativi (in pb_data/backups/); "off" per disabilitare
+      BACKUP_CRON: ${BACKUP_CRON:-0 3 * * *}
+      BACKUP_MAX_KEEP: ${BACKUP_MAX_KEEP:-7}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider",
+             "http://localhost:8090/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s

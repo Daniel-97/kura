@@ -79,6 +79,36 @@ make docker-up    # equivale a: KURA_UID=$(id -u) KURA_GID=$(id -g) docker compo
 - Per fermare: `make docker-down`
 - Per i log: `make docker-logs`
 
+### Deploy senza build locale (immagine pre-buildata)
+
+Ogni release pubblica un'immagine multi-arch (amd64/arm64) su GitHub Container
+Registry, pronta per il pull su Raspberry Pi/NAS senza compilare nulla:
+
+```bash
+docker pull ghcr.io/daniel-97/kura:1.0.0
+```
+
+Usa [`docker-compose.prod.yml`](docker-compose.prod.yml) come base — è identico
+a `docker-compose.yml` ma punta a `image: ghcr.io/daniel-97/kura:X.Y.Z` invece
+di buildare. **Tieni il tag pinnato a una versione precisa** (mai `:latest`):
+un aggiornamento non richiesto su dati sanitari va deciso, non subìto.
+
+Tag disponibili per ogni release `vX.Y.Z`: `X.Y.Z`, `X.Y`, `X` e `latest`
+(quest'ultimo segue sempre l'ultima release, utile solo per controllare
+manualmente "qual è la versione più recente"). I push su `main` pubblicano
+anche `edge`, build di sviluppo non testate — da non usare in produzione.
+
+### Versionamento e aggiornamenti
+
+Le release seguono [Semantic Versioning](https://semver.org/lang/it/) e sono
+taggate su Git come `vX.Y.Z`. Prima di aggiornare un'istanza, leggi sempre il
+[CHANGELOG](CHANGELOG.md) della versione target: un MAJOR bump può richiedere
+un passaggio manuale (es. wipe di `pb_data/`, come già capitato per i campi
+`protected`/`thumbs`/`language` — vedi `docs/TODO.md`).
+
+Procedura completa per rilasciare o aggiornare un'istanza (branching, tag,
+cosa pubblica la CI): [`docs/RELEASING.md`](docs/RELEASING.md).
+
 ## Primo avvio: crea l'admin e l'utente
 
 Con l'app in esecuzione (`make dev` in locale oppure `make docker-up`), esegui:

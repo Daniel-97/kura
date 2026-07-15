@@ -112,22 +112,31 @@ tags, what the CI publishes): [`docs/RELEASING.md`](docs/RELEASING.md).
 
 ## First run: create the admin and your user
 
-With the app running (`make dev` locally, or `make docker-up`), run:
+On first boot (empty `pb_data/`), Kura automatically creates a PocketBase
+superuser account — no manual step required. By default it uses
+`admin@kura.local` / `changeme123`; **log in and change this password
+immediately** (admin panel below), or set `ADMIN_EMAIL`/`ADMIN_PASSWORD`
+*before* the first start to skip the default entirely. An existing
+superuser is never touched on later restarts, even if these variables stay
+set.
 
-```bash
-make seed
-```
+To also get a personal app user created automatically, set both
+`USER_EMAIL` and `USER_PASSWORD` before the first start. If left unset, no
+personal user is created and you can register one from the app (if
+`ALLOW_REGISTRATION` is enabled) or from the admin panel.
 
-The script interactively asks for the email and password for the admin account (PocketBase superuser) and for your personal user, then creates them automatically. It auto-detects whether to use the Docker container or the local binary (overridable with `SEED_MODE=docker|local`). Run it only once, on a fresh instance.
+Set these in `docker-compose.yml` (or an `.env` file next to it) before
+running `make docker-up` / `docker compose up`.
 
 Optional environment variables:
 
 | Variable         | Default                  | Description                              |
 |-------------------|--------------------------|------------------------------------------|
 | `ALLOW_REGISTRATION` | `true` | Set to `false` to disable new user registration. Controls both the UI and the PocketBase API. Requires `docker compose build` after changing it. |
-| `PB_URL`          | `http://localhost:8090`  | PocketBase URL (e.g. remote host)        |
-| `PB_TIMEOUT`      | `60`                     | Seconds to wait for the health check     |
-| `COMPOSE_SERVICE` | `kura`                   | Service name in `docker-compose.yml`     |
+| `ADMIN_EMAIL`     | `admin@kura.local`       | Superuser email, used only if no superuser exists yet |
+| `ADMIN_PASSWORD`  | `changeme123`            | Superuser password, used only if no superuser exists yet |
+| `USER_EMAIL`      | —                        | Personal app user email; set together with `USER_PASSWORD` to auto-create it on first boot |
+| `USER_PASSWORD`   | —                        | Personal app user password |
 | `SMTP_HOST`       | —                        | SMTP host for sending email reminders    |
 | `SMTP_PORT`       | `587`                    | SMTP port                                |
 | `SMTP_USERNAME`   | —                        | SMTP username                            |

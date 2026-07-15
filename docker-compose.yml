@@ -14,6 +14,12 @@ services:
     restart: unless-stopped
     environment:
       ALLOW_REGISTRATION: ${ALLOW_REGISTRATION:-true}
+      # Default superuser, created only if none exists yet
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@kura.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-changeme123}
+      # Optional personal app user, created only if both are set
+      USER_EMAIL: ${USER_EMAIL:-}
+      USER_PASSWORD: ${USER_PASSWORD:-}
       SMTP_HOST: ${SMTP_HOST:-}
       SMTP_PORT: ${SMTP_PORT:-587}
       SMTP_USERNAME: ${SMTP_USERNAME:-}

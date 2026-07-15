@@ -4,7 +4,7 @@ SHELL := /bin/bash
 UID := $(shell id -u)
 GID := $(shell id -g)
 
-.PHONY: help setup dev backend frontend build test lint check docker-up docker-down docker-logs seed fix-perms
+.PHONY: help setup dev backend frontend build test lint check docker-up docker-down docker-logs fix-perms
 
 help: ## Show available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-13s\033[0m %s\n", $$1, $$2}'
@@ -45,9 +45,6 @@ docker-down: ## Stop the Docker stack
 
 docker-logs: ## Tail Docker logs
 	docker compose logs -f kura
-
-seed: ## Create admin + personal user (interactive; auto-detects Docker or local)
-	./scripts/seed_users.sh
 
 fix-perms: ## Reclaim pb_data ownership (needs sudo; use if Docker ever ran as root)
 	sudo chown -R $(UID):$(GID) pb_data

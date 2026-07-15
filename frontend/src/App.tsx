@@ -16,8 +16,8 @@ export default function App() {
     <div className="min-h-screen bg-background font-sans antialiased">
       {isAuthenticated && (
         <>
-          {/* Mobile header: solo brand e controlli — la navigazione è
-              nella bottom bar (design system §5.4) */}
+          {/* Mobile header: brand and controls only — navigation lives
+              in the bottom bar (design system §5.4) */}
           <header className="sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:hidden">
             <div className="flex h-14 items-center justify-between px-4">
               <span className="flex items-center gap-2.5">

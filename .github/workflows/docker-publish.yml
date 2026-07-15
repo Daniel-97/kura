@@ -1,21 +1,20 @@
-# Build e pubblicazione dell'immagine Docker di Kura su GitHub Container
-# Registry (ghcr.io).
+# Build and publish the Kura Docker image to GitHub Container Registry
+# (ghcr.io).
 #
-# Due modalità di pubblicazione:
-#   - push diretto su `main`      → pubblica SOLO il tag `edge` (build di sviluppo)
-#   - push di un tag `vX.Y.Z`     → pubblica `X.Y.Z`, `X.Y`, `X` e `latest`
+# Two publishing modes:
+#   - direct push to `main`   → publishes ONLY the `edge` tag (development build)
+#   - push of a `vX.Y.Z` tag  → publishes `X.Y.Z`, `X.Y`, `X` and `latest`
 #
-# `latest` NON è calcolato con un tag "raw" condizionato su `is_default_branch`:
-# quel context è vero quando il push avviene sul branch di default (main), non
-# quando viene pushato un tag `v*.*.*` — usarlo per `latest` lo avrebbe fatto
-# comparire sui push a main (cioè sulle build `edge`, non testate) invece che
-# sulle release vere. Usiamo invece il comportamento nativo di
-# docker/metadata-action: con `flavor: latest=auto` (default), quando le tag
-# rules includono `type=semver` e il trigger è un tag Git semver, il tag
-# `latest` viene assegnato automaticamente alla versione più alta pubblicata.
-# `type=edge` invece si attiva solo sui push al branch indicato — i due casi
-# sono quindi mutuamente esclusivi per costruzione, senza bisogno di raw tag
-# manuali.
+# `latest` is NOT computed with a "raw" tag conditioned on `is_default_branch`:
+# that context is true when the push happens on the default branch (main),
+# not when a `v*.*.*` tag is pushed — using it for `latest` would have made
+# it show up on pushes to main (i.e. on untested `edge` builds) instead of on
+# actual releases. Instead we rely on docker/metadata-action's native
+# behavior: with `flavor: latest=auto` (the default), when the tag rules
+# include `type=semver` and the trigger is a semver Git tag, the `latest` tag
+# is automatically assigned to the highest published version. `type=edge`
+# only activates on pushes to the given branch — the two cases are therefore
+# mutually exclusive by construction, no manual raw tag needed.
 
 name: Docker Publish
 
@@ -26,9 +25,9 @@ on:
     tags:
       - 'v*.*.*'
 
-# Permessi minimi necessari al job: leggere il repo (checkout) e scrivere
-# pacchetti (push su ghcr.io). GITHUB_TOKEN con questi permessi è sufficiente,
-# non serve un PAT.
+# Minimal permissions the job needs: read the repo (checkout) and write
+# packages (push to ghcr.io). GITHUB_TOKEN with these permissions is
+# enough, no PAT required.
 permissions:
   contents: read
   packages: write
@@ -37,34 +36,34 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout del repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # QEMU emula le architetture non native del runner (arm64), necessario
-      # per buildare l'immagine ARM su un runner GitHub che è amd64.
-      - name: Setup QEMU (emulazione multi-arch)
+      # QEMU emulates non-native architectures on the runner (arm64),
+      # needed to build the ARM image on a GitHub runner that is amd64.
+      - name: Setup QEMU (multi-arch emulation)
         uses: docker/setup-qemu-action@v3
 
-      # Buildx è il builder Docker con supporto nativo a multi-platform build
-      # e cache: sostituisce il builder classico `docker build`.
+      # Buildx is the Docker builder with native support for multi-platform
+      # builds and caching: it replaces the classic `docker build` builder.
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Login su GHCR con il token automatico dell'Action, valido solo per la
-      # durata del workflow. github.actor è l'utente/bot che ha scatenato il
-      # run; non serve creare un secret manuale.
-      - name: Login su ghcr.io
+      # Log in to GHCR with the Action's automatic token, valid only for the
+      # duration of the workflow. github.actor is the user/bot that
+      # triggered the run; no manual secret needs to be created.
+      - name: Login to ghcr.io
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Calcola automaticamente tag Docker e label OCI a partire dal ref che
-      # ha scatenato il workflow (branch main → edge; tag vX.Y.Z → semver).
-      # `images` accetta anche owner/repo con maiuscole: metadata-action
-      # normalizza sempre in lowercase, obbligatorio per ghcr.io.
-      - name: Estrai metadati (tag e label)
+      # Automatically compute Docker tags and OCI labels from the ref that
+      # triggered the workflow (main branch → edge; vX.Y.Z tag → semver).
+      # `images` also accepts owner/repo with uppercase letters:
+      # metadata-action always normalizes to lowercase, required by ghcr.io.
+      - name: Extract metadata (tags and labels)
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -76,13 +75,13 @@ jobs:
             type=edge,branch=main
           labels: |
             org.opencontainers.image.title=Kura
-            org.opencontainers.image.description=Libretto sanitario personale self-hosted
+            org.opencontainers.image.description=Self-hosted personal health record
 
-      # Build multi-arch (amd64 + arm64, per Raspberry Pi/NAS) e push diretto
-      # su ghcr.io nello stesso step: con più piattaforme il builder non può
-      # caricare in locale (`--load`), quindi build e push sono un'unica
-      # operazione. Cache su GitHub Actions per velocizzare i run successivi.
-      - name: Build e push immagine multi-arch
+      # Multi-arch build (amd64 + arm64, for Raspberry Pi/NAS) and direct
+      # push to ghcr.io in the same step: with multiple platforms the
+      # builder can't load locally (`--load`), so build and push are a
+      # single operation. Cache on GitHub Actions to speed up later runs.
+      - name: Build and push multi-arch image
         uses: docker/build-push-action@v6
         with:
           context: .

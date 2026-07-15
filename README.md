@@ -2,162 +2,163 @@
   <img src="frontend/public/kura-icon.svg" width="96" alt="Kura" />
 </p>
 
-# Kura — Libretto sanitario personale
+# Kura — Personal health record
 
-Kura è un'applicazione web self-hosted per gestire il proprio libretto sanitario: referti e documenti medici, misurazioni (pressione, peso, glicemia), terapie e promemoria — tutto sul tuo server, mobile-first e installabile come app.
+Kura is a self-hosted web app for managing your personal health record: medical reports and documents, measurements (blood pressure, weight, blood glucose), therapies and reminders — all on your own server, mobile-first and installable as an app.
 
-## Funzionalità
+## Features
 
-- **🗂 Diario clinico** — timeline dei referti con allegati (PDF e immagini) protetti da token temporanei, categorie personalizzabili con colori, ricerca full-text su titoli/note/tag, promemoria email per le visite
-- **📊 Misurazioni** — diario della pressione con grafico (sistolica/diastolica/battiti), peso e glicemia con trend; nuovi parametri aggiungibili con una riga di configurazione
-- **💊 Terapie e medicinali** — ricorrenze flessibili ("ogni giorno alle 8", "ogni 6 mesi"), scadenze delle confezioni con preavviso via email, notifiche per occorrenza attivabili per singola terapia
-- **🏠 Panoramica** — dashboard con prossime visite e countdown, ultime misurazioni, terapie in corso e promemoria in attesa
-- **📤 Export e portabilità** — export completo in ZIP (JSON fedele + CSV apribili in Excel + tutti gli allegati), export della singola visita, evento `.ics` da importare nel calendario
-- **🌍 Esperienza** — bilingue italiano/inglese (preferenza salvata sul profilo), tema chiaro/scuro, installabile sul telefono (PWA), design system dedicato
-- **🔒 Sicurezza e backup** — dati isolati per utente a livello di API, allegati mai raggiungibili senza autenticazione, backup automatici notturni con rotazione
+- **🗂 Clinical diary** — timeline of medical reports with attachments (PDF and images) protected by temporary tokens, customizable color-coded categories, full-text search on title/notes/tags, email reminders for appointments
+- **📊 Measurements** — blood pressure log with chart (systolic/diastolic/heart rate), weight and blood glucose with trends; new parameters can be added with a single config line
+- **💊 Therapies and medications** — flexible recurrences ("every day at 8am", "every 6 months"), package expiry with email heads-up, per-occurrence notifications toggleable per therapy
+- **🏠 Overview** — dashboard with upcoming appointments and countdown, latest measurements, ongoing therapies and pending reminders
+- **📤 Export and portability** — full export as a ZIP (faithful JSON + Excel-friendly CSV + all attachments), single-visit export, `.ics` event for calendar import
+- **🌍 Experience** — bilingual Italian/English (preference saved on the profile), light/dark theme, installable on your phone (PWA), dedicated design system
+- **🔒 Security and backups** — data isolated per user at the API level, attachments never reachable without authentication, automatic nightly backups with rotation
 
-## Prerequisiti
+## Prerequisites
 
-- **Node.js LTS** (v20+) per sviluppo e build locale
-- **Docker** + **Docker Compose** — opzionale, per il deploy containerizzato
+- **Node.js LTS** (v20+) for local development and builds
+- **Docker** + **Docker Compose** — optional, for containerized deployment
 
-## Sviluppo locale
+## Local development
 
-Il workflow è gestito da un `Makefile` (`make help` per l'elenco completo dei target):
+The workflow is managed by a `Makefile` (`make help` for the full list of targets):
 
 ```bash
-make setup   # prima volta: scarica il binario PocketBase + npm install
-make dev     # avvia backend (:8090) e frontend (:5173) insieme; Ctrl+C ferma entrambi
+make setup   # first time: downloads the PocketBase binary + npm install
+make dev     # starts backend (:8090) and frontend (:5173) together; Ctrl+C stops both
 ```
 
-Apri http://localhost:5173. Il dev server fa proxy delle richieste `/api` e `/_` verso PocketBase (porta 8090).
+Open http://localhost:5173. The dev server proxies `/api` and `/_` requests to PocketBase (port 8090).
 
-L'admin UI di PocketBase è raggiungibile su http://localhost:8090/_/.
+The PocketBase admin UI is available at http://localhost:8090/_/.
 
-Altri target utili:
+Other useful targets:
 
 ```bash
-make backend      # solo PocketBase
-make frontend     # solo Vite dev server
-make check        # type-check + test
-make build        # build di produzione → pb_public/
+make backend      # PocketBase only
+make frontend     # Vite dev server only
+make check        # type-check + tests
+make build        # production build → pb_public/
 ```
 
 ### Troubleshooting: `attempt to write a readonly database`
 
-Succede quando i file in `pb_data/` appartengono a `root` (tipicamente perché il container Docker è stato eseguito come root in passato). Sistema con:
+Happens when files in `pb_data/` are owned by `root` (typically because the Docker container ran as root at some point in the past). Fix with:
 
 ```bash
-make fix-perms   # richiede sudo
+make fix-perms   # requires sudo
 ```
 
-Il `docker-compose.yml` ora esegue il container come il tuo utente (`KURA_UID`/`KURA_GID`, default `1000:1000`), quindi il problema non si ripresenta.
+`docker-compose.yml` now runs the container as your user (`KURA_UID`/`KURA_GID`, default `1000:1000`), so the problem shouldn't recur.
 
-## Build e deploy manuale (senza Docker)
+## Manual build and deploy (without Docker)
 
 ```bash
 cd frontend && npm run build
 ```
 
-I file statici vengono emessi in `pb_public/` (escluso da git). Sul server:
+Static files are emitted to `pb_public/` (excluded from git). On the server:
 
 ```bash
-./scripts/setup.sh      # scarica il binario per l'OS/arch del server
+./scripts/setup.sh      # downloads the binary for the server's OS/arch
 ./pocketbase serve --http=0.0.0.0:8090
 ```
 
-PocketBase serve automaticamente il frontend da `pb_public/`.
+PocketBase automatically serves the frontend from `pb_public/`.
 
-## Deploy con Docker
+## Deploy with Docker
 
 ```bash
-make docker-up    # equivale a: KURA_UID=$(id -u) KURA_GID=$(id -g) docker compose up -d --build
+make docker-up    # equivalent to: KURA_UID=$(id -u) KURA_GID=$(id -g) docker compose up -d --build
 ```
 
-- Dati persistenti in `./pb_data/` (bind mount automatico)
-- Il container gira come il tuo utente (non root), così `pb_data/` resta scrivibile anche fuori da Docker. Se lanci `docker compose` a mano con un utente con UID diverso da 1000, esporta `KURA_UID` e `KURA_GID`.
-- Per fermare: `make docker-down`
-- Per i log: `make docker-logs`
+- Persistent data in `./pb_data/` (automatic bind mount)
+- The container runs as your user (not root), so `pb_data/` stays writable outside Docker too. If you run `docker compose` manually with a user whose UID differs from 1000, export `KURA_UID` and `KURA_GID`.
+- To stop: `make docker-down`
+- For logs: `make docker-logs`
 
-### Deploy senza build locale (immagine pre-buildata)
+### Deploy without a local build (prebuilt image)
 
-Ogni release pubblica un'immagine multi-arch (amd64/arm64) su GitHub Container
-Registry, pronta per il pull su Raspberry Pi/NAS senza compilare nulla:
+Every release publishes a multi-arch image (amd64/arm64) to GitHub Container
+Registry, ready to pull on a Raspberry Pi/NAS without compiling anything:
 
 ```bash
 docker pull ghcr.io/daniel-97/kura:1.0.0
 ```
 
-Usa [`docker-compose.prod.yml`](docker-compose.prod.yml) come base — è identico
-a `docker-compose.yml` ma punta a `image: ghcr.io/daniel-97/kura:X.Y.Z` invece
-di buildare. **Tieni il tag pinnato a una versione precisa** (mai `:latest`):
-un aggiornamento non richiesto su dati sanitari va deciso, non subìto.
+Use [`docker-compose.prod.yml`](docker-compose.prod.yml) as a base — it's
+identical to `docker-compose.yml` but points to `image: ghcr.io/daniel-97/kura:X.Y.Z`
+instead of building. **Keep the tag pinned to a specific version** (never
+`:latest`): an unrequested update to sensitive health data should be a
+decision, not something that just happens.
 
-Tag disponibili per ogni release `vX.Y.Z`: `X.Y.Z`, `X.Y`, `X` e `latest`
-(quest'ultimo segue sempre l'ultima release, utile solo per controllare
-manualmente "qual è la versione più recente"). I push su `main` pubblicano
-anche `edge`, build di sviluppo non testate — da non usare in produzione.
+Tags available for each `vX.Y.Z` release: `X.Y.Z`, `X.Y`, `X` and `latest`
+(the latter always tracks the most recent release, useful only to manually
+check "what's the newest version"). Pushes to `main` also publish `edge`,
+untested development builds — don't use it in production.
 
-### Versionamento e aggiornamenti
+### Versioning and updates
 
-Le release seguono [Semantic Versioning](https://semver.org/lang/it/) e sono
-taggate su Git come `vX.Y.Z`. Prima di aggiornare un'istanza, leggi sempre il
-[CHANGELOG](CHANGELOG.md) della versione target: un MAJOR bump può richiedere
-un passaggio manuale (es. wipe di `pb_data/`, come già capitato per i campi
-`protected`/`thumbs`/`language` — vedi `docs/TODO.md`).
+Releases follow [Semantic Versioning](https://semver.org/) and are tagged on
+Git as `vX.Y.Z`. Before updating an instance, always read the
+[CHANGELOG](CHANGELOG.md) for the target version: a MAJOR bump may require a
+manual step (e.g. wiping `pb_data/`, as already happened for the
+`protected`/`thumbs`/`language` fields — see `docs/TODO.md`).
 
-Procedura completa per rilasciare o aggiornare un'istanza (branching, tag,
-cosa pubblica la CI): [`docs/RELEASING.md`](docs/RELEASING.md).
+Full procedure for cutting a release or updating an instance (branching,
+tags, what the CI publishes): [`docs/RELEASING.md`](docs/RELEASING.md).
 
-## Primo avvio: crea l'admin e l'utente
+## First run: create the admin and your user
 
-Con l'app in esecuzione (`make dev` in locale oppure `make docker-up`), esegui:
+With the app running (`make dev` locally, or `make docker-up`), run:
 
 ```bash
 make seed
 ```
 
-Lo script chiede interattivamente email e password per l'account admin (superuser PocketBase) e per il tuo utente personale, poi li crea automaticamente. Rileva da solo se usare il container Docker o il binario locale (forzabile con `SEED_MODE=docker|local`). Va eseguito una sola volta su un'istanza fresh.
+The script interactively asks for the email and password for the admin account (PocketBase superuser) and for your personal user, then creates them automatically. It auto-detects whether to use the Docker container or the local binary (overridable with `SEED_MODE=docker|local`). Run it only once, on a fresh instance.
 
-Variabili d'ambiente opzionali:
+Optional environment variables:
 
-| Variabile         | Default                  | Descrizione                              |
+| Variable         | Default                  | Description                              |
 |-------------------|--------------------------|------------------------------------------|
-| `ALLOW_REGISTRATION` | `true` | Imposta a `false` per disabilitare la registrazione di nuovi utenti. Controlla sia l'UI che l'API di PocketBase. Richiede `docker compose build` dopo il cambio. |
-| `PB_URL`          | `http://localhost:8090`  | URL di PocketBase (es. host remoto)      |
-| `PB_TIMEOUT`      | `60`                     | Secondi di attesa per l'health check     |
-| `COMPOSE_SERVICE` | `kura`                   | Nome del service in `docker-compose.yml` |
-| `SMTP_HOST`       | —                        | Host SMTP per invio promemoria email     |
-| `SMTP_PORT`       | `587`                    | Porta SMTP                               |
-| `SMTP_USERNAME`   | —                        | Utente SMTP                              |
-| `SMTP_PASSWORD`   | —                        | Password SMTP                            |
-| `SMTP_FROM`       | —                        | Indirizzo mittente (es. `noreply@kura.tld`) |
-| `SMTP_FROM_NAME`  | `Kura`                   | Nome mittente                            |
-| `APP_URL`         | `http://localhost:8090`  | URL pubblico dell'app                    |
-| `BACKUP_CRON`     | `0 3 * * *`              | Backup automatico di `pb_data` (schedulazione cron); `off` per disabilitare |
-| `BACKUP_MAX_KEEP` | `7`                      | Quanti backup tenere prima di ruotare    |
+| `ALLOW_REGISTRATION` | `true` | Set to `false` to disable new user registration. Controls both the UI and the PocketBase API. Requires `docker compose build` after changing it. |
+| `PB_URL`          | `http://localhost:8090`  | PocketBase URL (e.g. remote host)        |
+| `PB_TIMEOUT`      | `60`                     | Seconds to wait for the health check     |
+| `COMPOSE_SERVICE` | `kura`                   | Service name in `docker-compose.yml`     |
+| `SMTP_HOST`       | —                        | SMTP host for sending email reminders    |
+| `SMTP_PORT`       | `587`                    | SMTP port                                |
+| `SMTP_USERNAME`   | —                        | SMTP username                            |
+| `SMTP_PASSWORD`   | —                        | SMTP password                            |
+| `SMTP_FROM`       | —                        | Sender address (e.g. `noreply@kura.tld`) |
+| `SMTP_FROM_NAME`  | `Kura`                   | Sender name                              |
+| `APP_URL`         | `http://localhost:8090`  | Public URL of the app                    |
+| `BACKUP_CRON`     | `0 3 * * *`              | Automatic `pb_data` backup (cron schedule); `off` to disable |
+| `BACKUP_MAX_KEEP` | `7`                      | How many backups to keep before rotating |
 
-Al termine accedi all'app su **http://localhost:8090**.
+When done, log in to the app at **http://localhost:8090**.
 
 Admin panel: **http://localhost:8090/_/**
 
 ## Backup
 
-Kura esegue di serie un **backup automatico notturno** dell'intera `pb_data/` (database + allegati, ZIP atomico): di default ogni notte alle 3, tenendo gli ultimi 7. Schedulazione e retention si controllano con `BACKUP_CRON` / `BACKUP_MAX_KEEP` (tabella sopra; `BACKUP_CRON=off` disabilita).
+Kura runs an **automatic nightly backup** of the entire `pb_data/` (database + attachments, atomic ZIP) by default: every night at 3am, keeping the last 7. Schedule and retention are controlled with `BACKUP_CRON` / `BACKUP_MAX_KEEP` (table above; `BACKUP_CRON=off` disables it).
 
-- I backup finiscono in `pb_data/backups/`
-- **Ripristino** (e backup manuali extra): dashboard admin → Settings → Backups
-- Limite da conoscere: i backup vivono sullo **stesso disco** dei dati — coprono errori umani e software, non il guasto del disco. Per il disaster recovery includi `pb_data/backups/` (o l'intera `pb_data/`) nel backup dell'host.
+- Backups land in `pb_data/backups/`
+- **Restore** (and extra manual backups): admin dashboard → Settings → Backups
+- Good to know: backups live on the **same disk** as the data — they cover human and software errors, not disk failure. For disaster recovery, include `pb_data/backups/` (or all of `pb_data/`) in your host-level backup.
 
-Copia manuale al volo, se serve:
+Quick manual copy, if needed:
 
 ```bash
 cp -r pb_data/ backup/pb_data_$(date +%Y%m%d_%H%M%S)/
 ```
 
-## Sicurezza
+## Security
 
-Kura contiene dati sanitari sensibili. **Non esporre mai l'app su internet senza HTTPS.** Opzioni consigliate:
+Kura contains sensitive health data. **Never expose the app to the internet without HTTPS.** Recommended options:
 
-- Reverse proxy con TLS (Caddy, Nginx + Let's Encrypt)
-- VPN privata per accesso personale (Tailscale, WireGuard)
+- Reverse proxy with TLS (Caddy, Nginx + Let's Encrypt)
+- Private VPN for personal access (Tailscale, WireGuard)

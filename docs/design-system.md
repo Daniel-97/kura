@@ -1,130 +1,130 @@
 # Kura — Design System
 
-Guida di stile per l'applicazione Kura, libretto sanitario digitale personale self-hosted (PocketBase + React). Questo documento è pensato per essere dato a un agente di sviluppo: ogni scelta visiva dell'app deve derivare dai token e dalle regole qui definiti. In caso di dubbio, l'icona è la fonte di verità: verde smeraldo, forme arrotondate, tratti morbidi, e il tracciato ECG come elemento firma.
+Style guide for the Kura app, a self-hosted personal digital health record (PocketBase + React). This document is meant to be handed to a development agent: every visual choice in the app must derive from the tokens and rules defined here. When in doubt, the icon is the source of truth: emerald green, rounded shapes, soft strokes, and the ECG trace as the signature element.
 
 ---
 
-## 1. Identità e principi
+## 1. Identity and principles
 
-**Personalità:** calma, affidabile, personale. Kura custodisce dati sanitari: l'interfaccia deve trasmettere ordine e sicurezza, mai urgenza ospedaliera. Niente rosso come colore dominante, niente iconografia da pronto soccorso.
+**Personality:** calm, trustworthy, personal. Kura holds health data: the interface must convey order and safety, never hospital urgency. No red as a dominant color, no emergency-room iconography.
 
-**Tre principi operativi:**
+**Three operating principles:**
 
-1. **Morbido ma preciso.** Angoli generosamente arrotondati e tratti con terminazioni tonde (come nel logo), ma griglie, allineamenti e gerarchie tipografiche rigorosi. I dati medici sono seri; la cornice è accogliente.
-2. **Il verde è guida, non tappezzeria.** Il verde smeraldo indica azioni primarie, stati attivi e il brand. Le superfici restano neutre e chiare: un documento sanitario deve essere leggibile prima che decorato.
-3. **L'ECG è la firma.** Il tracciato del logo ricompare con parsimonia come elemento distintivo: loading indicator, divisore decorativo negli empty state, dettaglio nell'header. Massimo un'occorrenza per schermata.
+1. **Soft but precise.** Generously rounded corners and round-terminated strokes (as in the logo), but rigorous grids, alignment and typographic hierarchy. Medical data is serious; the frame is welcoming.
+2. **Green guides, it doesn't decorate.** Emerald green marks primary actions, active states, and the brand. Surfaces stay neutral and light: a health document must be readable before it's decorated.
+3. **The ECG is the signature.** The logo's trace reappears sparingly as a distinctive element: loading indicator, decorative divider in empty states, a detail in the header. At most one occurrence per screen.
 
 ---
 
-## 2. Colori
+## 2. Colors
 
-### 2.1 Palette brand (dal logo)
+### 2.1 Brand palette (from the logo)
 
-| Token | Hex | Uso |
+| Token | Hex | Use |
 |---|---|---|
-| `--kura-50` | `#ECFDF5` | Sfondi tinta, hover su elementi verdi chiari |
-| `--kura-100` | `#D1FAE5` | Badge, chip, sfondi di stato attivo |
-| `--kura-200` | `#A7F3D0` | Bordi di elementi selezionati |
-| `--kura-300` | `#6EE7B7` | **Accento menta** (l'ECG del logo): grafici, dettagli su sfondi scuri |
-| `--kura-400` | `#34D399` | Icone decorative, indicatori |
-| `--kura-500` | `#10B981` | Grafici, progress bar |
-| `--kura-600` | `#059669` | **Primario**: bottoni, link, focus ring |
-| `--kura-700` | `#047857` | Hover del primario, testo verde su chiaro |
-| `--kura-800` | `#065F46` | Active/pressed, testo verde ad alto contrasto |
-| `--kura-900` | `#064E3B` | Sfondi scuri brand (sidebar dark, hero) |
+| `--kura-50` | `#ECFDF5` | Tinted backgrounds, hover on light green elements |
+| `--kura-100` | `#D1FAE5` | Badges, chips, active-state backgrounds |
+| `--kura-200` | `#A7F3D0` | Borders of selected elements |
+| `--kura-300` | `#6EE7B7` | **Mint accent** (the logo's ECG trace): charts, details on dark backgrounds |
+| `--kura-400` | `#34D399` | Decorative icons, indicators |
+| `--kura-500` | `#10B981` | Charts, progress bars |
+| `--kura-600` | `#059669` | **Primary**: buttons, links, focus ring |
+| `--kura-700` | `#047857` | Primary hover, green text on light backgrounds |
+| `--kura-800` | `#065F46` | Active/pressed, high-contrast green text |
+| `--kura-900` | `#064E3B` | Dark brand backgrounds (dark sidebar, hero) |
 
-Il gradiente brand (solo per icona, splash, hero della sidebar): `linear-gradient(135deg, #059669, #047857)`.
+Brand gradient (icon, splash and sidebar hero only): `linear-gradient(135deg, #059669, #047857)`.
 
-### 2.2 Neutri (grigi con sottotono verde freddo)
+### 2.2 Neutrals (grays with a cool green undertone)
 
-| Token | Hex | Uso |
+| Token | Hex | Use |
 |---|---|---|
-| `--neutral-0` | `#FFFFFF` | Superfici card |
-| `--neutral-50` | `#F6F8F7` | Sfondo app (body) |
-| `--neutral-100` | `#EDF1EF` | Sfondi secondari, righe alternate tabelle |
-| `--neutral-200` | `#DCE3E0` | Bordi, divisori |
-| `--neutral-400` | `#94A3A0` | Testo placeholder, icone disabilitate |
-| `--neutral-500` | `#64756F` | Testo secondario, label, metadati |
-| `--neutral-700` | `#3D4A45` | Testo di supporto |
-| `--neutral-900` | `#17211D` | Testo principale, titoli |
+| `--neutral-0` | `#FFFFFF` | Card surfaces |
+| `--neutral-50` | `#F6F8F7` | App background (body) |
+| `--neutral-100` | `#EDF1EF` | Secondary backgrounds, alternating table rows |
+| `--neutral-200` | `#DCE3E0` | Borders, dividers |
+| `--neutral-400` | `#94A3A0` | Placeholder text, disabled icons |
+| `--neutral-500` | `#64756F` | Secondary text, labels, metadata |
+| `--neutral-700` | `#3D4A45` | Supporting text |
+| `--neutral-900` | `#17211D` | Primary text, headings |
 
-### 2.3 Semantici
+### 2.3 Semantic colors
 
-| Token | Hex | Uso |
+| Token | Hex | Use |
 |---|---|---|
-| `--success` | `#059669` | Coincide con il primario: conferme, upload riusciti |
-| `--warning` | `#D97706` | Scadenze in arrivo (es. richiami vaccinali), attenzione |
-| `--danger` | `#DC2626` | Solo errori ed eliminazioni. Mai per contenuti medici |
-| `--info` | `#0284C7` | Note informative, suggerimenti |
+| `--success` | `#059669` | Same as primary: confirmations, successful uploads |
+| `--warning` | `#D97706` | Upcoming deadlines (e.g. vaccine boosters), attention |
+| `--danger` | `#DC2626` | Errors and deletions only. Never for medical content |
+| `--info` | `#0284C7` | Informational notes, tips |
 
-Ogni semantico ha una variante superficie al 10% circa: `--warning-bg: #FEF3E2`, `--danger-bg: #FDECEC`, `--info-bg: #E8F4FB`, `--success-bg: var(--kura-50)`.
+Each semantic color has a ~10% surface variant: `--warning-bg: #FEF3E2`, `--danger-bg: #FDECEC`, `--info-bg: #E8F4FB`, `--success-bg: var(--kura-50)`.
 
-### 2.4 Colori per categoria di documento
+### 2.4 Colors by document category
 
-Per distinguere a colpo d'occhio i tipi di documento sanitario (badge e icone, mai testi lunghi):
+To tell health document types apart at a glance (badges and icons, never long text):
 
-| Categoria | Colore badge | Sfondo badge |
+| Category | Badge color | Badge background |
 |---|---|---|
-| Referti / analisi | `#047857` | `#D1FAE5` |
-| Prescrizioni / farmaci | `#7C3AED` | `#EDE9FE` |
-| Vaccinazioni | `#0284C7` | `#E0F2FE` |
-| Visite / specialisti | `#D97706` | `#FEF3E2` |
-| Imaging (RX, RMN, eco) | `#475569` | `#E2E8F0` |
-| Altro | `#64756F` | `#EDF1EF` |
+| Reports / lab results | `#047857` | `#D1FAE5` |
+| Prescriptions / medication | `#7C3AED` | `#EDE9FE` |
+| Vaccinations | `#0284C7` | `#E0F2FE` |
+| Appointments / specialists | `#D97706` | `#FEF3E2` |
+| Imaging (X-ray, MRI, ultrasound) | `#475569` | `#E2E8F0` |
+| Other | `#64756F` | `#EDF1EF` |
 
 ### 2.5 Dark mode
 
-Il dark mode ribalta le superfici mantenendo il verde riconoscibile. Sfondo app `#0E1613` (verde-nero, non nero puro), card `#16211C`, bordi `#25332D`, testo principale `#E8EFEB`, testo secondario `#8FA39B`. Il primario diventa `--kura-400` (#34D399) per i bottoni e `--kura-300` (#6EE7B7) per link e accenti, perché su scuro il 600 non ha contrasto sufficiente.
+Dark mode flips the surfaces while keeping green recognizable. App background `#0E1613` (green-black, not pure black), card `#16211C`, borders `#25332D`, primary text `#E8EFEB`, secondary text `#8FA39B`. The primary becomes `--kura-400` (#34D399) for buttons and `--kura-300` (#6EE7B7) for links and accents, because on dark backgrounds the 600 shade doesn't have enough contrast.
 
 ---
 
-## 3. Tipografia
+## 3. Typography
 
-Tre ruoli, tre famiglie (tutte su Google Fonts, self-hostabili con `@fontsource/*` per coerenza con la filosofia self-hosted del progetto):
+Three roles, three families (all on Google Fonts, self-hostable via `@fontsource/*` for consistency with the project's self-hosted philosophy):
 
-| Ruolo | Font | Fallback | Uso |
+| Role | Font | Fallback | Use |
 |---|---|---|---|
-| Display | **Outfit** | system-ui, sans-serif | Titoli pagina, numeri grandi in dashboard, logo testuale |
-| Body | **Inter** | system-ui, sans-serif | Tutto il resto: paragrafi, form, navigazione |
-| Dati | **JetBrains Mono** | monospace | Valori clinici, dosaggi, codici fiscali/tessera, date nei metadati |
+| Display | **Outfit** | system-ui, sans-serif | Page titles, large dashboard numbers, text logo |
+| Body | **Inter** | system-ui, sans-serif | Everything else: paragraphs, forms, navigation |
+| Data | **JetBrains Mono** | monospace | Clinical values, dosages, ID/insurance card numbers, metadata dates |
 
-Il mono per i valori clinici è una scelta deliberata: "Glicemia **92 mg/dL**" con il valore in JetBrains Mono rende i numeri scansionabili e dà all'app un carattere da "cartella dati" preciso.
+Using mono for clinical values is deliberate: "Blood glucose **92 mg/dL**" with the value in JetBrains Mono makes numbers scannable and gives the app a precise "data chart" character.
 
-### Scala tipografica
+### Type scale
 
-| Token | Size / line-height | Peso | Uso |
+| Token | Size / line-height | Weight | Use |
 |---|---|---|---|
-| `--text-display` | 32px / 38px | Outfit 600 | Titolo pagina (uno per schermata) |
-| `--text-title` | 24px / 30px | Outfit 600 | Titoli sezione, titoli modali |
-| `--text-heading` | 18px / 26px | Inter 600 | Titoli card, titoli documento |
-| `--text-body` | 15px / 23px | Inter 400 | Testo base |
-| `--text-body-strong` | 15px / 23px | Inter 600 | Enfasi, label form |
-| `--text-small` | 13px / 19px | Inter 400 | Metadati, didascalie, helper text |
-| `--text-mono` | 14px / 20px | JetBrains Mono 500 | Valori e codici |
+| `--text-display` | 32px / 38px | Outfit 600 | Page title (one per screen) |
+| `--text-title` | 24px / 30px | Outfit 600 | Section titles, modal titles |
+| `--text-heading` | 18px / 26px | Inter 600 | Card titles, document titles |
+| `--text-body` | 15px / 23px | Inter 400 | Base text |
+| `--text-body-strong` | 15px / 23px | Inter 600 | Emphasis, form labels |
+| `--text-small` | 13px / 19px | Inter 400 | Metadata, captions, helper text |
+| `--text-mono` | 14px / 20px | JetBrains Mono 500 | Values and codes |
 
-Regole: sentence case ovunque (mai TUTTO MAIUSCOLO tranne micro-label da 11px con letter-spacing 0.06em per le eyebrow di sezione). Numeri tabellari (`font-variant-numeric: tabular-nums`) in ogni tabella e lista di valori.
+Rules: sentence case everywhere (never ALL CAPS except 11px micro-labels with 0.06em letter-spacing for section eyebrows). Tabular numbers (`font-variant-numeric: tabular-nums`) in every table and list of values.
 
 ---
 
-## 4. Forma, spaziatura, elevazione
+## 4. Shape, spacing, elevation
 
-### 4.1 Raggi (derivati dal ~22% dell'icona)
+### 4.1 Radii (derived from ~22% of the icon)
 
-| Token | Valore | Uso |
+| Token | Value | Use |
 |---|---|---|
-| `--radius-sm` | 8px | Chip, badge, tag |
-| `--radius-md` | 12px | Bottoni, input, select |
-| `--radius-lg` | 16px | Card, modali, dropdown |
-| `--radius-xl` | 24px | Contenitori hero, immagini di anteprima grandi |
-| `--radius-full` | 9999px | Avatar, pill, toggle |
+| `--radius-sm` | 8px | Chips, badges, tags |
+| `--radius-md` | 12px | Buttons, inputs, selects |
+| `--radius-lg` | 16px | Cards, modals, dropdowns |
+| `--radius-xl` | 24px | Hero containers, large preview images |
+| `--radius-full` | 9999px | Avatars, pills, toggles |
 
-Mai angoli vivi (0px): tradirebbero il linguaggio del logo.
+Never sharp corners (0px): they'd betray the logo's visual language.
 
-### 4.2 Spaziatura
+### 4.2 Spacing
 
-Scala base 4px: `4, 8, 12, 16, 20, 24, 32, 40, 48, 64`. Padding card: 20px (24px su desktop largo). Gap tra card in griglia: 16px. Margine tra sezioni di pagina: 40px. Container principale: max-width 1120px, padding laterale 24px (16px su mobile).
+Base scale 4px: `4, 8, 12, 16, 20, 24, 32, 40, 48, 64`. Card padding: 20px (24px on wide desktop). Gap between cards in a grid: 16px. Margin between page sections: 40px. Main container: max-width 1120px, 24px horizontal padding (16px on mobile).
 
-### 4.3 Ombre (tinte di verde, mai grigio-blu)
+### 4.3 Shadows (green-tinted, never blue-gray)
 
 ```css
 --shadow-sm: 0 1px 2px rgba(6, 78, 59, 0.06);
@@ -132,66 +132,66 @@ Scala base 4px: `4, 8, 12, 16, 20, 24, 32, 40, 48, 64`. Padding card: 20px (24px
 --shadow-lg: 0 12px 32px rgba(6, 78, 59, 0.12);
 ```
 
-Le card a riposo usano `--shadow-sm` + bordo `--neutral-200`; al hover (solo se cliccabili) passano a `--shadow-md` con transizione 150ms.
+Cards at rest use `--shadow-sm` + `--neutral-200` border; on hover (only if clickable) they move to `--shadow-md` with a 150ms transition.
 
 ### 4.4 Motion
 
-Transizioni brevi e discrete: 150ms `ease-out` per hover/focus, 220ms `cubic-bezier(0.2, 0.8, 0.2, 1)` per modali e drawer. Rispettare sempre `prefers-reduced-motion: reduce` disattivando animazioni non essenziali. L'unica animazione "di carattere" concessa: il tracciato ECG che si disegna (stroke-dashoffset) come loading indicator.
+Short, discreet transitions: 150ms `ease-out` for hover/focus, 220ms `cubic-bezier(0.2, 0.8, 0.2, 1)` for modals and drawers. Always respect `prefers-reduced-motion: reduce` by disabling non-essential animations. The only "character" animation allowed: the ECG trace drawing itself in (stroke-dashoffset) as a loading indicator.
 
 ---
 
-## 5. Componenti
+## 5. Components
 
-### 5.1 Bottoni
+### 5.1 Buttons
 
-Altezza 40px (36px compact), padding orizzontale 16px, radius `--radius-md`, font Inter 600 15px, icona opzionale 18px a sinistra con gap 8px.
+Height 40px (36px compact), 16px horizontal padding, `--radius-md` radius, Inter 600 15px font, optional 18px icon on the left with 8px gap.
 
-| Variante | Riposo | Hover | Active |
+| Variant | Rest | Hover | Active |
 |---|---|---|---|
-| Primario | bg `--kura-600`, testo bianco | bg `--kura-700` | bg `--kura-800` |
-| Secondario | bg bianco, bordo `--neutral-200`, testo `--neutral-900` | bg `--neutral-50` | bg `--neutral-100` |
-| Ghost | trasparente, testo `--kura-700` | bg `--kura-50` | bg `--kura-100` |
-| Distruttivo | bg bianco, bordo e testo `--danger` | bg `--danger-bg` | — |
+| Primary | bg `--kura-600`, white text | bg `--kura-700` | bg `--kura-800` |
+| Secondary | white bg, `--neutral-200` border, `--neutral-900` text | bg `--neutral-50` | bg `--neutral-100` |
+| Ghost | transparent, `--kura-700` text | bg `--kura-50` | bg `--kura-100` |
+| Destructive | white bg, `--danger` border and text | bg `--danger-bg` | — |
 
-Un solo bottone primario per vista. Le eliminazioni richiedono sempre conferma in modale.
+Only one primary button per view. Deletions always require confirmation in a modal.
 
-### 5.2 Card documento (componente centrale dell'app)
+### 5.2 Document card (the app's central component)
 
-Struttura: icona categoria in un quadrato 40px con radius 12px e i colori della categoria (§2.4) → titolo documento in `--text-heading` → riga metadati in `--text-small` colore `--neutral-500` (data in mono · medico/struttura · dimensione file) → badge categoria in alto a destra. Bordo sinistro NON colorato (niente accent-border: troppo "ticket system"); la categoria parla attraverso icona e badge.
+Structure: category icon in a 40px square with 12px radius and the category colors (§2.4) → document title in `--text-heading` → metadata row in `--text-small` colored `--neutral-500` (date in mono · doctor/facility · file size) → category badge top-right. Left border NOT colored (no accent border: too "ticket system"); the category speaks through icon and badge instead.
 
-### 5.3 Form e input
+### 5.3 Forms and inputs
 
-Input: altezza 40px, bg bianco, bordo `--neutral-200`, radius `--radius-md`, padding 12px. Focus: bordo `--kura-600` + ring `0 0 0 3px rgba(5, 150, 105, 0.15)`. Errore: bordo `--danger` + helper text sotto in `--danger`, mai solo il colore (aggiungere icona o testo). Label sopra l'input in `--text-body-strong`, helper text sotto in `--text-small`. Upload file: dropzone con bordo tratteggiato `--neutral-200` radius `--radius-lg`, al drag-over bordo `--kura-600` e bg `--kura-50`.
+Input: 40px height, white bg, `--neutral-200` border, `--radius-md` radius, 12px padding. Focus: `--kura-600` border + `0 0 0 3px rgba(5, 150, 105, 0.15)` ring. Error: `--danger` border + helper text below in `--danger`, never color alone (add an icon or text too). Label above the input in `--text-body-strong`, helper text below in `--text-small`. File upload: dropzone with dashed `--neutral-200` border, `--radius-lg` radius, on drag-over `--kura-600` border and `--kura-50` bg.
 
-### 5.4 Navigazione
+### 5.4 Navigation
 
-Sidebar desktop (240px) su bg `--neutral-0` con bordo destro; voce attiva: bg `--kura-50`, testo `--kura-800`, icona `--kura-600`, radius `--radius-md`. In alto il logo Kura (icona 32px + wordmark "Kura" in Outfit 600). Su mobile: bottom bar a 4-5 voci, icona 24px + label 11px, voce attiva in `--kura-600`.
+Desktop sidebar (240px) on `--neutral-0` bg with a right border; active item: `--kura-50` bg, `--kura-800` text, `--kura-600` icon, `--radius-md` radius. Kura logo at the top (32px icon + "Kura" wordmark in Outfit 600). On mobile: 4-5 item bottom bar, 24px icon + 11px label, active item in `--kura-600`.
 
-### 5.5 Badge, stati e feedback
+### 5.5 Badges, states and feedback
 
-Badge: pill radius, padding 4px 10px, testo 12px/600, colori da §2.4 o semantici. Toast: card `--radius-lg` con icona semantica, auto-dismiss 4s, posizione bottom-center su mobile e bottom-right su desktop. Empty state: illustrazione minimale con il tratto ECG in `--kura-300`, titolo in `--text-heading`, una riga di spiegazione e un bottone primario che invita all'azione ("Carica il primo documento").
+Badge: pill radius, 4px 10px padding, 12px/600 text, colors from §2.4 or semantic. Toast: `--radius-lg` card with a semantic icon, 4s auto-dismiss, bottom-center on mobile and bottom-right on desktop. Empty state: minimal illustration with the ECG trace in `--kura-300`, title in `--text-heading`, one line of explanation and a primary button inviting action ("Upload your first document").
 
-### 5.6 Tabelle e liste valori
+### 5.6 Tables and value lists
 
-Header in `--text-small` 600 maiuscoletto `--neutral-500`; righe con divisori `--neutral-200`, hover `--neutral-50`; valori numerici in JetBrains Mono allineati a destra. Su mobile le tabelle collassano in card.
-
----
-
-## 6. Iconografia e asset
-
-Set icone: **Lucide** (già coerente con React), stroke-width 2, terminazioni tonde — lo stesso linguaggio del logo. Dimensioni: 18px inline, 20px nei bottoni, 24px in navigazione. Colore di default `--neutral-500`, attive/brand in `--kura-600`. Vietato mixare set di icone diversi.
-
-Il file `kura-icon.svg` è l'icona ufficiale (favicon, PWA, app icon). Il tracciato ECG estraibile dal logo per usi decorativi è il path: `M0 40 L86 120 H132 L162 44 L196 176 L226 120 H290` (stroke round, width proporzionale).
+Header in `--text-small` 600 small-caps `--neutral-500`; rows with `--neutral-200` dividers, `--neutral-50` hover; numeric values in JetBrains Mono, right-aligned. On mobile, tables collapse into cards.
 
 ---
 
-## 7. Accessibilità (non negoziabile)
+## 6. Iconography and assets
 
-Contrasto minimo WCAG AA: testo normale 4.5:1, testo grande 3:1 — per questo il testo verde su bianco usa `--kura-700`/`--kura-800`, mai 400/500. Focus visibile su ogni elemento interattivo (ring verde §5.3, mai `outline: none` senza sostituto). Tutte le azioni raggiungibili da tastiera; modali con focus trap ed `Esc` per chiudere. Le informazioni non sono mai veicolate dal solo colore (badge = colore + testo). Target touch minimo 44×44px su mobile. `lang="it"` sul documento e testi alternativi su ogni anteprima di documento.
+Icon set: **Lucide** (already consistent with React), stroke-width 2, round terminations — the same visual language as the logo. Sizes: 18px inline, 20px in buttons, 24px in navigation. Default color `--neutral-500`, active/brand in `--kura-600`. Mixing different icon sets is forbidden.
+
+`kura-icon.svg` is the official icon (favicon, PWA, app icon). The ECG trace extractable from the logo for decorative use is the path: `M0 40 L86 120 H132 L162 44 L196 176 L226 120 H290` (round stroke, proportional width).
 
 ---
 
-## 8. Token CSS pronti all'uso
+## 7. Accessibility (non-negotiable)
+
+Minimum WCAG AA contrast: normal text 4.5:1, large text 3:1 — this is why green text on white uses `--kura-700`/`--kura-800`, never 400/500. Visible focus on every interactive element (green ring §5.3, never `outline: none` without a replacement). All actions reachable by keyboard; modals with a focus trap and `Esc` to close. Information is never conveyed by color alone (badge = color + text). Minimum touch target 44×44px on mobile. `lang` attribute set on the document and alt text on every document preview.
+
+---
+
+## 8. Ready-to-use CSS tokens
 
 ```css
 :root {
@@ -200,32 +200,32 @@ Contrasto minimo WCAG AA: testo normale 4.5:1, testo grande 3:1 — per questo i
   --kura-300:#6EE7B7; --kura-400:#34D399; --kura-500:#10B981;
   --kura-600:#059669; --kura-700:#047857; --kura-800:#065F46; --kura-900:#064E3B;
 
-  /* Neutri */
+  /* Neutrals */
   --neutral-0:#FFFFFF; --neutral-50:#F6F8F7; --neutral-100:#EDF1EF;
   --neutral-200:#DCE3E0; --neutral-400:#94A3A0; --neutral-500:#64756F;
   --neutral-700:#3D4A45; --neutral-900:#17211D;
 
-  /* Semantici */
+  /* Semantic */
   --success:#059669; --success-bg:#ECFDF5;
   --warning:#D97706; --warning-bg:#FEF3E2;
   --danger:#DC2626;  --danger-bg:#FDECEC;
   --info:#0284C7;    --info-bg:#E8F4FB;
 
-  /* Superfici e testo */
+  /* Surfaces and text */
   --bg-app:var(--neutral-50); --bg-card:var(--neutral-0);
   --border:var(--neutral-200);
   --text-primary:var(--neutral-900); --text-secondary:var(--neutral-500);
   --brand:var(--kura-600); --brand-hover:var(--kura-700); --brand-active:var(--kura-800);
 
-  /* Forma */
+  /* Shape */
   --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-xl:24px; --radius-full:9999px;
 
-  /* Ombre */
+  /* Shadows */
   --shadow-sm:0 1px 2px rgba(6,78,59,.06);
   --shadow-md:0 4px 12px rgba(6,78,59,.08);
   --shadow-lg:0 12px 32px rgba(6,78,59,.12);
 
-  /* Font */
+  /* Fonts */
   --font-display:'Outfit',system-ui,sans-serif;
   --font-body:'Inter',system-ui,sans-serif;
   --font-mono:'JetBrains Mono',monospace;
@@ -243,7 +243,7 @@ Contrasto minimo WCAG AA: testo normale 4.5:1, testo grande 3:1 — per questo i
 }
 ```
 
-### Estensione Tailwind equivalente (se il progetto usa Tailwind)
+### Equivalent Tailwind extension (if the project uses Tailwind)
 
 ```js
 // tailwind.config.js — theme.extend
@@ -268,15 +268,15 @@ boxShadow: {
 
 ---
 
-## 9. Regole rapide per l'agente (checklist)
+## 9. Quick rules for the agent (checklist)
 
-1. Ogni colore, raggio, ombra e font proviene dai token di §8: nessun valore hardcoded nei componenti.
-2. Un solo bottone primario verde per vista; il rosso appare solo per errori ed eliminazioni.
-3. Valori clinici, dosaggi e codici sempre in JetBrains Mono con `tabular-nums`.
-4. Card e superfici bianche su sfondo `--bg-app`, mai bianco su bianco senza bordo.
-5. Angoli sempre arrotondati secondo la scala; icone solo Lucide, stroke 2, terminazioni tonde.
-6. Il motivo ECG appare al massimo una volta per schermata (loading, empty state o header, non tutti insieme).
-7. Focus ring verde visibile ovunque; contrasto AA verificato; target touch ≥ 44px.
-8. Dark mode via `[data-theme="dark"]`: usare solo i token semantici (`--bg-card`, `--text-primary`, `--brand`…), mai i valori grezzi della scala, così il tema si ribalta gratis.
-9. Sentence case in tutta la UI; le date in formato `GG mmm AAAA` (es. `12 lug 2026`) nei metadati.
-10. Prima di introdurre un componente nuovo, verificare che non sia componibile da quelli di §5.
+1. Every color, radius, shadow and font comes from the tokens in §8: no hardcoded values in components.
+2. Only one green primary button per view; red appears only for errors and deletions.
+3. Clinical values, dosages and codes always in JetBrains Mono with `tabular-nums`.
+4. Cards and white surfaces on `--bg-app` background, never white-on-white without a border.
+5. Corners always rounded per the scale; icons only Lucide, stroke 2, round terminations.
+6. The ECG motif appears at most once per screen (loading, empty state or header, not all at once).
+7. Visible green focus ring everywhere; AA contrast verified; touch targets ≥ 44px.
+8. Dark mode via `[data-theme="dark"]`: use only the semantic tokens (`--bg-card`, `--text-primary`, `--brand`…), never the raw scale values, so the theme flips for free.
+9. Sentence case throughout the UI; dates in `DD Mon YYYY` format (e.g. `12 Jul 2026`) in metadata.
+10. Before introducing a new component, check whether it can be composed from the ones in §5.

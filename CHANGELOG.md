@@ -1,44 +1,45 @@
 # Changelog
 
-Tutte le modifiche rilevanti di Kura sono documentate qui.
-Formato basato su [Keep a Changelog](https://keepachangelog.com/it/1.1.0/),
-versionamento secondo [Semantic Versioning](https://semver.org/lang/it/).
+All notable changes to Kura are documented here.
+Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+versioning follows [Semantic Versioning](https://semver.org/).
 
-Ogni release è taggata su Git come `vX.Y.Z` e pubblica un'immagine su
-`ghcr.io/daniel-97/kura` (vedi [.github/workflows/docker-publish.yml](.github/workflows/docker-publish.yml)).
+Every release is tagged on Git as `vX.Y.Z` and publishes an image to
+`ghcr.io/daniel-97/kura` (see [.github/workflows/docker-publish.yml](.github/workflows/docker-publish.yml)).
 
 ## [Unreleased]
 
 ## [1.0.0] - 2026-07-15
 
-Prima release pubblica.
+First public release.
 
 ### Added
 
-- Diario clinico: timeline dei referti con allegati (PDF/immagini) protetti da
-  token, categorie personalizzabili, ricerca full-text, promemoria email
-- Misurazioni: pressione (con grafico), peso e glicemia, con trend
-- Terapie e medicinali: ricorrenze flessibili, scadenze confezioni, notifiche
-  per occorrenza
-- Dashboard "Panoramica": prossime visite, ultime misurazioni, terapie in
-  corso, promemoria in attesa
-- Export e portabilità: export completo (ZIP JSON+CSV+allegati), export della
-  singola visita, evento `.ics`
-- Bilingue italiano/inglese, tema chiaro/scuro, PWA installabile
-- Backup automatici notturni con rotazione
-- Pubblicazione immagine Docker multi-arch (amd64/arm64) su ghcr.io via CI/CD
+- Clinical diary: timeline of records with attachments (PDF/images) protected
+  by tokens, customizable categories, full-text search, email reminders
+- Measurements: blood pressure (with chart), weight and blood glucose, with
+  trends
+- Therapies and medications: flexible recurrences, package expiry, per-
+  occurrence notifications
+- "Overview" dashboard: upcoming appointments, latest measurements, ongoing
+  therapies, pending reminders
+- Export and portability: full export (ZIP JSON+CSV+attachments),
+  single-visit export, `.ics` event
+- Bilingual Italian/English, light/dark theme, installable PWA
+- Automatic nightly backups with rotation
+- Multi-arch (amd64/arm64) Docker image publishing to ghcr.io via CI/CD
 
-## Convenzioni
+## Conventions
 
-- **MAJOR**: breaking change — richiede un intervento manuale prima o dopo
-  l'aggiornamento (es. migrazione/wipe di `pb_data/`, variabile d'ambiente
-  rinominata). Va sempre descritto un "Come aggiornare" nella voce.
-- **MINOR**: nuove funzionalità retrocompatibili.
-- **PATCH**: bugfix e patch di sicurezza, nessuna azione richiesta.
-- Le migrazioni di schema in `pb_migrations/` vengono applicate
-  automaticamente da PocketBase all'avvio del container — non serve uno step
-  manuale per quelle. Un MAJOR bump segnala i casi (finora tutti) in cui lo
-  schema aggiunge un campo/collezione che PocketBase non retro-applica da solo
-  alle istanze già in vita (es. campo nuovo su una collezione esistente),
-  finora risolti con wipe di `pb_data/` in sviluppo o toggle manuale dal
-  dashboard admin in produzione — vedi lo storico in `docs/TODO.md`.
+- **MAJOR**: breaking change — requires a manual step before or after
+  updating (e.g. `pb_data/` migration/wipe, renamed env var). Always describe
+  a "How to update" note in the entry.
+- **MINOR**: new backward-compatible features.
+- **PATCH**: bugfixes and security patches, no action required.
+- Schema migrations in `pb_migrations/` are applied automatically by
+  PocketBase on container startup — no manual step needed for those. A MAJOR
+  bump flags the cases (so far, all of them) where the schema adds a
+  field/collection that PocketBase doesn't retroactively apply to instances
+  already running (e.g. a new field on an existing collection), so far
+  resolved by wiping `pb_data/` in development or a manual toggle from the
+  admin dashboard in production — see the history in `docs/TODO.md`.

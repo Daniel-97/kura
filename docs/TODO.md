@@ -1,51 +1,51 @@
-# Kura — Fix e funzionalità da fare
+# Kura — Fixes and features to do
 
-Elenco emerso dalla revisione del 2026-07-12. Ordinato per priorità.
+List that emerged from the 2026-07-12 review. Ordered by priority.
 
-## 1. Sicurezza e robustezza (da fare prima)
+## 1. Security and robustness (do first)
 
-- [x] **Proteggere gli allegati dei referti** *(fatto: `protected: true` sul campo `file` in `init.js` + file token in `RecordCard` via hook `useFileToken`; le istanze esistenti richiedono wipe di `pb_data/` o toggle manuale dal dashboard)*
-  Il campo `file` della collezione `records` (`pb_migrations/init.js`) non ha `protected: true`: in PocketBase i file sono pubblici di default, quindi chiunque conosca l'URL può scaricare un referto senza autenticazione. Fix: marcare il campo come protetto e usare i file token (`pb.files.getToken()`) nel frontend per generare gli URL di download.
+- [x] **Protect record attachments** *(done: `protected: true` on the `file` field in `init.js` + file token in `RecordCard` via the `useFileToken` hook; existing instances require a `pb_data/` wipe or a manual toggle from the dashboard)*
+  The `file` field of the `records` collection (`pb_migrations/init.js`) doesn't have `protected: true`: in PocketBase files are public by default, so anyone who knows the URL can download a record without authentication. Fix: mark the field as protected and use file tokens (`pb.files.getToken()`) in the frontend to generate download URLs.
 
-- [x] **Hook PocketBase mai caricati** *(scoperto e corretto durante il fix dei promemoria: PocketBase carica solo `pb_hooks/*.pb.js`, i file erano `.js` — promemoria, SMTP da env e toggle registrazione non sono mai stati attivi. Rinominati in `.pb.js`; corretto anche `$os.getEnv` → `$os.getenv` e il filtro `sent_at` che, essendo un oggetto DateTime truthy anche da vuoto, scartava tutti i promemoria)*
+- [x] **PocketBase hooks never loaded** *(discovered and fixed while fixing reminders: PocketBase only loads `pb_hooks/*.pb.js`, the files were `.js` — reminders, SMTP from env, and the registration toggle were never active. Renamed to `.pb.js`; also fixed `$os.getEnv` → `$os.getenv` and the `sent_at` filter which, being a DateTime object truthy even when empty, discarded every reminder)*
 
-- [x] **Bug email promemoria: mostra l'ID categoria invece del nome** *(fatto: la relazione viene risolta con `findRecordById("categories", ...)`; riga "Categoria" omessa se il referto non ha categoria)*
+- [x] **Reminder email bug: shows category ID instead of name** *(done: the relation is now resolved with `findRecordById("categories", ...)`; the "Category" row is omitted if the record has no category)*
 
-- [x] **Email promemoria: escaping HTML mancante** *(fatto: `escapeHtml` su titolo, categoria, descrizione e messaggio nella parte HTML; il text/plain resta volutamente crudo. Corretto anche il `catch` del dispatcher che usava `reminder.getId()` — inesistente nel JSVM — e quindi mascherava gli errori reali. Nota JSVM: gli handler girano in VM separate, gli helper vanno definiti dentro il callback)*
+- [x] **Reminder email: missing HTML escaping** *(done: `escapeHtml` on title, category, description and message in the HTML part; the text/plain part is deliberately left raw. Also fixed the dispatcher's `catch` block, which used `reminder.getId()` — nonexistent in the JSVM — and so was masking the real errors. JSVM note: handlers run in separate VMs, helpers must be defined inside the callback)*
 
-- [x] **Email promemoria: lingua hardcoded it-IT** *(fatto: campo `language` (select it/en) su `users` in `init.js`; il LanguageSwitcher persiste la scelta sul profilo e al login la lingua salvata viene applicata; email tradotta it/en con date formattate a mano — il JSVM ignora `toLocaleDateString`. Le istanze esistenti richiedono wipe di `pb_data/` o aggiunta manuale del campo dal dashboard; senza campo l'email resta in italiano. Nota: l'orario nell'email usa il fuso del server)*
+- [x] **Reminder email: hardcoded it-IT language** *(done: `language` field (select it/en) on `users` in `init.js`; the LanguageSwitcher persists the choice to the profile and the saved language is applied at login; email translated it/en with dates formatted by hand — the JSVM ignores `toLocaleDateString`. Existing instances require a `pb_data/` wipe or manually adding the field from the dashboard; without the field the email stays in Italian. Note: the time in the email uses the server's timezone)*
 
-- [x] **Query promemoria inefficiente nel cron** *(fatto insieme al fix del filtro `sent_at`: il dispatcher ora usa `findRecordsByFilter("reminders", "sent_at = '' && fire_at <= {:now}", ...)` — selezione lato DB)*
+- [x] **Inefficient reminder query in the cron job** *(done together with the `sent_at` filter fix: the dispatcher now uses `findRecordsByFilter("reminders", "sent_at = '' && fire_at <= {:now}", ...)` — DB-side selection)*
 
-- [x] **Filtri record non sanitizzati** *(fatto: `buildFilter` in `useRecords.ts` e il filtro in `useReminders.ts` usano `pb.filter()`; verificato e2e che un tag ostile non inietta più clausole — prima un valore come `x" || user != "` faceva tornare tutti i record. La `listRule` per-utente impediva comunque leak cross-utente)*
+- [x] **Unsanitized record filters** *(done: `buildFilter` in `useRecords.ts` and the filter in `useReminders.ts` use `pb.filter()`; verified end-to-end that a hostile tag no longer injects clauses — previously a value like `x" || user != "` returned every record. The per-user `listRule` still prevented cross-user leaks regardless)*
 
-- [x] **Timeline troncata a 500 record** *(fatto: `useRecords` è una `useInfiniteQuery` a pagine da 100 con helper `nextPageParam` testato; la Timeline carica le pagine successive automaticamente con un sentinel `IntersectionObserver` in fondo alla lista)*
+- [x] **Timeline truncated at 500 records** *(done: `useRecords` is a `useInfiniteQuery` with 100-item pages and a tested `nextPageParam` helper; the Timeline loads subsequent pages automatically via an `IntersectionObserver` sentinel at the bottom of the list)*
 
-## 2. Funzionalità ad alto valore, sforzo contenuto
+## 2. High-value features, low effort
 
-- [x] **Ricerca full-text sui referti** *(fatto: casella di ricerca con debounce 300ms nella timeline, filtro `(title ~ q || description ~ q || tags ~ q)` combinabile col select categoria; il vecchio filtro per tag è stato rimosso perché ridondante — i tag sono coperti dalla ricerca)*
+- [x] **Full-text search on records** *(done: search box with 300ms debounce in the timeline, filter `(title ~ q || description ~ q || tags ~ q)` combinable with the category select; the old tag filter was removed as redundant — tags are now covered by search)*
 
-- [x] **Export dati**
-  - [x] Export completo: "Esporta i miei dati" nel menu utente → ZIP client-side (`fflate`) con ogni collezione in JSON fedele + CSV semplificato (relazioni risolte) e allegati in cartelle per referto (design in `docs/superpowers/specs/2026-07-13-data-export-design.md`, non tracciato)
-  - [x] Export della singola visita: voce "Esporta" nel menu della card → ZIP con `referto.json` + `referto.csv` + allegati
-  - [x] ICS calendario: voce "Aggiungi al calendario" nel menu della card → `.ics` a evento singolo (RFC 5545, durata default 1h); scelta per-visita invece dell'export globale delle future
+- [x] **Data export**
+  - [x] Full export: "Export my data" in the user menu → client-side ZIP (`fflate`) with each collection as faithful JSON + simplified CSV (relations resolved) and attachments in per-record folders (design in `docs/superpowers/specs/2026-07-13-data-export-design.md`, not tracked)
+  - [x] Single-visit export: "Export" entry in the card menu → ZIP with `referto.json` + `referto.csv` + attachments
+  - [x] ICS calendar: "Add to calendar" entry in the card menu → single-event `.ics` (RFC 5545, default 1h duration); per-visit choice instead of a global export of future visits
 
-- [x] **Dashboard iniziale** *(fatto: `/` è la nuova home "Panoramica" con azioni rapide, prossime 3 visite con countdown, ultima pressione + trend 30 giorni, promemoria pendenti; la timeline è su `/timeline`. Include la fondazione del design system: token shadcn rimappati su `docs/design-system.md`, font Outfit/Inter/JetBrains Mono self-hosted, palette kura, ombre verdi, raggi; icone nav passate da emoji a Lucide)*
+- [x] **Initial dashboard** *(done: `/` is the new "Overview" home with quick actions, next 3 appointments with countdown, latest blood pressure + 30-day trend, pending reminders; the timeline moved to `/timeline`. Includes the design system foundation: shadcn tokens remapped in `docs/design-system.md`, self-hosted Outfit/Inter/JetBrains Mono fonts, kura palette, green shadows, radii; nav icons switched from emoji to Lucide)*
 
-- [x] **Allineamento strutturale al design system** *(fatto: card senza bordo sinistro colorato §5.2, ribbon "oggi" sul primario invece del rosa §1, stato attivo sidebar su tinta chiara §5.4, bottom bar mobile a 4 voci al posto di hamburger+drawer §5.4, empty state timeline con firma ECG §5.5, date metadati in mono §3; `design-system.md` tracciato in git)*
+- [x] **Structural alignment with the design system** *(done: cards without a colored left border §5.2, "today" ribbon on primary instead of pink §1, sidebar active state on light tint §5.4, 4-item mobile bottom bar instead of hamburger+drawer §5.4, timeline empty state with ECG signature §5.5, mono metadata dates §3; `design-system.md` tracked in git)*
 
-- [x] **Parametri vitali generici** *(fatto: collezione `measurements` con discriminatore `type` — peso e glicemia; `blood_pressure` resta separata perché multi-valore; multi-profilo deciso NO — single utente per account. Pagina "Misurazioni" con tab Pressione/Peso/Glicemia, config per tipo nel frontend, export esteso con `misurazioni.json/csv`, redirect da `/blood-pressure`. Istanze esistenti: wipe + `make seed` o collezione manuale dal dashboard)*
+- [x] **Generic vital parameters** *(done: `measurements` collection with a `type` discriminator — weight and blood glucose; `blood_pressure` stays separate because it's multi-value; multi-profile decided NO — single user per account. "Measurements" page with Blood Pressure/Weight/Blood Glucose tabs, per-type config in the frontend, export extended with `misurazioni.json/csv`, redirect from `/blood-pressure`. Existing instances: wipe + `make seed` or manual collection from the dashboard)*
 
-- [x] **Dashboard: blocco misurazioni generico** *(fatto: la card è ora "Misurazioni recenti" — pressione con grafico + ultimo peso e ultima glicemia con data, righe nascoste se il tipo non ha dati. Tipi aggiuntivi (SpO2, temperatura) = un valore nel select di `init.js` + una entry in `measurementTypes.ts`)*
+- [x] **Dashboard: generic measurements block** *(done: the card is now "Recent measurements" — blood pressure with chart + latest weight and latest blood glucose with date, rows hidden if the type has no data. Additional types (SpO2, temperature) = one value in the `init.js` select + one entry in `measurementTypes.ts`)*
 
-- [x] **Promemoria ricorrenti / terapie** *(fatto: collezione `therapies` — entità unica terapia/medicinale con ricorrenza a intervallo (every+unit+orario) e scadenza confezione entrambe opzionali; `next_due`/`expiry_notice_at` materializzati; dispatcher cron dedicato che avanza sempre `next_due` (una sola email dopo downtime) e notifica le scadenze una volta; email per-terapia opzionale; pagina `/therapies` (5ª voce nav, icona Pill), card "Terapie in corso" in dashboard, export esteso. Consegna notifiche estratta in `pb_hooks/lib/notify.js` — canale unico email oggi, seam pronto per ntfy/push futuri, usato anche dal dispatcher promemoria)*
+- [x] **Recurring reminders / therapies** *(done: `therapies` collection — a single therapy/medication entity with interval recurrence (every+unit+time) and package expiry, both optional; `next_due`/`expiry_notice_at` are materialized; dedicated cron dispatcher that always advances `next_due` (a single email after downtime) and notifies expiries once; optional per-therapy email; `/therapies` page (5th nav entry, Pill icon), "Ongoing therapies" card on the dashboard, extended export. Notification delivery extracted into `pb_hooks/lib/notify.js` — a single email channel today, seam ready for future ntfy/push, also used by the reminder dispatcher)*
 
-## 3. Idee più grosse (se il progetto cresce)
+## 3. Bigger ideas (if the project grows)
 
-- [x] ~~**Multi-profilo (familiari)**~~ *(deciso NO il 2026-07-13 durante il design delle misurazioni: ogni persona ha il proprio login, PocketBase isola già per utente. Se mai servirà, sarà una migrazione dedicata)*
+- [x] ~~**Multi-profile (family members)**~~ *(decided NO on 2026-07-13 during the measurements design: each person has their own login, PocketBase already isolates per user. If ever needed, it'll be a dedicated migration)*
 
-- [x] **PWA installabile** *(fatto: manifest.webmanifest + icone PNG 192/512/maskable/apple-touch generate dall'SVG ufficiale, theme-color kura-600. **Niente service worker/offline per scelta** — i browser moderni non lo richiedono per l'install prompt e l'offline vero (cache dati) resta un progetto a sé se mai servirà)*
+- [x] **Installable PWA** *(done: manifest.webmanifest + 192/512/maskable/apple-touch PNG icons generated from the official SVG, kura-600 theme-color. **No service worker/offline by choice** — modern browsers no longer require it for the install prompt, and true offline (data caching) remains a project of its own if ever needed)*
 
-- [x] **Anteprime allegati** *(ridimensionato dopo brainstorming: solo thumbnail server-side `160x160` per i tile immagine — prima scaricavano l'originale intero; verificato 389KB→25KB e 404 senza token. Viewer PDF scartato: il browser lo fa già bene, pdf.js sarebbe una dipendenza pesante per nulla. Nota: `thumbs` va dichiarato sul campo file in `init.js` — istanze esistenti: solito wipe o toggle manuale)*
+- [x] **Attachment previews** *(scoped down after brainstorming: server-side `160x160` thumbnails for image tiles only — previously they downloaded the full original. Verified 389KB→25KB and 404 without a token. PDF viewer dropped: the browser already handles it well, pdf.js would be a heavy dependency for nothing. Note: `thumbs` must be declared on the file field in `init.js` — existing instances: the usual wipe or manual toggle)*
 
-- [x] **Backup automatici** *(fatto: `backup.pb.js` imposta i backup nativi PocketBase da env — `BACKUP_CRON` default `0 3 * * *` attivo di default, `off` per disabilitare; `BACKUP_MAX_KEEP` default 7. ZIP in `pb_data/backups/`, restore dal dashboard admin. Nota: stesso disco dei dati — per disaster recovery includere `pb_data/backups/` nel backup dell'host; S3 valutato e rimandato)*
+- [x] **Automatic backups** *(done: `backup.pb.js` sets up PocketBase's native backups from env — `BACKUP_CRON` defaults to `0 3 * * *`, active by default, `off` to disable; `BACKUP_MAX_KEEP` defaults to 7. ZIP in `pb_data/backups/`, restore from the admin dashboard. Note: same disk as the data — for disaster recovery include `pb_data/backups/` in the host backup; S3 evaluated and deferred)*

@@ -27,6 +27,8 @@
     --input: 154 11% 88%;
     --ring: 161 94% 30%;            /* focus ring verde */
     --radius: 1rem;
+    --chart-1: hsl(161 94% 30%);    /* kura-600, stesso verde brand del --primary */
+    --chart-2: hsl(159 8% 43%);     /* neutral-500, grigio per serie secondarie */
   }
 
   /* Dark (§2.5): superfici verde-nero, primario kura-400 per contrasto. */
@@ -50,6 +52,8 @@
     --border: 154 16% 17%;
     --input: 154 16% 17%;
     --ring: 158 64% 52%;
+    --chart-1: hsl(158 64% 52%);    /* kura-400, stesso verde brand del --primary */
+    --chart-2: hsl(156 10% 60%);    /* neutral-500 dark, grigio per serie secondarie */
   }
 
   * {

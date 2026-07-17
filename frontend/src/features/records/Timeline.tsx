@@ -133,7 +133,7 @@ export default function Timeline() {
                     attraverso il dot sulla spina e il badge nella card */}
                 <RecordCard
                   record={r}
-                  className={cn(future && 'border-dashed border-border/50 bg-muted/20')}
+                  className={cn(future && 'border-dashed border-muted-foreground/40 bg-muted/40')}
                 />
               </div>
             )

@@ -24,7 +24,10 @@ export default function BottomBar() {
     <nav
       aria-label={t('nav.sections')}
       className="fixed inset-x-0 bottom-0 z-30 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:hidden"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      // iOS Safari can drop fixed+backdrop-filter elements from compositing
+      // mid-scroll on long pages, making them flicker/disappear; forcing a
+      // dedicated GPU layer keeps it pinned and repainted continuously.
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)', transform: 'translateZ(0)' }}
     >
       <div className="flex">
         {items.map(({ to, end, icon: Icon, label }) => (

@@ -110,6 +110,15 @@
     "notesPlaceholder": "Note opzionali…",
     "chart": {
       "empty": "Nessuna misurazione nel periodo selezionato"
+    },
+    "summary": {
+      "period7d": "Ultimi 7 giorni",
+      "period30d": "Ultimi 30 giorni",
+      "period90d": "Ultimi 90 giorni",
+      "pulseAverage": "Battiti medi",
+      "count_one": "{{count}} misurazione",
+      "count_other": "{{count}} misurazioni",
+      "empty": "Nessun dato"
     }
   },
   "language": {
@@ -183,7 +192,17 @@
     "savedSuccess": "Misurazione salvata",
     "empty": "Nessuna misurazione registrata",
     "chartEmpty": "Nessun dato nel periodo selezionato",
-    "rangeError": "Valore fuori range ({{min}}–{{max}} {{unit}})"
+    "rangeError": "Valore fuori range ({{min}}–{{max}} {{unit}})",
+    "summary": {
+      "period7d": "Ultimi 7 giorni",
+      "period30d": "Ultimi 30 giorni",
+      "period90d": "Ultimi 90 giorni",
+      "min": "Min",
+      "max": "Max",
+      "count_one": "{{count}} misurazione",
+      "count_other": "{{count}} misurazioni",
+      "empty": "Nessun dato"
+    }
   },
   "therapies": {
     "title": "Terapie",

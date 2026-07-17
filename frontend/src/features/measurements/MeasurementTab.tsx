@@ -12,6 +12,7 @@ import type { MeasurementType } from '@/lib/types'
 import { MEASUREMENT_TYPES, validateMeasurement } from './measurementTypes'
 import { useMeasurements, useCreateMeasurement } from './useMeasurements'
 import { MeasurementChart } from './MeasurementChart'
+import { MeasurementSummaryCards } from './MeasurementSummaryCards'
 
 function localDatetimeNow(): string {
   const d = new Date()
@@ -64,6 +65,7 @@ export default function MeasurementTab({ type }: { type: MeasurementType }) {
 
   return (
     <div className="space-y-6">
+      <MeasurementSummaryCards type={type} />
       <MeasurementChart type={type} measurements={measurements} />
 
       <Card>

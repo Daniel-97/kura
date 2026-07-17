@@ -9,6 +9,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useBloodPressure, useCreateBloodPressure } from './useBloodPressure'
 import { useAuth } from '@/features/auth/useAuth'
 import { BloodPressureChart } from './BloodPressureChart'
+import { BloodPressureSummaryCards } from './BloodPressureSummaryCards'
 
 function localDatetimeNow(): string {
   const d = new Date()
@@ -61,6 +62,7 @@ export default function Pressione() {
   // Rendered as a tab inside Measurements: the page title lives there.
   return (
     <div className="space-y-6">
+      <BloodPressureSummaryCards />
       <BloodPressureChart measurements={measurements} />
 
       <Card>

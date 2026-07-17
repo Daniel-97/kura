@@ -110,6 +110,15 @@
     "notesPlaceholder": "Optional notes…",
     "chart": {
       "empty": "No measurements in the selected period"
+    },
+    "summary": {
+      "period7d": "Last 7 days",
+      "period30d": "Last 30 days",
+      "period90d": "Last 90 days",
+      "pulseAverage": "Average heart rate",
+      "count_one": "{{count}} measurement",
+      "count_other": "{{count}} measurements",
+      "empty": "No data"
     }
   },
   "language": {
@@ -183,7 +192,17 @@
     "savedSuccess": "Measurement saved",
     "empty": "No measurements yet",
     "chartEmpty": "No data in the selected period",
-    "rangeError": "Value out of range ({{min}}–{{max}} {{unit}})"
+    "rangeError": "Value out of range ({{min}}–{{max}} {{unit}})",
+    "summary": {
+      "period7d": "Last 7 days",
+      "period30d": "Last 30 days",
+      "period90d": "Last 90 days",
+      "min": "Min",
+      "max": "Max",
+      "count_one": "{{count}} measurement",
+      "count_other": "{{count}} measurements",
+      "empty": "No data"
+    }
   },
   "therapies": {
     "title": "Therapies",

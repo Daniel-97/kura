@@ -76,12 +76,13 @@ export default function Dashboard() {
       </h1>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        {/* Colonna sinistra: "prossime visite" + "terapie" impilate nel proprio
-            flusso (non in una griglia condivisa), così ognuna resta alta solo
-            quanto il suo contenuto invece di stirarsi per pareggiare la colonna
-            accanto. `contents` sotto lg fa sparire il wrapper: le card restano
-            partecipanti dirette della griglia mobile a 1 colonna, ordinate da
-            order-*; da lg in su il wrapper diventa un vero flex-col. */}
+        {/* Colonna sinistra: "prossime visite" + "terapie" + "promemoria"
+            impilate nel proprio flusso (non in una griglia condivisa), così
+            ognuna resta alta solo quanto il suo contenuto invece di stirarsi
+            per pareggiare la colonna accanto. `contents` sotto lg fa sparire
+            il wrapper: le card restano partecipanti dirette della griglia
+            mobile a 1 colonna, ordinate da order-*; da lg in su il wrapper
+            diventa un vero flex-col. */}
         <div className="contents lg:flex lg:flex-col lg:gap-4">
           {/* Prossime visite */}
           <Card className="order-2 lg:order-none">
@@ -177,6 +178,36 @@ export default function Dashboard() {
               )}
             </CardContent>
           </Card>
+
+          {/* Promemoria attivi */}
+          <Card className="order-5 lg:order-none">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <BellRing className="h-5 w-5 text-brand-accent" />
+                {t('dashboard.reminders')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {loadingReminders ? (
+                <p className="muted-empty">{t('common.loading')}</p>
+              ) : pending.length === 0 ? (
+                <p className="muted-empty">{t('dashboard.noReminders')}</p>
+              ) : (
+                <ul className="space-y-2">
+                  {pending.map((r) => (
+                    <li key={r.id} className="flex items-baseline gap-3">
+                      <span className="value-mono shrink-0 text-sm text-muted-foreground">
+                        {formatMetaDate(r.fire_at, i18n.language)}
+                      </span>
+                      <span className="truncate text-sm">
+                        {r.expand?.record?.title ?? r.message ?? ''}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </CardContent>
+          </Card>
         </div>
 
         {/* Colonna destra: stesso trattamento indipendente della sinistra. */}
@@ -252,36 +283,6 @@ export default function Dashboard() {
                     <BloodPressureChart measurements={measurements} />
                   )}
                 </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Promemoria attivi */}
-          <Card className="order-5 lg:order-none">
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <BellRing className="h-5 w-5 text-brand-accent" />
-                {t('dashboard.reminders')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {loadingReminders ? (
-                <p className="muted-empty">{t('common.loading')}</p>
-              ) : pending.length === 0 ? (
-                <p className="muted-empty">{t('dashboard.noReminders')}</p>
-              ) : (
-                <ul className="space-y-2">
-                  {pending.map((r) => (
-                    <li key={r.id} className="flex items-baseline gap-3">
-                      <span className="value-mono shrink-0 text-sm text-muted-foreground">
-                        {formatMetaDate(r.fire_at, i18n.language)}
-                      </span>
-                      <span className="truncate text-sm">
-                        {r.expand?.record?.title ?? r.message ?? ''}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
               )}
             </CardContent>
           </Card>

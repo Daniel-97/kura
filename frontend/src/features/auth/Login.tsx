@@ -71,7 +71,7 @@ export default function Login() {
                 {t('auth.noAccount')}{' '}
                 <Link
                   to="/register"
-                  className="underline underline-offset-4 hover:text-primary"
+                  className="underline underline-offset-4 hover:text-brand-accent"
                 >
                   {t('auth.registerLink')}
                 </Link>
@@ -80,7 +80,7 @@ export default function Login() {
             <div className="pt-2 text-center">
               <a
                 href="/_/"
-                className="text-xs text-muted-foreground underline underline-offset-4 hover:text-primary"
+                className="text-xs text-muted-foreground underline underline-offset-4 hover:text-brand-accent"
               >
                 {t('auth.adminLink')}
               </a>

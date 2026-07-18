@@ -6,10 +6,12 @@ const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
+  // §4.3: card a riposo = superficie + bordo hairline, mai ombra.
+  // L'hover (solo su card cliccabili) scurisce il bordo, non aggiunge ombra.
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      "rounded-lg border border-border bg-card text-card-foreground transition-colors duration-fast",
       className
     )}
     {...props}

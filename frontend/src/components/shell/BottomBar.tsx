@@ -8,8 +8,8 @@ export default function BottomBar() {
   const { t } = useTranslation()
 
   const itemClass = ({ isActive }: { isActive: boolean }) =>
-    `flex flex-1 flex-col items-center justify-center gap-0.5 py-2 min-h-[44px] transition-colors ${
-      isActive ? 'text-primary' : 'text-muted-foreground'
+    `flex flex-1 flex-col items-center justify-center gap-0.5 py-2 min-h-[44px] transition-colors duration-fast ${
+      isActive ? 'text-brand-accent' : 'text-muted-foreground'
     }`
 
   const items = [

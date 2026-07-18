@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Card, CardContent } from '@/components/ui/card'
+import { Eyebrow } from '@/components/ui/eyebrow'
 import type { MeasurementType } from '@/lib/types'
 import { lastNDays } from '@/features/dashboard/dashboardUtils'
 import { MEASUREMENT_TYPES } from './measurementTypes'
@@ -22,9 +23,9 @@ export function MeasurementSummaryCards({ type }: { type: MeasurementType }) {
         return (
           <Card key={days}>
             <CardContent className="p-4">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              <Eyebrow as="p" tone="muted">
                 {t(`measurements.summary.period${days}d`)}
-              </p>
+              </Eyebrow>
               {stats ? (
                 <>
                   <p className="value-mono mt-1 text-lg font-semibold">

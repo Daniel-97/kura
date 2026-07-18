@@ -6,14 +6,15 @@ interface MeasurementTypeConfig {
   min: number
   max: number
   step: number
-  /** Chart stroke; design system §2.1 for green, --info for the blue. */
+  /** Chart stroke. §1.1: un solo accento nel sistema — niente più un
+   *  colore per tipo di misurazione (non appaiono mai sullo stesso grafico). */
   chartColor: string
 }
 
 /** Adding a vital sign = one select value in init.js + one entry here. */
 export const MEASUREMENT_TYPES: Record<MeasurementType, MeasurementTypeConfig> = {
-  weight:  { unit: 'kg',    min: 20, max: 300, step: 0.1, chartColor: '#10B981' },
-  glucose: { unit: 'mg/dL', min: 20, max: 600, step: 1,   chartColor: '#0284C7' },
+  weight:  { unit: 'kg',    min: 20, max: 300, step: 0.1, chartColor: 'var(--brand-accent)' },
+  glucose: { unit: 'mg/dL', min: 20, max: 600, step: 1,   chartColor: 'var(--brand-accent)' },
 }
 
 export type MeasurementValidationError = 'invalid' | 'range'

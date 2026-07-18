@@ -22,7 +22,7 @@ export default function App() {
             <div className="flex h-14 items-center justify-between px-4">
               <span className="flex items-center gap-2.5">
                 <img src="/kura-icon.svg" alt="" className="h-7 w-7 select-none" />
-                <span className="font-display text-lg font-semibold">Kura</span>
+                <span className="font-sans text-lg font-[650]">Kura</span>
               </span>
               <div className="flex items-center gap-1">
                 <LanguageSwitcher />

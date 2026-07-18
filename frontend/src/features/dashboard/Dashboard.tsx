@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Plus, HeartPulse, Activity, ArrowRight, BellRing, CalendarClock, Pill } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Chip } from '@/components/ui/chip'
+import { StatBlock } from '@/components/ui/stat-block'
 import { cn } from '@/lib/utils'
 import { useCategories } from '@/features/categories/useCategories'
 import { getCategoryStyles } from '@/features/categories/category-styles'
@@ -23,13 +24,14 @@ function LatestValue({ type, measurement }: { type: MeasurementType; measurement
   const { t, i18n } = useTranslation()
   const cfg = MEASUREMENT_TYPES[type]
   return (
-    <div>
-      <p className="text-xs text-muted-foreground">{t(`measurements.${type}Tab`)}</p>
-      <p className="value-mono text-lg font-medium">
-        {measurement.value}{' '}
-        <span className="text-xs font-normal text-muted-foreground">{cfg.unit}</span>
-      </p>
-      <p className="value-mono text-xs text-muted-foreground">
+    <div className="space-y-1">
+      <StatBlock
+        mono
+        value={measurement.value}
+        unit={cfg.unit}
+        label={t(`measurements.${type}Tab`)}
+      />
+      <p className="value-mono text-xs text-text-muted">
         {formatMetaDate(measurement.measured_at, i18n.language)}
       </p>
     </div>
@@ -43,10 +45,7 @@ function CountdownBadge({ days }: { days: number }) {
     : days === 1 ? t('dashboard.tomorrow')
     : t('dashboard.inDays', { count: days })
   // §2.3: warning per le scadenze in arrivo (mai rosso per contenuti medici)
-  if (days <= 3) {
-    return <Badge className="bg-warning-bg text-warning hover:bg-warning-bg">{label}</Badge>
-  }
-  return <Badge variant="secondary">{label}</Badge>
+  return <Chip tone={days <= 3 ? 'warn' : 'neutral'}>{label}</Chip>
 }
 
 export default function Dashboard() {
@@ -88,7 +87,7 @@ export default function Dashboard() {
           <Card className="order-2 lg:order-none">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-lg">
-                <CalendarClock className="h-5 w-5 text-primary" />
+                <CalendarClock className="h-5 w-5 text-brand-accent" />
                 {t('dashboard.upcoming')}
               </CardTitle>
             </CardHeader>
@@ -138,12 +137,12 @@ export default function Dashboard() {
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center justify-between text-lg">
                 <span className="flex items-center gap-2">
-                  <Pill className="h-5 w-5 text-primary" />
+                  <Pill className="h-5 w-5 text-brand-accent" />
                   {t('dashboard.therapies')}
                 </span>
                 <Link
                   to="/therapies"
-                  className="flex items-center gap-1 text-sm font-normal text-primary hover:underline"
+                  className="flex items-center gap-1 text-sm font-normal text-brand-accent hover:underline"
                 >
                   {t('dashboard.viewAll')}
                   <ArrowRight className="h-4 w-4" />
@@ -158,10 +157,10 @@ export default function Dashboard() {
                   {expiringTherapies.map((th) => (
                     <li key={`exp-${th.id}`} className="flex items-baseline justify-between gap-3">
                       <span className="truncate text-sm">{th.name}</span>
-                      <Badge className="bg-warning-bg text-warning hover:bg-warning-bg shrink-0">
+                      <Chip tone="warn" className="shrink-0">
                         {t('therapies.expiresOn')}{' '}
-                        <span className="value-mono ml-1">{formatMetaDate(th.expiry, i18n.language)}</span>
-                      </Badge>
+                        <span className="ml-1">{formatMetaDate(th.expiry, i18n.language)}</span>
+                      </Chip>
                     </li>
                   ))}
                   {activeTherapies
@@ -205,12 +204,12 @@ export default function Dashboard() {
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center justify-between text-lg">
                 <span className="flex items-center gap-2">
-                  <Activity className="h-5 w-5 text-primary" />
+                  <Activity className="h-5 w-5 text-brand-accent" />
                   {t('dashboard.recentMeasurements')}
                 </span>
                 <Link
                   to="/measurements"
-                  className="flex items-center gap-1 text-sm font-normal text-primary hover:underline"
+                  className="flex items-center gap-1 text-sm font-normal text-brand-accent hover:underline"
                 >
                   {t('dashboard.viewAll')}
                   <ArrowRight className="h-4 w-4" />
@@ -261,7 +260,7 @@ export default function Dashboard() {
           <Card className="order-5 lg:order-none">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-lg">
-                <BellRing className="h-5 w-5 text-primary" />
+                <BellRing className="h-5 w-5 text-brand-accent" />
                 {t('dashboard.reminders')}
               </CardTitle>
             </CardHeader>

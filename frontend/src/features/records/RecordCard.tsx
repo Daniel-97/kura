@@ -1,10 +1,11 @@
-import { useState, useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { FileText, MoreVertical, Pencil, Trash2, Download, CalendarPlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Chip } from '@/components/ui/chip'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   DropdownMenu,
@@ -19,6 +20,7 @@ import { useDeleteRecord } from './useRecords'
 import { useFileToken } from './fileToken'
 import { exportRecordData, downloadRecordIcs } from '@/features/export/exportRecord'
 import { useCategories } from '@/features/categories/useCategories'
+import { SWATCH_CLASSES } from '@/features/categories/category-styles'
 import ReminderList from '@/features/reminders/ReminderList'
 import type { HealthRecord } from '@/lib/types'
 
@@ -33,22 +35,12 @@ export default function RecordCard({ record, className }: Props) {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const cardRef = useRef<HTMLDivElement>(null)
-  const [ripples, setRipples] = useState<Array<{ x: number; y: number; key: number }>>([])
   const [showConfirm, setShowConfirm] = useState(false)
 
   const deleteRecord = useDeleteRecord()
   const { data: fileToken } = useFileToken()
   const { data: categories = [] } = useCategories()
   const category = categories.find((c) => c.id === record.category)
-
-  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = cardRef.current?.getBoundingClientRect()
-    if (!rect) return
-    setRipples((prev) => [
-      ...prev,
-      { x: e.clientX - rect.left, y: e.clientY - rect.top, key: Date.now() + Math.random() },
-    ])
-  }
 
   const tags = record.tags
     ? record.tags.split(',').map((s) => s.trim()).filter(Boolean)
@@ -73,27 +65,17 @@ export default function RecordCard({ record, className }: Props) {
     <>
       <Card
         ref={cardRef}
-        onClick={handleCardClick}
-        className={cn('relative overflow-hidden cursor-pointer', className)}
+        // §4.3: card cliccabile, hover scurisce solo il bordo, mai ripple/ombra
+        className={cn('cursor-pointer transition-colors duration-fast hover:border-border-strong', className)}
       >
         <CardContent className="py-4">
           <div className="flex items-start justify-between gap-3">
-          {ripples.map((r) => (
-            <span
-              key={r.key}
-              onAnimationEnd={() =>
-                setRipples((prev) => prev.filter((p) => p.key !== r.key))
-              }
-              className="pointer-events-none absolute h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/20 animate-ripple"
-              style={{ left: r.x, top: r.y }}
-            />
-          ))}
             <div className="min-w-0 flex-1 space-y-1">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-medium">{record.title}</span>
-                <Badge variant="secondary">
+                <Chip dotClassName={category?.color ? SWATCH_CLASSES[category.color] : undefined}>
                   {category?.name ?? t('common.uncategorized')}
-                </Badge>
+                </Chip>
               </div>
               {/* §3: date nei metadati in mono */}
               <p className="value-mono text-sm text-muted-foreground">{dateLabel}</p>

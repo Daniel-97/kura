@@ -124,7 +124,8 @@ export default function Categories() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b text-left text-muted-foreground">
+                {/* §5.7: header tabella in stile eyebrow (mono 11px caps) */}
+                <tr className="border-b border-border text-left font-mono text-[11px] uppercase tracking-[0.08em] text-text-muted">
                   <th className="px-4 py-3 font-medium">Nome</th>
                   <th className="px-4 py-3 font-medium">Colore</th>
                   <th className="px-4 py-3 font-medium">Record</th>
@@ -156,7 +157,7 @@ export default function Categories() {
                   </tr>
                 ) : (
                   categories.map((c) => (
-                    <tr key={c.id} className="border-b last:border-0">
+                    <tr key={c.id} className="border-b border-border last:border-0 transition-colors duration-fast hover:bg-accent/50">
                       <td className="px-4 py-3 font-medium">{c.name}</td>
                       <td className="px-4 py-3">
                         <span className="inline-flex items-center gap-2">

@@ -213,7 +213,7 @@ export default function Timeline() {
               <div
                 className="absolute left-[64px] top-0 bottom-0 w-0.5"
                 style={{
-                  background: 'repeating-linear-gradient(to bottom, hsl(var(--border)) 0px, hsl(var(--border)) 5px, transparent 5px, transparent 10px)',
+                  background: 'repeating-linear-gradient(to bottom, var(--border-strong) 0px, var(--border-strong) 5px, transparent 5px, transparent 10px)',
                 }}
                 aria-hidden="true"
               />

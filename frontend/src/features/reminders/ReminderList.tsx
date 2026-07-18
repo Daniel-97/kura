@@ -58,7 +58,7 @@ export default function ReminderList({ recordId, recordDate }: Props) {
                 }`}
               >
                 {rem.sent_at ? (
-                  <CheckCircle2 className="h-3 w-3 shrink-0 text-green-500/60" />
+                  <CheckCircle2 className="h-3 w-3 shrink-0 text-status-up" />
                 ) : (
                   <Clock className="h-3 w-3 shrink-0" />
                 )}

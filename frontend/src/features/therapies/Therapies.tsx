@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { Plus, Pencil, Trash2, MoreVertical, Mail, MailX, Pill } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Chip } from '@/components/ui/chip'
 import { Card, CardContent } from '@/components/ui/card'
 import { InfoTip } from '@/components/InfoTip'
 import {
@@ -60,7 +61,7 @@ export default function Therapies() {
         <p className="muted-empty">{t('common.loading')}</p>
       ) : therapies.length === 0 ? (
         <div className="flex flex-col items-center gap-3 py-10 text-center">
-          <Pill className="h-8 w-8 text-kura-300" aria-hidden="true" />
+          <Pill className="h-8 w-8 text-brand-accent" aria-hidden="true" />
           <p className="muted-empty">{t('therapies.empty')}</p>
         </div>
       ) : (
@@ -90,10 +91,10 @@ export default function Therapies() {
                     {th.expiry && (
                       <p className="text-sm">
                         {soon ? (
-                          <Badge className="bg-warning-bg text-warning hover:bg-warning-bg">
+                          <Chip tone="warn">
                             {t('therapies.expiresOn')}{' '}
-                            <span className="value-mono ml-1">{formatMetaDate(th.expiry, i18n.language)}</span>
-                          </Badge>
+                            <span className="ml-1">{formatMetaDate(th.expiry, i18n.language)}</span>
+                          </Chip>
                         ) : (
                           <span className="text-muted-foreground">
                             {t('therapies.expiresOn')}{' '}

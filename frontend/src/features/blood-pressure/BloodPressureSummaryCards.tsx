@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Card, CardContent } from '@/components/ui/card'
+import { Eyebrow } from '@/components/ui/eyebrow'
 import { lastNDays } from '@/features/dashboard/dashboardUtils'
 import { computeSummaryStats } from '@/features/measurements/measurementStats'
 import { useRecentBloodPressure } from './useBloodPressure'
@@ -23,9 +24,9 @@ export function BloodPressureSummaryCards() {
         return (
           <Card key={days}>
             <CardContent className="p-4">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              <Eyebrow as="p" tone="muted">
                 {t(`pressure.summary.period${days}d`)}
-              </p>
+              </Eyebrow>
               {systolic && diastolic ? (
                 <>
                   <p className="value-mono mt-1 text-lg font-semibold">

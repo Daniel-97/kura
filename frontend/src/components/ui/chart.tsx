@@ -4,7 +4,9 @@ import * as RechartsPrimitive from "recharts"
 import { cn } from "@/lib/utils"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
-const THEMES = { light: "", dark: ".dark" } as const
+// Dark è il tema di default (nessun prefisso = si applica sempre);
+// light sovrascrive via [data-theme="light"], coerente con index.css.
+const THEMES = { dark: "", light: '[data-theme="light"]' } as const
 
 export type ChartConfig = {
   [k in string]: {

@@ -2,7 +2,7 @@ import type { Config } from 'tailwindcss'
 import animate from 'tailwindcss-animate'
 
 const config: Config = {
-  darkMode: ['class'],
+  darkMode: ['selector', '[data-theme="dark"]'],
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   prefix: '',
   theme: {
@@ -13,18 +13,32 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Design system §2.1: palette brand dal logo
-        kura: {
-          50: '#ECFDF5', 100: '#D1FAE5', 200: '#A7F3D0', 300: '#6EE7B7',
-          400: '#34D399', 500: '#10B981', 600: '#059669', 700: '#047857',
-          800: '#065F46', 900: '#064E3B',
+        // Design system §2.1/§8: brand e neutri verificati dalla fonte Checkmate
+        brand: { DEFAULT: 'var(--brand)', light: 'var(--brand-light)', soft: 'var(--brand-soft)', accent: 'var(--brand-accent)', hover: 'var(--brand-hover)' },
+        gray:  { 200: 'var(--gray-200)', 700: 'var(--gray-700)', 850: 'var(--gray-850)', 900: 'var(--gray-900)' },
+        // §2.3: stato (niente più warning/info separati, niente --info nel nuovo sistema)
+        status: {
+          up:   { DEFAULT: 'var(--status-up)',   soft: 'var(--status-up-soft)' },
+          warn: { DEFAULT: 'var(--status-warn)', soft: 'var(--status-warn-soft)' },
+          down: { DEFAULT: 'var(--status-down)', soft: 'var(--status-down-soft)' },
         },
-        // §2.3: semantici (il danger coincide con destructive di shadcn)
-        warning: { DEFAULT: '#D97706', bg: '#FEF3E2' },
-        info:    { DEFAULT: '#0284C7', bg: '#E8F4FB' },
-        border:      'hsl(var(--border))',
-        input:       'hsl(var(--input))',
+        // §2.4: colori categoria (pallino)
+        cat: {
+          report: 'var(--cat-report)', rx: 'var(--cat-rx)', vax: 'var(--cat-vax)',
+          appt: 'var(--cat-appt)', imaging: 'var(--cat-imaging)', other: 'var(--cat-other)',
+        },
+        border:      'var(--border)',
+        'border-strong': 'var(--border-strong)',
+        input:       'var(--border)',
         ring:        'hsl(var(--ring))',
+        // Alias diretti ai token grezzi (§2.2/§3), usati dai componenti
+        // nuovi (Chip, Eyebrow, StatBlock, TwoToneHeading) che citano il
+        // doc 1:1. Risolvono agli stessi valori delle voci shadcn sopra.
+        surface:     'var(--surface)',
+        'surface-raised': 'var(--surface-raised)',
+        bg:          'var(--bg)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-muted': 'var(--text-muted)',
         background:  'hsl(var(--background))',
         foreground:  'hsl(var(--foreground))',
         primary: {
@@ -56,33 +70,37 @@ const config: Config = {
           foreground: 'hsl(var(--popover-foreground))',
         },
       },
-      // §4.1: scala raggi esplicita (mai angoli vivi)
+      // §4.1: raggi (mai angoli vivi, mai oversize) — sm/md/lg restano le
+      // classi usate nei componenti, i valori sono quelli di --radius-s/m/l
       borderRadius: {
-        sm: '8px',
-        md: '12px',
+        sm: '6px',
+        md: '10px',
         lg: '16px',
-        xl: '24px',
       },
-      // §3: tre ruoli tipografici, font self-hosted via @fontsource
+      // §3: due voci tipografiche di sistema + serif editoriale
       fontFamily: {
-        display: ['Outfit Variable', 'system-ui', 'sans-serif'],
-        sans: ['Inter Variable', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans: ['system-ui', '-apple-system', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', '"SF Mono"', 'Menlo', 'Consolas', '"Liberation Mono"', 'monospace'],
+        serif: ['"Instrument Serif"', 'Georgia', '"Iowan Old Style"', '"Palatino Linotype"', 'serif'],
       },
-      // §4.3: ombre tinte di verde, mai grigio-blu
+      // §4.3: un'unica ombra ufficiale per tutta l'app, riservata ai layer
+      // flottanti (modali, dropdown, popover, toast, tooltip). Tutte le
+      // scale shadow-* esistenti puntano allo stesso token: le card a
+      // riposo non devono avere ombra (vedi components/ui/card.tsx).
       boxShadow: {
-        sm: '0 1px 2px rgba(6,78,59,.06)',
-        md: '0 4px 12px rgba(6,78,59,.08)',
-        lg: '0 12px 32px rgba(6,78,59,.12)',
+        DEFAULT: 'var(--shadow)',
+        sm: 'var(--shadow)',
+        md: 'var(--shadow)',
+        lg: 'var(--shadow)',
+        xl: 'var(--shadow)',
+        float: 'var(--shadow)',
       },
-      keyframes: {
-        ripple: {
-          '0%':   { transform: 'scale(0)',   opacity: '0.5' },
-          '100%': { transform: 'scale(2.5)', opacity: '0' },
-        },
+      transitionTimingFunction: {
+        spring: 'cubic-bezier(.2,.8,.2,1)',
       },
-      animation: {
-        ripple: 'ripple 600ms ease-out forwards',
+      transitionDuration: {
+        fast: '160ms',
+        med: '220ms',
       },
     },
   },

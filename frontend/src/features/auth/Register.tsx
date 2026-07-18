@@ -107,7 +107,7 @@ export default function Register() {
               {t('register.haveAccount')}{' '}
               <Link
                 to="/login"
-                className="underline underline-offset-4 hover:text-primary"
+                className="underline underline-offset-4 hover:text-brand-accent"
               >
                 {t('register.loginLink')}
               </Link>

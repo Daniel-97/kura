@@ -3,57 +3,123 @@
 @tailwind utilities;
 
 @layer base {
-  /* Token dal design system (docs/design-system.md §8), convertiti in HSL
-     per i componenti shadcn. Light: superfici neutre a sottotono verde,
-     primario kura-600. */
+  /* Token dal design system (docs/design-system.md §8). Dark è il tema
+     di default su :root; [data-theme="light"] sovrascrive per il chiaro
+     (next-themes applica l'attributo data-theme sull'elemento <html>). */
   :root {
-    --background: 150 12% 97%;      /* neutral-50 #F6F8F7 */
-    --foreground: 156 18% 11%;      /* neutral-900 #17211D */
-    --card: 0 0% 100%;              /* neutral-0 */
-    --card-foreground: 156 18% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 156 18% 11%;
-    --primary: 161 94% 30%;         /* kura-600 #059669 */
+    /* Brand (verified) */
+    --brand: #13715B;
+    --brand-light: #4DAF94;
+    --brand-soft: #ECF7F2;
+    --brand-accent: var(--brand-light);
+    /* §5.1: hover del bottone Primary, uguale in entrambi i temi (come
+       --brand). Stesso hex duplicato per forza in kura-icon.svg: gli SVG
+       statici non possono leggere le custom property del foglio di stile. */
+    --brand-hover: #0f5d4b;
+
+    /* Neutrals (verified) */
+    --gray-200: #EFEFEF;
+    --gray-700: #313131;
+    --gray-850: #1c1c21;
+    --gray-900: #151518;
+
+    /* Theme: dark (default) */
+    --bg: var(--gray-900);
+    --surface: var(--gray-850);
+    --surface-raised: #232329;
+    --border: rgba(255, 255, 255, .08);
+    --border-strong: rgba(255, 255, 255, .14);
+    --text: #f4f4f5;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+
+    /* Status (verified) */
+    --status-up: #2fd7a2;
+    --status-up-soft: rgba(47, 215, 162, .15);
+    --status-warn: #f0a837;
+    --status-warn-soft: rgba(240, 168, 55, .18);
+    --status-down: #ff5b6b;
+    --status-down-soft: rgba(255, 91, 107, .18);
+
+    /* Colori categoria (dot) */
+    --cat-report: var(--brand-accent);
+    --cat-rx: #a78bfa;
+    --cat-vax: #60a5fa;
+    --cat-appt: var(--status-warn);
+    --cat-imaging: #94a3b8;
+    --cat-other: var(--text-muted);
+
+    /* Elevazione e motion (verified) */
+    --shadow: 0px 4px 24px -4px rgba(16, 24, 40, .08), 0px 3px 3px -3px rgba(16, 24, 40, .03);
+    --ease: ease;
+    --ease-spring: cubic-bezier(.2, .8, .2, 1);
+    --dur-fast: 160ms;
+    --dur-med: 220ms;
+
+    /* Bridge per i componenti shadcn: triplette HSL derivate 1:1 dai
+       token sopra (necessarie perché le utility Tailwind con modificatore
+       di opacità, es. bg-primary/90, richiedono hsl(var(--x)) e non
+       reggono la concatenazione var(--x)-di-un-altro-var esadecimale). */
+    --background: 240 7% 9%;          /* --bg (gray-900) */
+    --foreground: 240 5% 96%;         /* --text */
+    --card: 240 8% 12%;               /* --surface (gray-850) */
+    --card-foreground: 240 5% 96%;    /* --text */
+    --popover: 240 8% 12%;            /* --surface: i floating layer condividono la superficie delle card */
+    --popover-foreground: 240 5% 96%; /* --text */
+    --primary: 166 71% 26%;           /* --brand: sempre questo, in entrambi i temi (§5.1) */
     --primary-foreground: 0 0% 100%;
-    --secondary: 150 12% 94%;       /* neutral-100 #EDF1EF */
-    --secondary-foreground: 156 18% 11%;
-    --muted: 150 12% 94%;
-    --muted-foreground: 159 8% 43%; /* neutral-500 #64756F */
-    --accent: 152 81% 96%;          /* kura-50 #ECFDF5 */
-    --accent-foreground: 163 88% 20%; /* kura-800 #065F46 */
-    --destructive: 0 72% 51%;       /* danger #DC2626 */
+    --secondary: 240 8% 15%;          /* --surface-raised */
+    --secondary-foreground: 240 5% 96%; /* --text */
+    --muted: 240 8% 15%;              /* --surface-raised */
+    --muted-foreground: 240 4% 46%;   /* --text-muted */
+    --accent: 240 8% 15%;             /* --surface-raised */
+    --accent-foreground: 240 5% 96%;  /* --text */
+    --destructive: 354 100% 68%;      /* --status-down */
     --destructive-foreground: 0 0% 100%;
-    --border: 154 11% 88%;          /* neutral-200 #DCE3E0 */
-    --input: 154 11% 88%;
-    --ring: 161 94% 30%;            /* focus ring verde */
-    --radius: 1rem;
-    --chart-1: hsl(161 94% 30%);    /* kura-600, stesso verde brand del --primary */
-    --chart-2: hsl(159 8% 43%);     /* neutral-500, grigio per serie secondarie */
+    --ring: 163 39% 49%;              /* --brand-accent (dark = brand-light) */
+    /* Usati come var(--chart-N) grezzo (fill/stroke SVG in Recharts, non
+       hsl(var(--x))): devono restare colori CSS completi, non triplette. */
+    --chart-1: var(--brand-accent);
+    --chart-2: var(--text-muted);
   }
 
-  /* Dark (§2.5): superfici verde-nero, primario kura-400 per contrasto. */
-  .dark {
-    --background: 158 22% 7%;       /* #0E1613 */
-    --foreground: 146 18% 92%;      /* #E8EFEB */
-    --card: 153 20% 11%;            /* #16211C */
-    --card-foreground: 146 18% 92%;
-    --popover: 153 20% 11%;
-    --popover-foreground: 146 18% 92%;
-    --primary: 158 64% 52%;         /* kura-400 #34D399 */
-    --primary-foreground: 158 22% 7%;
-    --secondary: 154 16% 17%;       /* #25332D */
-    --secondary-foreground: 146 18% 92%;
-    --muted: 154 16% 17%;
-    --muted-foreground: 156 10% 60%; /* #8FA39B */
-    --accent: 154 16% 17%;
-    --accent-foreground: 156 72% 67%; /* kura-300 #6EE7B7 */
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 154 16% 17%;
-    --input: 154 16% 17%;
-    --ring: 158 64% 52%;
-    --chart-1: hsl(158 64% 52%);    /* kura-400, stesso verde brand del --primary */
-    --chart-2: hsl(156 10% 60%);    /* neutral-500 dark, grigio per serie secondarie */
+  [data-theme="light"] {
+    --brand-accent: var(--brand);
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --surface-raised: #f4f4f5;
+    --border: rgba(0, 0, 0, .08);
+    --border-strong: rgba(0, 0, 0, .14);
+    --text: #18181b;
+    --text-secondary: #52525b;
+    --text-muted: #a1a1aa;
+    --status-up: #0f8a6d;
+    --status-warn: #c2630a;
+    --status-down: #d11f2f;
+    --status-up-soft: rgba(15, 138, 109, .12);
+    --status-warn-soft: rgba(194, 99, 10, .12);
+    --status-down-soft: rgba(209, 31, 47, .12);
+    --cat-rx: #7C3AED;
+    --cat-vax: #0284C7;
+    --cat-imaging: #475569;
+
+    --background: 0 0% 98%;           /* --bg */
+    --foreground: 240 6% 10%;         /* --text */
+    --card: 0 0% 100%;                /* --surface */
+    --card-foreground: 240 6% 10%;    /* --text */
+    --popover: 0 0% 100%;             /* --surface */
+    --popover-foreground: 240 6% 10%; /* --text */
+    --secondary: 240 5% 96%;          /* --surface-raised */
+    --secondary-foreground: 240 6% 10%; /* --text */
+    --muted: 240 5% 96%;              /* --surface-raised */
+    --muted-foreground: 240 5% 65%;   /* --text-muted */
+    --accent: 240 5% 96%;             /* --surface-raised */
+    --accent-foreground: 240 6% 10%;  /* --text */
+    --destructive: 355 74% 47%;       /* --status-down */
+    --ring: 166 71% 26%;              /* --brand-accent (light = brand) */
+    /* --chart-1/--chart-2 puntano già a --brand-accent/--text-muted
+       (definiti in :root), che si aggiornano da soli con l'override qui
+       sopra: non serve ridichiararli per il tema chiaro. */
   }
 
   * {
@@ -62,6 +128,17 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* §4.4/§7: rispetta sempre prefers-reduced-motion, disabilitando
+     transizioni e animazioni non essenziali in tutta l'app. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -75,10 +152,10 @@
   /* Page shells */
   .page-shell          { @apply mx-auto max-w-5xl px-4 py-6; }
   .page-shell-centered { @apply flex min-h-[calc(100vh-3.5rem)] items-center justify-center; }
-  /* §3: titolo pagina in Outfit (display), uno per schermata */
-  .page-header         { @apply font-display text-[32px] font-semibold leading-[38px]; }
-  /* §3: valori clinici e date nei metadati in JetBrains Mono */
-  .value-mono          { @apply font-mono tabular-nums; }
+  /* §3.3: titolo pagina, sans 600, 23px/28px, tracking -0.02em */
+  .page-header         { @apply text-[23px] font-semibold leading-[28px] tracking-[-0.02em]; }
+  /* §3: valori clinici e metadati in mono 500, cifre tabellari */
+  .value-mono          { @apply font-mono font-medium tabular-nums; }
 
   /* Auth (Login/Register) */
   .auth-card  { @apply w-full max-w-sm; }

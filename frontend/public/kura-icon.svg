@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <!-- Colori hardcoded per forza (asset statico, non legge le CSS custom
-       property di index.css): #13715B=--brand, #0f5d4b=--brand-hover,
-       #4DAF94=--brand-light. Se questi token cambiano in index.css,
+       property di index.css): #13715B = brand, #0f5d4b = brand-hover,
+       #4DAF94 = brand-light. Se questi token cambiano in index.css,
        aggiornare anche qui e rigenerare i PNG in public/icons/. -->
   <defs>
     <linearGradient id="kura-bg" x1="0" y1="0" x2="1" y2="1">

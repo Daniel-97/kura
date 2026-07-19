@@ -10,12 +10,13 @@ interface SidebarContentProps {
 export default function SidebarContent({ onNavigate }: SidebarContentProps) {
   const { t } = useTranslation()
 
-  // §5.5: voce attiva su surface-raised, icona in --brand-accent
+  // §5.5: voce attiva su surface-raised, icona in --brand-accent,
+  //        con barra laterale sinistra spessa per maggiore visibilità
   const navClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors duration-fast ${
+    `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors duration-fast border-l-[3px] ${
       isActive
-        ? 'bg-accent text-accent-foreground font-medium [&>svg]:text-brand-accent'
-        : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
+        ? 'border-brand-accent bg-accent text-accent-foreground font-semibold [&>svg]:text-brand-accent pl-[9px]'
+        : 'border-transparent text-muted-foreground hover:bg-accent/50 hover:text-foreground'
     }`
 
   return (

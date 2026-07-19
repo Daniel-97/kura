@@ -9,9 +9,9 @@ Every release is tagged on Git as `vX.Y.Z` and publishes an image to
 
 ## [Unreleased]
 
-## [1.0.0] - 2026-07-15
+## [0.1.0] - 2026-07-19
 
-First public release.
+First public beta release.
 
 ### Added
 

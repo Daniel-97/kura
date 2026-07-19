@@ -85,7 +85,7 @@ Every release publishes a multi-arch image (amd64/arm64) to GitHub Container
 Registry, ready to pull on a Raspberry Pi/NAS without compiling anything:
 
 ```bash
-docker pull ghcr.io/daniel-97/kura:1.0.0
+docker pull ghcr.io/daniel-97/kura:0.1.0
 ```
 
 Use [`docker-compose.prod.yml`](docker-compose.prod.yml) as a base — it's
